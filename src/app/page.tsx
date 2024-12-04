@@ -17,7 +17,7 @@ export default function Home() {
       <hr className="my-8" />
       {allPosts?.length ? (
         <div className="grid gap-10 sm:grid-cols-2">
-          {allPosts.map((post, index) => (
+          {allPosts.map((post) => (
             <BlogCard key={post._id} post={post} />
           ))}
         </div>

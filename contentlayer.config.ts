@@ -1,5 +1,6 @@
 import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import rehypePrettyCode from 'rehype-pretty-code'
+import { type Options } from 'rehype-pretty-code'
 
 export const Author = defineDocumentType(() => ({
   name: 'Author',
@@ -36,23 +37,25 @@ export const Post = defineDocumentType(() => ({
   },
 }))
 
+const prettyCodeOptions: Options = {
+  theme: 'github-dark',
+  onVisitLine(node) {
+    if (node.children.length === 0) {
+      node.children = [{ type: 'text', value: ' ' }]
+    }
+  },
+  onVisitHighlightedLine(node) {
+    node.properties.className.push('highlighted')
+  },
+  onVisitHighlightedWord(node) {
+    node.properties.className = ['word']
+  },
+}
+
 export default makeSource({
   contentDirPath: 'content',
   documentTypes: [Post, Author],
   mdx: {
-    rehypePlugins: [[rehypePrettyCode, {
-      theme: 'github-dark',
-      onVisitLine(node: any) {
-        if (node.children.length === 0) {
-          node.children = [{ type: 'text', value: ' ' }]
-        }
-      },
-      onVisitHighlightedLine(node: any) {
-        node.properties.className.push('highlighted')
-      },
-      onVisitHighlightedWord(node: any) {
-        node.properties.className = ['word']
-      },
-    }]],
+    rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
   },
 }) 
