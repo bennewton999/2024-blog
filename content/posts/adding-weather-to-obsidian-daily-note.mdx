@@ -1,0 +1,66 @@
+---
+title: 'How I Add the Weather to My Obsidian Daily Note'
+date: 2022-04-29
+description: "Use iOS (or macOS) Shortcuts to add the day's weather for my location to my Obsidian Daily Note."
+author: ben-newton
+tags: ['obsidian', 'automation', 'productivity']
+image: '/images/2024/07/1-8ih3wz8wtkd0e5on0cvlfa.png'
+---
+
+# How I Add the Weather to My Obsidian Daily Note
+
+_Note: I am now using iOS Shortcuts to accomplish this. You can still add the weather using these steps, but if you're looking for a simple Apple-only solution, check out: [How I Add Today's Local Weather to My Obsidian Daily Note With iOS Shortcuts](https://benenewton.medium.com/how-i-add-todays-local-weather-to-my-obsidian-daily-note-with-ios-shortcuts-40aa36cd71)_
+
+As you may have noticed from my last few articles, I've been kind of obsessed with dialing in my Daily Note Template in Obsidian. If you don't use a daily note or Obsidian, check out my [daily note template post](https://benenewton.medium.com/my-obsidian-daily-note-template-a4bdab53dc62) to understand what it is and where this obsession started.
+
+Ultimately, I am hoping to use these daily notes as a place to enter most of my day-to-day tasks and work notes and as a journal for my work life in general.
+
+I've been a software developer for over 25 years. One of my biggest regrets is not documenting more of the work I've done. Obsidian is the first App that has given me a simple path to getting this done going forward.
+
+Before the pandemic, I worked traveled all over or work. I would love to be able to look back now and see where I worked and when. But, unfortunately, I was never one for journaling or blogging, so now I only have my photo album to know when I was in a specific city, and if I'm lucky, I have an idea what the weather was.
+
+When thinking about how I'm going to add journal entries to my daily note, I thought it would be nice to automate the insertion of the day's weather into my note when I create it. So I looked around for an API and a solution. I quickly realized I could use a CURL command in Templater to get the weather if I found a service. And [wttr.in](https://github.com/chubin/wttr.in) answered all my needs.
+
+## How does it work?
+
+Getting the weather is somewhat more straightforward than I initially thought it was going to be. So if you're expecting some challenging multistep process, you're going to be disappointed. However, after a quick google search, I found a service I could call via Curl to get the weather in the terminal.
+
+## What do we need?
+
+All you need is the Templater plugin. I am already using this to create my daily note, and I use Templater's user functions to get my daily calendar events. For the weather, we will add another user function.
+
+In your Templater options, go to User Functions and add the following.
+
+Name: `getWeather`
+
+Command (with or without a location specified, choose one):
+
+```bash
+// With City Name (Plantation)
+curl wttr.in/Plantation\?format="%l:+%c+%t+feels+like+%f\nSunrise:+%S\nSunset:++%s\nMoon:++++%m\n"
+
+// Without City Name (Uses IP, not as precise)
+curl wttr.in\?format="%l:+%c+%t+feels+like+%f\nSunrise:+%S\nSunset:++%s\nMoon:++++%m\n"
+```
+
+Then in your daily note template, add this line where you want the weather:
+
+```
+Weather: <% tp.user.getWeather() %>
+```
+
+This text will render the result of the user function getWeather.
+
+## What do we get?
+
+When you create your note for the day, the current weather will be populated along with moon phases and Sunrise and Sunset.
+
+### What you don't get
+
+I hardcoded my location into the curl call as a parameter (Plantation). Since I'm not traveling right now, I'll leave it hardcoded. If you leave it out, the service will use your IP. This may not be as accurate if you are behind a VPN or using a corp network. You could pass a parameter or have Templater ask for a location. That could be a project I take up next time I'm on a long flight and have to worry about a new location. For now, replace Plantation with city or city+st or city+country or leave blank and use your IP.
+
+Check out the [wttr.in's docs](https://github.com/chubin/wttr.in) for more options and how to change up the output.
+
+Keep in mind; you need to create the daily note on the day of the note. If you create it any day previous, it will insert that day's weather. Also, note that this is the current weather, not a forecast high and low temp. I wish it were, but that's not available, at least from the API I am using.
+
+Let me know what you think and how you change the params or output to suit your needs. I'd love to hear how you use this to get your information.

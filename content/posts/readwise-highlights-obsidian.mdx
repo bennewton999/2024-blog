@@ -1,0 +1,96 @@
+---
+title: 'How I View My Latest Readwise Highlights in My Obsidian Daily Note'
+date: 2021-08-12
+description: 'I created an Obsidian Dataview query to view my latest Readwise highlights daily.'
+author: ben-newton
+tags: ['obsidian']
+image: '/images/2024/07/1-tdbz9ajvglbizp8c4nkfmg.png'
+---
+
+# How I View My Latest Readwise Highlights in My Obsidian Daily Note
+
+It's been a great week for the [Readwise](https://readwise.io)/[Obsidian](https://obsidian.md) community. Readwise released its official plugin for Obsidian just a couple of days ago, and it has had a great response from users.
+
+I have been thinking about ways I can integrate all this newly available data in my vault into my everyday Obsidian workflow. What better place to do that but in [my daily note](/my-obsidian-daily-note-template/).
+
+If you are not aware of Readwise or the Readwise Plugin for Obsidian yet, take a quick look at my article, giving a rundown of all the features.
+
+[First Look at the Official Readwise Obsidian Plugin](/first-look-at-the-official-readwise-obsidian-plugin/)
+
+---
+
+### Set Up your Template
+
+This is not the perfect solution, and it does require some modifications to the export templates in the Readwise settings. As [Dataview](https://blacksmithgu.github.io/obsidian-dataview/) and Readwise plugins mature, I am sure there will be easier ways to make this happen, but after an hour or so of playing around with both, this is the initial solution I came up with.
+
+**Edit Highlight Output**
+
+You will need to add a new tag to the output of the Highlight Header section of the Readwise Custom Formatting Section. This will give you something to search for that is date-specific.
+
+```
+#newHighlight-{{date|date('F-j-Y')}}
+```
+
+You will also need to remove the time from the Heading created when new highlights are added to an existing note.
+
+```
+## New highlights added {{date|date('F j, Y')}} at {{time}}
+```
+
+becomes
+
+```
+## New highlights added {{date|date('F j, Y')}}
+```
+
+This will allow you to include a link to the heading based on the date. And since we don't know the time added, and the colon in the time does not allow you to add it to the above tag, I removed the time for now.
+
+_I've reached out to Readwise to allow the ability to format time in the settings much like we can format the date. Then we can add the time back here in some friendly way._
+
+This renders new highlights appended to your notes as follows:
+
+**Create the Templater Template**
+
+I am using Templater strings for the current date in my Dataview query because I want the query to remain at the date it was created and not use **today**, so when I go back to a previous note, the highlights are from that day.
+
+I'm using the Dataview JavaScript API because it's easier to create these queries, in my opinion.
+
+I set the date and date options to match the date format from the Readwise Template. Then I create the `tag` variable to use as the query param for calling the pages. Finally, I create the `books` variable that queries all the pages containing the hashtag used for today's imports.
+
+If the length of the `books` query is zero, I show a message stating no new highlights. If there are results. I use `dv.table` to iterate through the results and show the book name, which links to the Highlight, and then the Author.
+
+Unfortunately, you cannot prepend the link with `!` as you can in regular editing of an Obsidian note to see an inline preview in Dataview. So you have to mouse over for a preview of the highlight or click on the link to see the highlight.
+
+**Full Code for Templater Template**
+
+```dataviewjs
+const today = new Date('<% tp.date.now() %> 12:00:00 AM');
+const dateOptions = {month: 'long', day: 'numeric', year: 'numeric'};
+const todayFormatted = new Date('<% tp.date.now() %> 12:00:00 AM').toLocaleDateString(undefined, dateOptions);
+const month = today.toLocaleString('default', { month: 'long' });
+const day = today.getDate();
+const year = today.getFullYear();
+const tag = `#newHighlight-${month}-${day}-${year}`;
+
+const books = dv.pages(tag)
+
+if (books.length === 0) {
+    dv.paragraph("No Highlights Today")
+} else {
+    dv.table(["Book", "Author"],
+    books.map(b => [
+  "[[" + b.file.name + "##New highlights added " + todayFormatted + "|"+b.file.name+"]]",
+  b.author
+ ]));
+}
+```
+
+Here's a link to the [Gist](https://gist.githubusercontent.com/bennewton999/96089b5a13ded6251fffc298119f38a3/raw/0e7658b773f2f6f37cee23da326d1751055ccdae/TodaysHighlightsFromReadwise.md) with the raw text.
+
+---
+
+**This is Just the First Iteration**
+
+As I said before, this is a quick first attempt at getting this info from this very new plugin. As both this plugin and Dataview mature, there will be better options for pulling in this data. But this is working for now, and it gives me one more place to resurface my highlights daily to review them.
+
+I hope you find this useful. How are you using the data from Readwise in your Obsidian daily routine? Leave me a comment and let me know if you want to see more ideas.

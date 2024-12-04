@@ -1,0 +1,68 @@
+---
+title: "How I Use iOS Shortcuts to Add Today's Local Weather to My Obsidian Daily Note"
+date: 2022-04-29
+description: "Use iOS (or macOS) Shortcuts to add the day's weather for my location to my Obsidian Daily Note."
+author: ben-newton
+tags: ['obsidian', 'productivity', 'automation']
+image: '/images/2024/07/1-hwqsihfiikwuhj7zlygwaa-jpeg.jpg'
+---
+
+# How I Use iOS Shortcuts to Add Today's Local Weather to My Obsidian Daily Note
+
+Use iOS (or macOS) Shortcuts to add the day's weather for my location to my Obsidian Daily Note.
+
+I used the Templater plugin and a terminal program to get the day's weather and add it to my note in my original Daily Note Template. It has worked rather well, and [I have an article describing the process](https://benenewton.medium.com/adding-the-current-weather-to-my-obsidian-daily-note-793591026a0a?ref=benenewton.com). The issue with this approach is it only works when my Daily Note is created on my Mac. Since the terminal app is needed to get the weather, it doesn't run when I create my note on my iPad or iPhone. Now that macOS has Shortcuts along with iOS, this seems to be the best place to put this type of functionality. I have been playing around with a few ideas, and this is the first I have used regularly, and it is working quite well.
+
+The best part with Shortcuts is any text you can generate in Shortcuts from any service or app can be passed to a note using this approach.
+
+Let's get started.
+
+#### Create the Shortcut
+
+Below is a screenshot of the complete shortcut. You can download it [here](https://www.icloud.com/shortcuts/13fc42f7fe5f428dae51f08ec80692f1?ref=benenewton.com). I'll go over each step in detail. It's pretty straightforward, but if you haven't used shortcuts before, you may not realize how to surface some of the variables you need here.
+
+iOS Shortcuts still seem like a work-in-progress, but I am starting to get my head around all the options.
+
+#### Step 1
+
+We will get the current weather for the device's current location in the first step. Since I run this from an automation on my iPad, this will always be the location where I am when my [Daily Note Automation](https://benenewton.medium.com/automating-my-obsidian-daily-note-e3cdf4591c5c?ref=benenewton.com) runs.
+
+First, we will use the **Get Current Weather** action and select _Current Location_ as the location. The current weather object will return a _Weather Conditions_ magic variable that we will extract values from throughout this shortcut.
+
+Then we will use the **Get Details of Location** action to extract the _City_ from Weather Conditions returned from the first action. This will allow us to display the City in the outputted text.
+
+#### Step 2
+
+Here, I created a **Dictionary** to map all the possible _Conditions_ that can be returned from the _Current Weather_ object to applicable emojis. This does not currently include all possible conditions. Below you will see I output the condition as text and the emoji if it is in the dictionary. I will add more as I see them in use. I did find [this list](https://developer.apple.com/documentation/healthkit/hkweathercondition?ref=benenewton.com) of possible outputs, though they are camelCase and the output here is plain words, they do seem to match.
+
+Use the **Dictionary** action, and add keys and values for each possible conditions.
+
+Then use the Get Dictionary Value action to get the emoji that matches the _Condition_ returned in Weather Conditions. We will use this value below.
+
+When you use the **Get Dictionary Value** action, you will Get **Value** for **Condition** (from Weather Conditions) in **Dictionary**. Within the action, you can choose the Weather Conditions magic variable, and within that, there is a menu to choose what property you want from the Object.
+
+#### Step 3
+
+Now you will create the text to be outputted to your note, or anywhere you run this shortcut really. Using a simple **Text** action, you will enter the text and magic variables as you want them formatted. Right click to insert magic variables. Each of the above generated variables will be available here. You can see the _City_ from the **Get Details from Location** action, the different _Conditions_ from the _Weather Conditions_ magic variable from the **Get Current Weather** action, and the Dictionary Value from the **Get Value from Dictionary** action.
+
+For the last step we simply use the **Stop and Output** action. This returns the _text_ created in the **Text** action to the Note.
+
+**Add the Output to Your Note**
+
+You can see in my last article, [Automating My Daily Note](https://benenewton.medium.com/automating-my-obsidian-daily-note-e3cdf4591c5c?ref=benenewton.com), where I began using iOS to Automate the creation of my daily note, there is an item I blurred out. This is where I am adding some calls to other shortcuts that add data to my daily note.
+
+What I do is call the shortcut, get the result, then replace some text that is in my template with the generated text.
+
+For weather, the text I replace is {{weather}}
+
+**That's It**
+
+Now there are probably multiple ways to get this info and output it to your note. However, this seems to be the way to do it without any extra apps. There are paid weather apps out there that offer more shortcut actions, but this does enough for me.
+
+Some of the things I am currently working on automating using Shortcuts include getting local sports scores, Jira ticket info and importing calendar info. I will share more soon!
+
+I'd love to hear what you are putting in your daily notes. Let me know in the comments what you'd like to automate.
+
+---
+
+_If you like my shortcuts and automations, consider signing up to receive an email when I publish below._

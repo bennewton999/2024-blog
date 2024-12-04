@@ -1,0 +1,62 @@
+---
+title: 'Automating My Obsidian Daily Note'
+date: 2022-03-20
+description: 'How I use iOS Shortcuts to automatically create and populate my daily note.'
+author: ben-newton
+tags: ['obsidian', 'productivity', 'automation']
+image: '/images/2024/07/1-njsrxzcdgysntbt1jelrnw-jpeg.jpg'
+---
+
+# Automating My Obsidian Daily Note
+
+Up until now, I have been manually creating [my daily note](https://www.benenewton.com/my-obsidian-daily-note-template/) in Obsidian every morning. I start many days in the early AM with offshore meetings. So I don't always get to sit down and plan my day before I get started. Often, I am neck-deep in a conversation when I first need to add something to my daily note only to find I haven't even created today's note yet. If you look at my [daily note template](https://www.benenewton.com/my-obsidian-daily-note-template/), you'll see one of the main components is a checklist I use to get the day started. Recently, because of this shift at the start of my day, I am not getting it done. So in order to solve this issue, I decided to dive into macOS Shortcuts this weekend and see what I could do to automate the creation so they are ready when I start my day.
+
+#### Setting Up the Shortcut
+
+Since Shortcuts are now available on the Mac with the introduction of [macOS Monterey](https://www.apple.com/macos/monterey/?ref=benenewton.com), I decided to see what I could come up with. Although it doesn't seem ready for prime time, I was able to get something working, kind of. I created the entire shortcut for creating the note in macOS only to find that automation for scheduling the running of shortcuts is not available in macOS yet. So I switched to iOS.
+
+Moving to iOS, I was surprised to find almost everything I did on macOS worked fine in iOS. I don't know what I was expecting, but the note gets created and even the most of templates get run. I did have to redo my Calendar integration that retrieves today's meetings and adds them to my note. But that was rather easy in retrospect. Overall, I am pleasantly surprised by how well it went. I see a lot of potential for different hacks to automate different tasks in my note-taking arsenal.
+
+Incidentally, if this is what "no-code" programming is going to look like, I think we developers are safe for a while.
+
+Let's look at what it is we want to accomplish. The goal is to have today's note created when I turn on my work laptop and ready to go. Here are the steps we want the shortcut to accomplish.
+
+1. Get today's date to use as the file name so we can...
+2. see if the file already exists
+3. Look for today's daily note markdown file in the daily folder, if it's not there, create it from an existing markdown file.
+
+#### Step 1. Get the file name.
+
+My daily note file names are simple, they are in the format `yyyy-MM-dd.md`. So to start, I need a shortcut action to make this string. For that, we use the **Format Date Action**.
+
+Next, I use the **Text Action** to append `.md` to the newly created string.
+
+Now that we have the file name, we need to check if the file exists. If the shortcut is run for any reason after the creation of the note, either by me or automation, we don't want it creating extra files, or worse, overwriting it. We use the **Get file from** action. Set the folder of our daily notes, and the path to the string set above.
+
+We then use an **if statement** to see if the file we just retrieved has any value, if it does, that means it already exists and we show a notification and stop running the shortcut.
+
+Ok, so if we made it this far, there's no daily note yet and it's time to create it.
+
+For this action, we are going to add actions within the **otherwise** branch of the **if/then** conditional. We are going to get the template from the templates folder, open it and save it in the daily folder with the new file name created above. I chose to add notifications here so I see that the jobs ran. This is optional.
+
+You can see two optional actions outlined in red. That is a result of moving to iOS for this shortcut. I used to get my daily meetings from my Calendar via a .exe I ran via the terminal in Templater on my laptop. You can see that [here](https://benenewton.medium.com/how-i-automatically-import-my-meetings-into-my-daily-note-template-3d9537b17dea?ref=benenewton.com).
+
+I have now created an iOS shortcut that gets my meetings and adds them to the note on creation. I will cover this feature in a future article. If you download this shortcut instead of creating your own, you'll want to remove this.
+
+All that's left is to automate it. Unfortunately, that wasn't as straightforward as I hoped.
+
+#### **Automating the Shortcut to run daily**
+
+I was surprised to find automation does not exist yet on macOS Shortcuts. I expect it will come soon, but without it, I needed to find an alternative. I considered a third-party app like keyboard maestro, but I am tired of having so many applications tied to my daily work, so the fewer apps, the better. This is where I ended up going down the path of creating this shortcut in iOS instead of macOS. Automation exists there and it is rather easy to set up.
+
+#### Conclusion
+
+That's it. If you run this shortcut manually, you should see a new note or a message stating one already exists. This is my first foray into shortcuts. You may find places it can be refactored, I found if I changed things to what I thought they should be, the shortcut would break. So this is delicate and I think that's a result of Shortcuts still being relatively new.
+
+There are other options. Shortcuts can be run from the terminal. `shortcuts run "shortcut name"`. So in Keyboard Maestro, it's as easy as setting up a trigger to execute a shell script.
+
+My note is now available when I start my day. I may add a couple of more shortcuts to bring it front and center when I wake up my computer. Typically I rush to Teams to start my day with a meeting, but maybe I can get a little organization back in my day with some more automation shortcuts. I will keep you posted with anything new I come up with, but this has been a fun first pass.
+
+I sync my notes between devices using Obsidian Sync. I find I have to open the day's note on my iPad to see it on my work computer and the fact that my vault is in OneDrive. It's only an issue with my work computer, I see it on my personal laptop. Not a big deal. Maybe someone can tell me why?
+
+Let me know how you set up your daily note in the comments. Are you automating anything else? Would you like to automate something but don't know how? Please feel free to leave a comment.
