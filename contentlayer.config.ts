@@ -37,7 +37,7 @@ export const Post = defineDocumentType(() => ({
   },
 }))
 
-const prettyCodeOptions: Options = {
+const prettyCodeOptions: Partial<Options> = {
   theme: 'github-dark',
   onVisitLine(node) {
     if (node.children.length === 0) {
@@ -45,10 +45,9 @@ const prettyCodeOptions: Options = {
     }
   },
   onVisitHighlightedLine(node) {
-    node.properties.className.push('highlighted')
-  },
-  onVisitHighlightedWord(node) {
-    node.properties.className = ['word']
+    if (node.properties.className) {
+      node.properties.className.push('highlighted')
+    }
   },
 }
 
@@ -56,6 +55,7 @@ export default makeSource({
   contentDirPath: 'content',
   documentTypes: [Post, Author],
   mdx: {
+    remarkPlugins: [],
     rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
   },
 }) 
