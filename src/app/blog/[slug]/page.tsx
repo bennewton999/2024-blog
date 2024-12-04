@@ -16,9 +16,8 @@ export async function generateStaticParams() {
   }))
 }
 
-export default async function PostPage({ params }: PostPageProps) {
-  const { slug } = await params
-  const post = allPosts.find((post) => post.slug === slug)
+export default function PostPage({ params }: PostPageProps) {
+  const post = allPosts.find((post) => post.slug === params.slug)
 
   if (!post) {
     notFound()
