@@ -55,7 +55,6 @@ export default makeSource({
   contentDirPath: 'content',
   documentTypes: [Post, Author],
   mdx: {
-    remarkPlugins: [],
     rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
   },
 }) 
