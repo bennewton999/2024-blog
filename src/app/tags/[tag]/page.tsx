@@ -15,11 +15,12 @@ export async function generateStaticParams() {
   }))
 }
 
-export default function TagPage({ params }: TagPageProps) {
-  const tag = decodeURIComponent(params.tag)
+export default async function TagPage({ params }: TagPageProps) {
+  const { tag } = await params
+  const decodedTag = decodeURIComponent(tag)
   const posts = allPosts
     .filter((post) => 
-      post.tags?.some((t) => t.toLowerCase() === tag.toLowerCase())
+      post.tags?.some((t) => t.toLowerCase() === decodedTag.toLowerCase())
     )
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
@@ -32,7 +33,7 @@ export default function TagPage({ params }: TagPageProps) {
       <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
         <div className="flex-1 space-y-4">
           <h1 className="inline-block font-heading text-4xl tracking-tight lg:text-5xl">
-            Posts tagged &ldquo;{tag}&rdquo;
+            Posts tagged &ldquo;{decodedTag}&rdquo;
           </h1>
           <p className="text-xl text-muted-foreground">
             {posts.length} post{posts.length === 1 ? '' : 's'}

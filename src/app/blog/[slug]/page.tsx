@@ -1,7 +1,9 @@
 import { allPosts } from 'contentlayer/generated'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import { MDXContent } from '@/components/mdx-content'
+import { Breadcrumb } from '@/components/breadcrumb'
 
 interface PostPageProps {
   params: {
@@ -31,6 +33,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <article className="container max-w-3xl py-6 lg:py-12">
+      <Breadcrumb pageName={post.title} />
       <div className="space-y-4">
         <h1 className="inline-block font-heading text-4xl lg:text-5xl">
           {post.title}
@@ -51,14 +54,15 @@ export default async function PostPage({ params }: PostPageProps) {
         <div className="flex items-center space-x-2 text-muted-foreground">
           <time dateTime={post.date}>{formattedDate}</time>
           <span>•</span>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-2 flex-wrap">
             {post.tags?.map((tag) => (
-              <span
+              <Link
                 key={tag}
-                className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors hover:bg-secondary"
+                href={`/tags/${tag.toLowerCase()}`}
+                className="relative z-10 inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors hover:bg-secondary hover:text-secondary-foreground"
               >
                 {tag}
-              </span>
+              </Link>
             ))}
           </div>
         </div>
