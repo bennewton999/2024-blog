@@ -16,14 +16,19 @@ export async function generateStaticParams() {
   }))
 }
 
-export default function PostPage({ params }: PostPageProps) {
-  const post = allPosts.find((post) => post.slug === params.slug)
+export default async function PostPage({ params }: PostPageProps) {
+  const { slug } = await params
+  const post = allPosts.find((post) => post.slug === slug)
 
   if (!post) {
     notFound()
   }
 
-  const formattedDate = format(parseISO(post.date), 'yyyy-MM-dd')
+  const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  })
 
   return (
     <article className="container max-w-3xl py-6 lg:py-12">

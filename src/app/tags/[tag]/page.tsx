@@ -17,9 +17,11 @@ export async function generateStaticParams() {
 
 export default function TagPage({ params }: TagPageProps) {
   const tag = decodeURIComponent(params.tag)
-  const posts = allPosts.filter((post) => 
-    post.tags?.some((t) => t.toLowerCase() === tag.toLowerCase())
-  )
+  const posts = allPosts
+    .filter((post) => 
+      post.tags?.some((t) => t.toLowerCase() === tag.toLowerCase())
+    )
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
   if (posts.length === 0) {
     notFound()

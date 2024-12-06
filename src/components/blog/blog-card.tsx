@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { format, parseISO } from 'date-fns'
 
 interface Post {
   title: string
@@ -18,7 +17,12 @@ interface BlogCardProps {
 }
 
 export function BlogCard({ post }: BlogCardProps) {
-  const formattedDate = format(parseISO(post.date), 'yyyy-MM-dd')
+  const date = new Date(post.date)
+  const formattedDate = date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  })
 
   return (
     <div className="group relative flex flex-col space-y-2">

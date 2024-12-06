@@ -2,6 +2,10 @@ import { allPosts } from 'contentlayer/generated'
 import { BlogCard } from '@/components/blog/blog-card'
 
 export default function Home() {
+  const posts = allPosts.sort((a, b) => 
+    new Date(b.date).getTime() - new Date(a.date).getTime()
+  )
+
   return (
     <div className="container py-6 lg:py-10">
       <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
@@ -15,9 +19,9 @@ export default function Home() {
         </div>
       </div>
       <hr className="my-8" />
-      {allPosts?.length ? (
+      {posts.length ? (
         <div className="grid gap-10 sm:grid-cols-2">
-          {allPosts.map((post) => (
+          {posts.map((post) => (
             <BlogCard key={post._id} post={post} />
           ))}
         </div>
