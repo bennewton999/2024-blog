@@ -1,5 +1,6 @@
 import { allPosts } from 'contentlayer/generated'
 import { BlogCard } from '@/components/blog/blog-card'
+import { VitalWallEmbed } from '@/components/vital-wall-embed'
 
 export default function Home() {
   const posts = allPosts.sort((a, b) => 
@@ -16,6 +17,7 @@ export default function Home() {
           <p className="text-xl text-muted-foreground">
             Frontend Architect and Engineering Leader sharing insights on web development, productivity, and technology.
           </p>
+          <VitalWallEmbed />
         </div>
       </div>
       <hr className="my-8" />

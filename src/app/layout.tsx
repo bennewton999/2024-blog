@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { VitalWallScript } from "@/components/vital-wall-script";
 
 export const metadata: Metadata = {
   title: "Ben Newton",
@@ -19,6 +20,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <VitalWallScript />
       </body>
     </html>
   );
