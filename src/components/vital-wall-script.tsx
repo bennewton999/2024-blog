@@ -21,7 +21,7 @@ export function VitalWallScript() {
         window.VitalWall?.init({
           wallId: 'd79cec2f-5fd8-449c-9ef0-1324f3349844',
           apiKey: 'generated-api-key',
-          domain: 'bennewton.com,www.bennewton.com',
+          domain: 'benenewton.com,www.benenewton.com',
           debug: false
         });
       }}
