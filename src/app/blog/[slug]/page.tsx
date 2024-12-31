@@ -36,7 +36,7 @@ export default async function PostPage({ params }: PostPageProps) {
       <div 
         data-vital-item={`
           <a href="https://benenewton.com/blog/${post.slug}" style="text-decoration:none;display:block;">
-            <div style="position:relative;width:100%;height:200px;border-radius:8px;overflow:hidden;margin-bottom:16px;">
+            <div style="position:relative;width:100%;border-radius:8px;overflow:hidden;margin-bottom:16px;">
               <img src="https://benenewton.com${post.image}" style="width:100%;height:100%;object-fit:cover;" />
               <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(0,0,0,0.8));color:white;">
                 <h3 style="font-size:18px;font-weight:600;margin:0;">${post.title}</h3>
@@ -45,6 +45,7 @@ export default async function PostPage({ params }: PostPageProps) {
           </a>
         `} 
         data-vital-auto="true"
+        data-vital-html="true"
       />
       <Breadcrumb pageName={post.title} />
       <div className="space-y-4">

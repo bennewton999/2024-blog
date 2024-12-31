@@ -15,14 +15,14 @@ declare global {
 export function VitalWallScript() {
   return (
     <Script 
-      src="https://vitalwall.com/vitalwall-client.js" 
+      src="http://localhost:4200/vitalwall-client.js" 
       strategy="lazyOnload"
       onLoad={() => {
         window.VitalWall?.init({
-          wallId: 'd79cec2f-5fd8-449c-9ef0-1324f3349844',
-          apiKey: 'generated-api-key',
-          domain: 'benenewton.com,www.benenewton.com',
-          debug: false
+          wallId: '65c1116c-640a-4588-9d40-d05b558679e4',
+          apiKey: 'ac937a3d1b099478e870f4c4b8a60e19',
+          domain: 'localhost',
+          debug: true
         });
       }}
     />
