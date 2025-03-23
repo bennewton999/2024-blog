@@ -15,7 +15,7 @@ declare global {
 export function VitalWallScript() {
   return (
     <Script 
-      src="http://vitalwall.com/vitalwall-client.js" 
+      src="https://vitalwall.com/vitalwall-client.js" 
       strategy="lazyOnload"
       onLoad={() => {
         window.VitalWall?.init({
