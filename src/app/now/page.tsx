@@ -97,14 +97,15 @@ export default function NowPage() {
               .
             </p>
 
-            <h2>AI Exploration</h2>
+            <h2>Development Focus</h2>
             <p>
-              I&apos;m currently exploring and comparing different AI tools to
-              determine their optimal use cases for development teams. This
-              research involves testing various AI assistants and platforms to
-              understand how they can best be integrated into software
-              development workflows, improve productivity, and enhance
-              development processes.
+              I&apos;m currently diving deeper into cross-platform mobile
+              development, specifically learning Flutter and Dart. I&apos;m also
+              exploring and comparing different development tools and
+              technologies to expand my skill set and stay current with industry
+              trends. My goal is to identify the most efficient technologies
+              that can enhance software development workflows and improve
+              productivity for development teams.
             </p>
 
             <h2>Goals</h2>
