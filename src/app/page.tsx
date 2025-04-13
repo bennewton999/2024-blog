@@ -1,6 +1,7 @@
 import { allPosts } from 'contentlayer/generated';
 import { BlogCard } from '@/components/blog/blog-card';
 import { VitalWallEmbed } from '@/components/vital-wall-embed';
+import { WebsiteJsonLd, PersonJsonLd } from '@/components/json-ld';
 
 export default function Home() {
   const posts = allPosts.sort(
@@ -9,6 +10,8 @@ export default function Home() {
 
   return (
     <div className="container py-6 lg:py-10">
+      <WebsiteJsonLd />
+      <PersonJsonLd />
       {/* Hero Section */}
       <section className="mx-auto w-full max-w-5xl pb-12">
         <div className="rounded-lg border bg-card p-8 shadow">

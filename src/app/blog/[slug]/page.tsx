@@ -1,39 +1,86 @@
-import { allPosts } from 'contentlayer/generated'
-import { notFound } from 'next/navigation'
-import Image from 'next/image'
-import Link from 'next/link'
-import { MDXContent } from '@/components/mdx-content'
-import { Breadcrumb } from '@/components/breadcrumb'
+import { allPosts } from 'contentlayer/generated';
+import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import Link from 'next/link';
+import { MDXContent } from '@/components/mdx-content';
+import { Breadcrumb } from '@/components/breadcrumb';
+import { BlogPostJsonLd } from '@/components/json-ld';
+import { Metadata } from 'next';
 
 interface PostPageProps {
   params: {
-    slug: string
-  }
+    slug: string;
+  };
 }
 
 export async function generateStaticParams() {
-  return allPosts.map((post) => ({
-    slug: post.slug,
-  }))
+  return allPosts.map(post => ({
+    slug: post.slug
+  }));
+}
+
+export async function generateMetadata({
+  params
+}: PostPageProps): Promise<Metadata> {
+  const post = allPosts.find(post => post.slug === params.slug);
+
+  if (!post) {
+    return {};
+  }
+
+  const { title, description, date, image, slug } = post;
+  const ogImage = image
+    ? `https://benenewton.com${image}`
+    : `https://benenewton.com/images/avatar.png`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      publishedTime: date,
+      url: `https://benenewton.com/blog/${slug}`,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title
+        }
+      ]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage]
+    },
+    alternates: {
+      canonical: `https://benenewton.com/blog/${slug}`
+    }
+  };
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const { slug } = await params
-  const post = allPosts.find((post) => post.slug === slug)
+  const { slug } = await params;
+  const post = allPosts.find(post => post.slug === slug);
 
   if (!post) {
-    notFound()
+    notFound();
   }
 
   const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit'
-  })
+  });
 
   return (
     <article className="container max-w-3xl py-6 lg:py-12">
-      <div 
+      <BlogPostJsonLd post={post} />
+      <div
         data-vital-item={`
           <a href="https://benenewton.com/blog/${post.slug}" style="text-decoration:none;display:block;">
             <div style="position:relative;width:100%;border-radius:8px;overflow:hidden;margin-bottom:16px;">
@@ -43,7 +90,7 @@ export default async function PostPage({ params }: PostPageProps) {
               </div>
             </div>
           </a>
-        `} 
+        `}
         data-vital-auto="true"
         data-vital-html="true"
       />
@@ -69,7 +116,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <time dateTime={post.date}>{formattedDate}</time>
           <span>•</span>
           <div className="flex items-center gap-2 flex-wrap">
-            {post.tags?.map((tag) => (
+            {post.tags?.map(tag => (
               <Link
                 key={tag}
                 href={`/tags/${tag.toLowerCase()}`}
@@ -85,5 +132,5 @@ export default async function PostPage({ params }: PostPageProps) {
         <MDXContent code={post.body.code} />
       </div>
     </article>
-  )
-} 
+  );
+}
