@@ -19,13 +19,19 @@ export function ThemeToggle() {
     return null;
   }
 
+  // Determine if the current theme is dark
+  const isDarkTheme =
+    theme === 'dark' ||
+    (theme === 'system' &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches);
+
   return (
     <div className="flex items-center gap-2">
       <Sun className="h-4 w-4" />
       <Switch
         id="theme-toggle"
-        checked={theme === 'dark'}
-        onCheckedChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+        checked={isDarkTheme}
+        onCheckedChange={() => setTheme(isDarkTheme ? 'light' : 'dark')}
       />
       <Label htmlFor="theme-toggle" className="sr-only">
         Toggle theme
