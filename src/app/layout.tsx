@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Header } from '@/components/header';
+import { Header } from '@/components/header-new';
 import { Footer } from '@/components/footer';
 import { VitalWallScript } from '@/components/vital-wall-script';
 import { ThemeProvider } from '@/components/theme-provider';
