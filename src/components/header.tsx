@@ -8,6 +8,7 @@ import {
   navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export function Header() {
   return (
@@ -43,6 +44,8 @@ export function Header() {
           </NavigationMenu>
         </div>
         <div className="flex items-center space-x-4">
+          <ThemeToggle />
+          <div className="hidden sm:block h-6 w-px bg-border/50" />
           <nav className="flex items-center space-x-2">
             <Button
               variant="ghost"
