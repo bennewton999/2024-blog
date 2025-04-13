@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import Image from 'next/image'
+import Link from 'next/link';
+import Image from 'next/image';
 
 export function Header() {
   return (
@@ -21,6 +21,12 @@ export function Header() {
               className="flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm"
             >
               About Me
+            </Link>
+            <Link
+              href="/uses"
+              className="flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm"
+            >
+              Uses
             </Link>
           </nav>
         </div>
@@ -74,5 +80,5 @@ export function Header() {
         </div>
       </div>
     </header>
-  )
-} 
+  );
+}
