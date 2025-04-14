@@ -5,6 +5,7 @@ import { Footer } from '@/components/footer';
 import { VitalWallScript } from '@/components/vital-wall-script';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Analytics } from '@vercel/analytics/react';
+import { GoogleAnalytics } from '@/components/google-analytics';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://benenewton.com'),
@@ -66,6 +67,7 @@ export default function RootLayout({
           <Footer />
           <VitalWallScript />
           <Analytics />
+          <GoogleAnalytics />
         </ThemeProvider>
       </body>
     </html>
