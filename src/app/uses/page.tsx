@@ -150,12 +150,12 @@ export default function UsesPage() {
           <li>
             Raycast
             <a
-              href="https://www.raycast.com/"
+              href="https://raycast.com/?via=ben"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm ml-2 text-orange-500 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300"
             >
-              [Visit Website]
+              [Visit Website*]
             </a>
           </li>
           <li>
@@ -173,8 +173,8 @@ export default function UsesPage() {
       </section>
 
       <p className="text-sm text-gray-500 dark:text-gray-400 mt-8 border-t pt-4">
-        * Affiliate links: As an Amazon Associate I earn from qualifying
-        purchases.
+        * Affiliate links: I may earn a commission if you make a purchase
+        through these links at no additional cost to you.
       </p>
     </div>
   );
