@@ -13,8 +13,8 @@ export default function UsesPage() {
         <ul className="space-y-2">
           <li>MacBook Air (M2, 2023)</li>
           <li>
-            LG 32" UltraFine Display Ergo (32UN880-B) - 4K UHD IPS monitor with
-            ergonomic stand and USB-C connectivity
+            LG 32&quot; UltraFine Display Ergo (32UN880-B) - 4K UHD IPS monitor
+            with ergonomic stand and USB-C connectivity
             <a
               href="https://amzn.to/4lpYqWh"
               target="_blank"
