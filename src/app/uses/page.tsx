@@ -1,17 +1,46 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
+
+export const metadata: Metadata = {
+  title: 'Tools & Equipment I Use | Ben Newton',
+  description:
+    'Discover the hardware, software, office equipment, and travel gear I use daily as a Frontend Architect and Engineering Leader.',
+  keywords: [
+    'productivity tools',
+    'developer setup',
+    'office equipment',
+    'software recommendations',
+    'travel gear',
+    'Ben Newton setup'
+  ],
+  openGraph: {
+    title: 'Tools & Equipment I Use | Ben Newton',
+    description:
+      'Discover the hardware, software, office equipment, and travel gear I use daily as a Frontend Architect and Engineering Leader.',
+    url: 'https://benenewton.com/uses',
+    type: 'website'
+  }
+};
 
 export default function UsesPage() {
   return (
     <div className="container py-6 lg:py-10">
       <h1 className="text-4xl font-bold mb-4">What I Use</h1>
-      <p className="text-lg mb-4">
+      <p className="text-lg mb-8">
         Welcome to my /uses page! Here, I share the tools, software, and
-        hardware I use to stay productive and creative.
+        hardware I use to stay productive and creative as a Frontend Architect
+        and Engineering Leader.
       </p>
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2">Hardware</h2>
-        <ul className="space-y-2">
-          <li>MacBook Air (M2, 2023)</li>
+
+      <section className="mb-8" aria-labelledby="hardware-heading">
+        <h2 id="hardware-heading" className="text-2xl font-semibold mb-4">
+          Hardware
+        </h2>
+        <ul className="space-y-4">
+          <li>
+            MacBook Air (M2, 2023) - My primary development machine with
+            excellent battery life and performance
+          </li>
           <li>
             LG 32&quot; UltraFine Display Ergo (32UN880-B) - 4K UHD IPS monitor
             with ergonomic stand and USB-C connectivity
@@ -36,12 +65,18 @@ export default function UsesPage() {
               [View on Amazon*]
             </a>
           </li>
-          <li>Magic Keyboard and Track Pad</li>
+          <li>
+            Magic Keyboard and Track Pad - Apple's wireless input devices for a
+            clean desk setup
+          </li>
         </ul>
       </section>
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2">Office</h2>
-        <ul className="space-y-2">
+
+      <section className="mb-8" aria-labelledby="office-heading">
+        <h2 id="office-heading" className="text-2xl font-semibold mb-4">
+          Office Setup
+        </h2>
+        <ul className="space-y-4">
           <li>
             VIVO Electric Height Adjustable L-Shaped Standing Desk - 83 x 60
             inch corner desk with memory controller and dark walnut top
@@ -68,9 +103,12 @@ export default function UsesPage() {
           </li>
         </ul>
       </section>
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2">Travel Gear</h2>
-        <ul className="space-y-2">
+
+      <section className="mb-8" aria-labelledby="travel-heading">
+        <h2 id="travel-heading" className="text-2xl font-semibold mb-4">
+          Travel Gear
+        </h2>
+        <ul className="space-y-4">
           <li>
             Thule Subterra Carry On Spinner - Sleek and durable spinner with
             oversized wheels, internal compression panel, and divided main
@@ -122,11 +160,15 @@ export default function UsesPage() {
           </li>
         </ul>
       </section>
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2">Software</h2>
-        <ul className="space-y-2">
+
+      <section className="mb-8" aria-labelledby="software-heading">
+        <h2 id="software-heading" className="text-2xl font-semibold mb-4">
+          Software Tools
+        </h2>
+        <ul className="space-y-4">
           <li>
-            Visual Studio Code
+            Visual Studio Code - My primary code editor with powerful extensions
+            for JavaScript, React, and web development
             <a
               href="https://code.visualstudio.com/"
               target="_blank"
@@ -137,7 +179,8 @@ export default function UsesPage() {
             </a>
           </li>
           <li>
-            Obsidian
+            Obsidian - Knowledge management system I use for note-taking,
+            writing, and connecting ideas
             <a
               href="https://obsidian.md/"
               target="_blank"
@@ -148,7 +191,8 @@ export default function UsesPage() {
             </a>
           </li>
           <li>
-            Raycast
+            Raycast - Productivity launcher that replaces Spotlight on Mac with
+            powerful extensions and workflows
             <a
               href="https://raycast.com/?via=ben"
               target="_blank"
@@ -159,7 +203,8 @@ export default function UsesPage() {
             </a>
           </li>
           <li>
-            Readwise
+            Readwise - Tool that aggregates highlights from books, articles, and
+            tweets for better knowledge retention
             <a
               href="https://readwise.io/"
               target="_blank"
