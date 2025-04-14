@@ -177,6 +177,13 @@ export function Header() {
                 About Me
               </Link>
               <Link
+                href="/now"
+                className="block px-4 py-2 rounded-md hover:bg-accent"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Now
+              </Link>
+              <Link
                 href="/uses"
                 className="block px-4 py-2 rounded-md hover:bg-accent"
                 onClick={() => setMobileMenuOpen(false)}
