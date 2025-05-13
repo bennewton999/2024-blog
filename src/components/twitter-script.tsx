@@ -27,7 +27,22 @@ export function TwitterEmbed() {
         'script[src="https://platform.twitter.com/widgets.js"]'
       )
     ) {
+      // Add a load handler to initialize widgets when the script loads
+      script.onload = () => {
+        // @ts-expect-error - Twitter's types aren't available
+        if (window.twttr?.widgets) {
+          // @ts-expect-error - Twitter's types aren't available
+          window.twttr.widgets.load();
+        }
+      };
       document.body.appendChild(script);
+    } else {
+      // If the script is already loaded, try to manually load widgets
+      // @ts-expect-error - Twitter's types aren't available
+      if (window.twttr?.widgets) {
+        // @ts-expect-error - Twitter's types aren't available
+        window.twttr.widgets.load();
+      }
     }
 
     return () => {

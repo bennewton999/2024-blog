@@ -24,13 +24,15 @@ const components = {
       {children}
     </code>
   ),
-  // Create a placeholder for TwitterEmbed in MDX - simple static version to avoid React nesting issues
+  // Create a placeholder for TwitterEmbed in MDX that will be enhanced by the script
   TwitterEmbed: ({ url }: { url: string }) => (
-    <div className="twitter-embed-placeholder" data-twitter-url={url}>
-      <a href={url} target="_blank" rel="noopener noreferrer">
-        View post on 𝕏
-      </a>
-    </div>
+    <blockquote
+      className="twitter-tweet"
+      data-dnt="true"
+      data-conversation="none"
+    >
+      <a href={url}>Loading tweet...</a>
+    </blockquote>
   )
 };
 

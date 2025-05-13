@@ -19,20 +19,25 @@ export function TwitterEmbed({ url, height = 400 }: TwitterEmbedProps) {
     }
 
     // Create 𝕏 (formerly Twitter) embed
-    const anchor = document.createElement('a');
-    anchor.className = 'twitter-timeline';
-    anchor.href = url;
-    anchor.setAttribute(
+    // Instead of creating a timeline (which might not work well),
+    // let's create a tweet embed which is more reliable
+    const blockquote = document.createElement('blockquote');
+    blockquote.className = 'twitter-tweet';
+    blockquote.setAttribute(
       'data-theme',
       resolvedTheme === 'dark' ? 'dark' : 'light'
     );
-    anchor.setAttribute('data-chrome', 'noheader nofooter noborders');
-    anchor.setAttribute('data-height', height.toString());
-    anchor.textContent = 'Loading comments...';
+
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.textContent = 'Loading tweet...';
+
+    blockquote.appendChild(anchor);
 
     // Append to container
     if (containerRef.current) {
-      containerRef.current.appendChild(anchor);
+      containerRef.current.innerHTML = '';
+      containerRef.current.appendChild(blockquote);
     }
 
     // Load 𝕏 widget script (still uses Twitter domain)
