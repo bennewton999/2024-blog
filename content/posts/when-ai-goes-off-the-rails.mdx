@@ -1,0 +1,84 @@
+---
+title: 'When AI Goes Off the Rails'
+date: 2025-05-12
+description: 'Reflections on the challenges of working with AI agents in development and how teams can adapt'
+author: ben-newton
+tags: ['ai', 'developer-notes', 'architecture', 'mcp']
+image: '/images/2025/05/senior_and_junior.png'
+---
+
+# When AI Goes Off the Rails
+
+I spent part of the weekend working on an MCP server utilizing an AI agent in VS Code. At first, it was magic. The agent scaffolded the project, laid out folders, generated boilerplate, even set up the configs. It was a Hue light MCP Server. Within a few minutes, I was flashing lights in my office from the IDE. Tasks that would normally take me an hour were done in minutes.
+
+But then things started going sideways.
+
+The AI didn't know the MCP API. It started writing code that looked right, compiled fine, but was subtly, dangerously wrong. And worse—it was confident. It worked from the dev server, but not the final MCP server. Hours later I was still digging myself out of a hole I wouldn't have fallen into if I'd written everything by hand.
+
+It felt like driving a self-driving car that slowly drifted into oncoming traffic while reassuring you it was doing great.
+
+---
+
+## This is the future we're all building toward.
+
+AI is already changing the way we code—autocomplete on steroids, full components generated in seconds, entire test suites scaffolded. For experienced developers, it's a superpower. But it's a double-edged sword.
+
+The illusion of progress can be worse than no progress at all.
+
+When you're moving fast, it's easy to miss the moment when the AI veers off course. And if you're not careful, you're not coding anymore—you're just debugging machine hallucinations.
+
+---
+
+## What this means for teams
+
+I posted about the issue on Twitter, and one reply stood out:
+
+<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">agreed - this is really where we are going with the whole &#39;prompt files&#39; and instructions effort. let folks document core workflows on your team, and then you can scale that knowledge out to the whole group.<br><br>i also commonly use the URL fetching we shipped in 1.99 to supplement…</p>&mdash; Pierce Boggan (@pierceboggan) <a href="https://twitter.com/pierceboggan/status/1922064227403235698?ref_src=twsrc%5Etfw">May 12, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+That insight captures where things are going. Shared prompt files and structured instructions help teams align workflows so knowledge can scale consistently across everyone.
+
+Right now, most developers treat AI as a personal helper. Each dev prompts, tweaks, and merges code individually. That doesn't scale in a group context—it creates a Frankenstein codebase with clashing patterns.
+
+Prompt infrastructure is now critical. Shared context, team-defined style guides, and guardrails ensure coherent output. A prompt file is starting to feel as essential as a README.
+
+---
+
+## The evolving role of the front-end architect
+
+There's a new responsibility emerging—especially for leads and architects:
+
+> It's no longer just about designing systems.  
+> It's about designing **the rules and prompts** that guide the AI agents building those systems.  
+> You're not just writing specs—you're writing **guardrails**.
+
+Imagine you're onboarding a junior dev. You wouldn't just give them vague goals and hope they guess right. You'd give them structure. Examples. Feedback. You'd pair program, review their work, teach them how to think about the code.
+
+Now imagine doing that—but for an AI agent.
+
+The most successful teams will treat AI like a team member that needs onboarding, supervision, and clearly defined responsibilities. And that requires someone to step up and lead the process. That's the new job of an architect: building the roadmap _and_ installing the bumpers to keep things from going off track.
+
+---
+
+## What about junior developers?
+
+This is where things get tricky.
+
+If AI handles all the routine work—scaffolding, boilerplate, writing tests—how do new developers learn? These are the building blocks most of us cut our teeth on. And if those steps are automated away, where does that leave the next generation?
+
+There's a growing gap between senior devs using AI to move faster, and juniors struggling to even get on the highway.
+
+Mentorship matters more now, not less. And so does giving new devs room to struggle, build, break, and learn _without_ having AI shortcut their growth. AI can be a crutch or a cheat code—it depends on how we use it.
+
+---
+
+## Where this is headed
+
+AI isn't replacing developers. It's reshaping the way we work. The next few years will belong to the people who can design with AI, think in systems _and_ prompts, and teach others to do the same.
+
+We need more than just clever coders—we need _prompt architects_, _LLM strategists_, _AI team leads_.
+
+And we need to stop pretending AI is just a tool. It's already a teammate.
+
+---
+
+**So ask yourself: Are your AI tools working for the team, or are they just helping you fly solo?**
