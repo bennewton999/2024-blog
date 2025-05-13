@@ -6,6 +6,7 @@ import { MDXContent } from '@/components/mdx-content';
 import { Breadcrumb } from '@/components/breadcrumb';
 import { BlogPostJsonLd } from '@/components/json-ld';
 import { Metadata } from 'next';
+import { TwitterScriptLoader } from '@/components/twitter-script-loader';
 
 interface PostPageProps {
   params: {
@@ -22,13 +23,15 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params
 }: PostPageProps): Promise<Metadata> {
-  const post = allPosts.find(post => post.slug === params.slug);
+  // Ensure params is properly awaited before accessing its properties
+  const { slug } = await Promise.resolve(params);
+  const post = allPosts.find(post => post.slug === slug);
 
   if (!post) {
     return {};
   }
 
-  const { title, description, date, image, slug } = post;
+  const { title, description, date, image, slug: postSlug } = post;
   const ogImage = image
     ? `https://benenewton.com${image}`
     : `https://benenewton.com/images/avatar.png`;
@@ -41,7 +44,7 @@ export async function generateMetadata({
       description,
       type: 'article',
       publishedTime: date,
-      url: `https://benenewton.com/blog/${slug}`,
+      url: `https://benenewton.com/blog/${postSlug}`,
       images: [
         {
           url: ogImage,
@@ -79,6 +82,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <article className="container max-w-3xl py-6 lg:py-12">
+      <TwitterScriptLoader />
       <BlogPostJsonLd post={post} />
       <div
         data-vital-item={`
@@ -129,7 +133,11 @@ export default async function PostPage({ params }: PostPageProps) {
         </div>
       </div>
       <div className="prose dark:prose-invert max-w-none py-8">
-        <MDXContent code={post.body.code} />
+        <MDXContent
+          code={post.body.code}
+          // @ts-expect-error - Property may not exist on all posts
+          twitterThreadUrl={post.twitterThreadUrl}
+        />
       </div>
     </article>
   );
