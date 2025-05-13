@@ -24,11 +24,11 @@ const components = {
       {children}
     </code>
   ),
-  // Create a placeholder for TwitterEmbed in MDX
+  // Create a placeholder for TwitterEmbed in MDX - simple static version to avoid React nesting issues
   TwitterEmbed: ({ url }: { url: string }) => (
     <div className="twitter-embed-placeholder" data-twitter-url={url}>
       <a href={url} target="_blank" rel="noopener noreferrer">
-        View tweet on Twitter
+        View post on 𝕏
       </a>
     </div>
   )
@@ -40,15 +40,11 @@ export function MDXContent({ code, twitterThreadUrl }: MDXContentProps) {
   if (!Component) {
     return <div>Error loading content</div>;
   }
-
   try {
-    // Use type assertion to bypass typing issues with MDX components
-    // @ts-expect-error MDX component typing issues
-    const MdxComponent = () => <Component components={components} />;
-
     return (
       <>
-        <MdxComponent />
+        {/* @ts-expect-error MDX component typing issues */}
+        <Component components={components} />
         {twitterThreadUrl && (
           <TwitterComments twitterThreadUrl={twitterThreadUrl} />
         )}

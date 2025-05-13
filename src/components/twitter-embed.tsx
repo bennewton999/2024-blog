@@ -36,17 +36,28 @@ export function TwitterEmbed({ url, height = 400 }: TwitterEmbedProps) {
     }
 
     // Load 𝕏 widget script (still uses Twitter domain)
-    const script = document.createElement('script');
-    script.src = 'https://platform.twitter.com/widgets.js';
-    script.async = true;
-    script.charset = 'utf-8';
-    document.body.appendChild(script);
+    // Only add the script if it's not already loaded
+    if (
+      !document.querySelector(
+        'script[src="https://platform.twitter.com/widgets.js"]'
+      )
+    ) {
+      const script = document.createElement('script');
+      script.src = 'https://platform.twitter.com/widgets.js';
+      script.async = true;
+      script.charset = 'utf-8';
+      document.body.appendChild(script);
+    } else {
+      // If the script is already loaded, try to trigger widget creation
+      // @ts-expect-error - Twitter's types aren't available
+      if (window.twttr?.widgets) {
+        // @ts-expect-error - Twitter's types aren't available
+        window.twttr.widgets.load(containerRef.current);
+      }
+    }
 
     return () => {
-      // Clean up script when component unmounts
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
+      // We don't remove the script on unmount as other embeds may be using it
     };
   }, [url, height, resolvedTheme]);
 
