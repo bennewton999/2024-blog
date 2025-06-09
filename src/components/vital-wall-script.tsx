@@ -24,7 +24,7 @@ export function VitalWallScript() {
               
               console.log('VitalWall initialized successfully');
               
-              // Add CSS to ensure proper styling and fix zero height issue
+              // Add CSS to ensure proper styling and fix ticker layout issues
               const style = document.createElement('style');
               style.textContent = \`
                 [data-vital-wall] {
@@ -32,70 +32,63 @@ export function VitalWallScript() {
                   min-height: 400px !important;
                   display: block !important;
                   position: relative !important;
+                  overflow: visible !important;
+                }
+                
+                /* Fix for VitalWall ticker layout */
+                [data-vital-wall] .vital-wall-container {
+                  height: auto !important;
+                  min-height: 400px !important;
+                  overflow: visible !important;
+                }
+                
+                [data-vital-wall] .ticker-layout {
+                  height: auto !important;
+                  min-height: 400px !important;
+                  overflow: visible !important;
+                }
+                
+                [data-vital-wall] .ticker-viewport {
+                  height: auto !important;
+                  min-height: 400px !important;
+                  overflow: visible !important;
+                  position: static !important;
+                }
+                
+                [data-vital-wall] .ticker-scroll {
+                  height: auto !important;
+                  min-height: 400px !important;
+                  overflow: visible !important;
+                  position: static !important;
+                  transform: none !important;
+                  animation: none !important;
+                }
+                
+                [data-vital-wall] .wall-item {
+                  height: auto !important;
+                  min-height: 120px !important;
+                  display: block !important;
+                  visibility: visible !important;
+                  opacity: 1 !important;
+                  margin-bottom: 16px !important;
+                  padding: 0 !important;
+                  position: static !important;
+                }
+                
+                [data-vital-wall] .wall-item img {
+                  max-width: 100% !important;
+                  height: auto !important;
+                  display: block !important;
+                }
+                
+                [data-vital-wall] .wall-item a {
+                  display: block !important;
+                  text-decoration: none !important;
+                  color: inherit !important;
                 }
                 
                 [data-vital-wall] * {
                   box-sizing: border-box !important;
-                }
-                
-                /* More aggressive targeting for VitalWall items */
-                [data-vital-wall] div,
-                [data-vital-wall] article,
-                [data-vital-wall] section,
-                [data-vital-wall] .item,
-                [data-vital-wall] .wall-item,
-                [data-vital-wall] .vital-wall-item,
-                [data-vital-wall] [class*="item"],
-                [data-vital-wall] [data-item],
-                [data-vital-wall] > * {
-                  height: auto !important;
-                  min-height: 80px !important;
-                  display: block !important;
-                  visibility: visible !important;
-                  opacity: 1 !important;
-                  margin-bottom: 12px !important;
-                  padding: 16px !important;
-                  border: 2px solid #3b82f6 !important;
-                  border-radius: 8px !important;
-                  background: #f8fafc !important;
-                  line-height: 1.5 !important;
-                  font-size: 14px !important;
-                  color: #1f2937 !important;
-                }
-                
-                [data-vital-wall] iframe {
-                  width: 100% !important;
-                  height: auto !important;
-                  min-height: 400px !important;
-                  border: none !important;
-                  display: block !important;
-                }
-                
-                /* Force visibility for any hidden elements */
-                [data-vital-wall] [style*="display: none"],
-                [data-vital-wall] [style*="height: 0"],
-                [data-vital-wall] [style*="opacity: 0"] {
-                  display: block !important;
-                  height: auto !important;
-                  min-height: 80px !important;
-                  opacity: 1 !important;
-                }
-                
-                /* Dark mode support */
-                @media (prefers-color-scheme: dark) {
-                  [data-vital-wall] div,
-                  [data-vital-wall] article,
-                  [data-vital-wall] section,
-                  [data-vital-wall] .item,
-                  [data-vital-wall] .wall-item,
-                  [data-vital-wall] .vital-wall-item,
-                  [data-vital-wall] [class*="item"],
-                  [data-vital-wall] [data-item],
-                  [data-vital-wall] > * {
-                    background: #1e293b !important;
-                    border-color: #3b82f6 !important;
-                    color: white !important;
-                  }
                 }
               \`;
               document.head.appendChild(style);
