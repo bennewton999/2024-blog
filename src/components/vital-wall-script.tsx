@@ -38,30 +38,33 @@ export function VitalWallScript() {
                 /* Fix for VitalWall ticker layout */
                 [data-vital-wall] .vital-wall-container {
                   height: auto !important;
-                  min-height: 400px !important;
+                  min-height: 200px !important;
                   overflow: visible !important;
+                  background: transparent !important;
                 }
                 
                 [data-vital-wall] .ticker-layout {
                   height: auto !important;
-                  min-height: 400px !important;
+                  min-height: 200px !important;
                   overflow: visible !important;
                 }
                 
                 [data-vital-wall] .ticker-viewport {
                   height: auto !important;
-                  min-height: 400px !important;
+                  min-height: 200px !important;
                   overflow: visible !important;
                   position: static !important;
                 }
                 
                 [data-vital-wall] .ticker-scroll {
                   height: auto !important;
-                  min-height: 400px !important;
                   overflow: visible !important;
                   position: static !important;
                   transform: none !important;
                   animation: none !important;
+                  display: flex !important;
+                  flex-direction: column !important;
+                  gap: 16px !important;
                 }
                 
                 [data-vital-wall] .wall-item {
@@ -71,20 +74,56 @@ export function VitalWallScript() {
                   visibility: visible !important;
                   opacity: 1 !important;
                   margin-bottom: 16px !important;
-                  padding: 0 !important;
+                  padding: 16px !important;
                   position: static !important;
+                  border: 1px solid #e5e7eb !important;
+                  border-radius: 8px !important;
+                  background: #ffffff !important;
+                  transition: all 0.2s ease !important;
+                }
+                
+                [data-vital-wall] .wall-item:hover {
+                  border-color: #3b82f6 !important;
+                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
                 }
                 
                 [data-vital-wall] .wall-item img {
                   max-width: 100% !important;
                   height: auto !important;
                   display: block !important;
+                  border-radius: 4px !important;
+                  margin-bottom: 8px !important;
                 }
                 
                 [data-vital-wall] .wall-item a {
                   display: block !important;
                   text-decoration: none !important;
-                  color: inherit !important;
+                  color: #1f2937 !important;
+                }
+                
+                [data-vital-wall] .wall-item a:hover {
+                  color: #3b82f6 !important;
+                }
+                
+                /* Dark mode support */
+                @media (prefers-color-scheme: dark) {
+                  [data-vital-wall] .wall-item {
+                    background: #1f2937 !important;
+                    border-color: #374151 !important;
+                  }
+                  
+                  [data-vital-wall] .wall-item:hover {
+                    border-color: #60a5fa !important;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+                  }
+                  
+                  [data-vital-wall] .wall-item a {
+                    color: #f9fafb !important;
+                  }
+                  
+                  [data-vital-wall] .wall-item a:hover {
+                    color: #60a5fa !important;
+                  }
                 }
                 
                 [data-vital-wall] * {
