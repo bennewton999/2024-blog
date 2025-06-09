@@ -1,9 +1,14 @@
-'use client'
+'use client';
 
-import Script from 'next/script'
+import Script from 'next/script';
 
 interface VitalWall {
-  init(config: { wallId: string; apiKey: string; domain: string; debug?: boolean }): void;
+  init(config: {
+    wallId: string;
+    apiKey: string;
+    domain: string;
+    debug?: boolean;
+  }): void;
 }
 
 declare global {
@@ -14,8 +19,8 @@ declare global {
 
 export function VitalWallScript() {
   return (
-    <Script 
-      src="https://vitalwall.com/vitalwall-client.js" 
+    <Script
+      src="https://unpkg.com/@vitalwall/client@latest"
       strategy="lazyOnload"
       onLoad={() => {
         window.VitalWall?.init({
@@ -26,5 +31,5 @@ export function VitalWallScript() {
         });
       }}
     />
-  )
-} 
+  );
+}
