@@ -2,30 +2,33 @@
 
 import Script from 'next/script';
 
+interface VitalWall {
+  init(config: {
+    wallId: string;
+    apiKey: string;
+    domain: string;
+    debug?: boolean;
+  }): void;
+}
+
+declare global {
+  interface Window {
+    VitalWall?: VitalWall;
+  }
+}
+
 export function VitalWallScript() {
   return (
     <Script
-      id="vital-wall-init"
-      type="module"
+      src="https://vitalwall.com/vitalwall-client.js"
       strategy="lazyOnload"
-      dangerouslySetInnerHTML={{
-        __html: `
-          (async () => {
-            try {
-              const { default: VitalWall } = await import('https://unpkg.com/@vitalwall/client@latest/dist/index.esm.js');
-              
-              const vitalWall = new VitalWall();
-              await vitalWall.init({
-                wallId: "65c1116c-640a-4588-9d40-d05b558679e4",
-                apiKey: "ac937a3d1b099478e870f4c4b8a60e19",
-                domain: "benenewton.com",
-              });
-              console.log('VitalWall initialized successfully');
-            } catch (error) {
-              console.error('Failed to initialize VitalWall:', error);
-            }
-          })();
-        `
+      onLoad={() => {
+        window.VitalWall?.init({
+          wallId: '65c1116c-640a-4588-9d40-d05b558679e4',
+          apiKey: 'ac937a3d1b099478e870f4c4b8a60e19',
+          domain: 'benenewton.com',
+          debug: true
+        });
       }}
     />
   );
