@@ -29,7 +29,7 @@ export function VitalWallScript() {
               style.textContent = \`
                 [data-vital-wall] {
                   width: 100% !important;
-                  min-height: 400px !important;
+                  height: auto !important;
                   display: block !important;
                   position: relative !important;
                   overflow: visible !important;
@@ -38,24 +38,23 @@ export function VitalWallScript() {
                 /* Fix for VitalWall ticker layout */
                 [data-vital-wall] .vital-wall-container {
                   height: auto !important;
-                  min-height: 200px !important;
                   overflow: visible !important;
                   background: transparent !important;
                 }
                 
                 [data-vital-wall] .ticker-layout {
                   height: auto !important;
-                  min-height: 200px !important;
                   overflow: visible !important;
                 }
                 
                 [data-vital-wall] .ticker-viewport {
                   height: auto !important;
-                  min-height: 200px !important;
                   overflow-x: auto !important;
                   overflow-y: hidden !important;
                   position: static !important;
                   width: 100% !important;
+                  padding: 0 !important;
+                  margin: 0 !important;
                 }
                 
                 [data-vital-wall] .ticker-scroll {
@@ -68,17 +67,18 @@ export function VitalWallScript() {
                   flex-direction: row !important;
                   gap: 16px !important;
                   width: max-content !important;
+                  padding: 0 !important;
+                  margin: 0 !important;
                 }
                 
                 [data-vital-wall] .wall-item {
                   height: auto !important;
-                  min-height: 120px !important;
                   width: 280px !important;
                   flex-shrink: 0 !important;
                   display: block !important;
                   visibility: visible !important;
                   opacity: 1 !important;
-                  margin-bottom: 0 !important;
+                  margin: 0 !important;
                   padding: 16px !important;
                   position: static !important;
                   border: 1px solid #e5e7eb !important;
@@ -143,6 +143,28 @@ export function VitalWallScript() {
                 if (container) {
                   console.log('Container HTML:', container.innerHTML);
                   console.log('Container children:', container.children.length);
+                  
+                  // Check for any injected stylesheets
+                  const stylesheets = Array.from(document.styleSheets);
+                  const vitalWallSheets = stylesheets.filter(sheet => {
+                    try {
+                      return sheet.href && sheet.href.includes('vitalwall') || 
+                             (sheet.ownerNode && sheet.ownerNode.textContent && sheet.ownerNode.textContent.includes('vital'));
+                    } catch (e) {
+                      return false;
+                    }
+                  });
+                  console.log('VitalWall stylesheets found:', vitalWallSheets.length);
+                  
+                  // Log computed styles of the main container
+                  const computedStyles = getComputedStyle(container);
+                  console.log('Container computed styles:', {
+                    height: computedStyles.height,
+                    minHeight: computedStyles.minHeight,
+                    background: computedStyles.background,
+                    padding: computedStyles.padding,
+                    margin: computedStyles.margin
+                  });
                   
                   // Log all child elements and their styles
                   Array.from(container.children).forEach((child, index) => {
