@@ -52,8 +52,10 @@ export function VitalWallScript() {
                 [data-vital-wall] .ticker-viewport {
                   height: auto !important;
                   min-height: 200px !important;
-                  overflow: visible !important;
+                  overflow-x: auto !important;
+                  overflow-y: hidden !important;
                   position: static !important;
+                  width: 100% !important;
                 }
                 
                 [data-vital-wall] .ticker-scroll {
@@ -63,17 +65,20 @@ export function VitalWallScript() {
                   transform: none !important;
                   animation: none !important;
                   display: flex !important;
-                  flex-direction: column !important;
+                  flex-direction: row !important;
                   gap: 16px !important;
+                  width: max-content !important;
                 }
                 
                 [data-vital-wall] .wall-item {
                   height: auto !important;
                   min-height: 120px !important;
+                  width: 280px !important;
+                  flex-shrink: 0 !important;
                   display: block !important;
                   visibility: visible !important;
                   opacity: 1 !important;
-                  margin-bottom: 16px !important;
+                  margin-bottom: 0 !important;
                   padding: 16px !important;
                   position: static !important;
                   border: 1px solid #e5e7eb !important;
