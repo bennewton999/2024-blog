@@ -38,18 +38,29 @@ export function VitalWallScript() {
                   box-sizing: border-box !important;
                 }
                 
-                [data-vital-wall] .vital-wall-item,
+                /* More aggressive targeting for VitalWall items */
+                [data-vital-wall] div,
+                [data-vital-wall] article,
+                [data-vital-wall] section,
+                [data-vital-wall] .item,
                 [data-vital-wall] .wall-item,
+                [data-vital-wall] .vital-wall-item,
                 [data-vital-wall] [class*="item"],
-                [data-vital-wall] > div {
+                [data-vital-wall] [data-item],
+                [data-vital-wall] > * {
                   height: auto !important;
-                  min-height: 60px !important;
+                  min-height: 80px !important;
                   display: block !important;
-                  margin-bottom: 8px !important;
-                  padding: 12px !important;
-                  border: 1px solid #e5e7eb !important;
+                  visibility: visible !important;
+                  opacity: 1 !important;
+                  margin-bottom: 12px !important;
+                  padding: 16px !important;
+                  border: 2px solid #3b82f6 !important;
                   border-radius: 8px !important;
-                  background: white !important;
+                  background: #f8fafc !important;
+                  line-height: 1.5 !important;
+                  font-size: 14px !important;
+                  color: #1f2937 !important;
                 }
                 
                 [data-vital-wall] iframe {
@@ -60,18 +71,57 @@ export function VitalWallScript() {
                   display: block !important;
                 }
                 
+                /* Force visibility for any hidden elements */
+                [data-vital-wall] [style*="display: none"],
+                [data-vital-wall] [style*="height: 0"],
+                [data-vital-wall] [style*="opacity: 0"] {
+                  display: block !important;
+                  height: auto !important;
+                  min-height: 80px !important;
+                  opacity: 1 !important;
+                }
+                
                 /* Dark mode support */
                 @media (prefers-color-scheme: dark) {
-                  [data-vital-wall] .vital-wall-item,
+                  [data-vital-wall] div,
+                  [data-vital-wall] article,
+                  [data-vital-wall] section,
+                  [data-vital-wall] .item,
                   [data-vital-wall] .wall-item,
+                  [data-vital-wall] .vital-wall-item,
                   [data-vital-wall] [class*="item"],
-                  [data-vital-wall] > div {
-                    background: #1f2937 !important;
-                    border-color: #374151 !important;
+                  [data-vital-wall] [data-item],
+                  [data-vital-wall] > * {
+                    background: #1e293b !important;
+                    border-color: #3b82f6 !important;
                     color: white !important;
                   }
                 }
               \`;
+              document.head.appendChild(style);
+              
+              // Add debugging to inspect the actual DOM structure
+              setTimeout(() => {
+                const container = document.querySelector('[data-vital-wall="65c1116c-640a-4588-9d40-d05b558679e4"]');
+                if (container) {
+                  console.log('Container HTML:', container.innerHTML);
+                  console.log('Container children:', container.children.length);
+                  
+                  // Log all child elements and their styles
+                  Array.from(container.children).forEach((child, index) => {
+                    const styles = getComputedStyle(child);
+                    console.log(\`Child \${index}:\`, {
+                      tagName: child.tagName,
+                      className: child.className,
+                      height: styles.height,
+                      display: styles.display,
+                      visibility: styles.visibility,
+                      opacity: styles.opacity,
+                      innerHTML: child.innerHTML.substring(0, 100)
+                    });
+                  });
+                }
+              }, 2000);
               document.head.appendChild(style);
               
               // Check if the embed container exists
