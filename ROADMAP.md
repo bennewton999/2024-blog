@@ -26,6 +26,7 @@ This document tracks planned improvements, features, and maintenance tasks for B
 ## Medium Priority
 
 ### New Features
+- [ ] **Hero Image Generation Utility** - Create utility using OpenAI's image generation API to automatically generate blog post hero images
 - [ ] **Blog Search Functionality** - Add search capability for blog posts
 - [ ] **Newsletter Signup** - Implement email list collection (currently has form component)
 - [ ] **Blog Post Pagination** - Add pagination to blog listing pages

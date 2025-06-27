@@ -1,0 +1,277 @@
+---
+title: 'Claude Code Is More Than a Dev Assistant—It’s My Project Manager'
+date: '2025-06-27'
+description: 'Discover how combining Claude Code with a simple ROADMAP.md file transformed my personal project management and delivered consistent progress on my blog.'
+author: 'ben-newton'
+image: '/images/2025/06/claude-code-is-more-than-a-dev-assistant-its-my-project-manager.png'
+tags: ['claude-code', 'project-management', 'ai-development', 'productivity']
+twitterThreadUrl: ''
+---
+
+As a developer with 20+ years of experience, I've seen countless project management tools come and go. But recently, I discovered something that's changed how I approach personal project management: using Claude Code with a simple ROADMAP.md file to systematically improve my site. Here's how this AI-powered approach has transformed my development workflow and why you might want to try it too.
+
+## The Problem with Personal Project Management
+
+Personal projects are different beasts. At work, we have product managers, sprint planning, a schedule, and dedicated project management tools. But for my personal projects? It was chaos. Ideas scattered across notes (in different apps), tasks forgotten, and inconsistent progress. I'd work on something for weeks, then abandon it when the next shiny idea came along. Or worse, I don't touch my personal computer for a month and just forget about it.
+
+The typical developer's personal project lifecycle:
+
+1. Burst of enthusiasm and coding
+2. Life gets busy, project stagnates
+3. Return months later, confused about previous decisions
+4. Start over or abandon entirely
+
+Sound familiar?
+
+## Enter Claude Code: More Than Just an AI Code Assistant
+
+Claude Code isn't just another AI coding assistant—it's like having a dedicated developer who never forgets context, maintains perfect documentation, and actually follows through on plans. But the real magic happens when you give it structure to work with.
+
+What makes Claude Code different:
+
+- **Persistent context**: It remembers your project's architecture and patterns
+- **Systematic approach**: It can create and maintain documentation automatically
+- **Proactive planning**: It can break down complex tasks and track progress using planning mode
+- **Consistency**: It follows established patterns and conventions
+
+The breakthrough came when I realized I could use Claude Code not just to write code, but to manage my entire project roadmap.
+
+## The ROADMAP.md Approach: A Living Project Plan
+
+The concept is beautifully simple: a single Markdown file that serves as the central nervous system for your project. But unlike static documentation, this roadmap is actively maintained by Claude Code itself.
+
+Here's what my ROADMAP.md contains:
+
+**Prioritized Sections:**
+
+- **High Priority**: Critical updates and technical debt
+- **Medium Priority**: New features and enhancements
+- **Low Priority**: Nice-to-have improvements
+- **Technical Maintenance**: Regular upkeep tasks
+- **Recently Completed**: Archive of finished work
+
+**The Magic Sauce:**
+
+1. **Living Document**: Claude Code updates it automatically as work progresses
+2. **Context Preservation**: Future Claude sessions start by reading the roadmap
+3. **Progress Tracking**: Completed items move to 'Recently Completed'
+4. **Content Reminders**: Special protocols for personal content updates
+5. **Dynamic Planning**: You can ask Claude to create your roadmap.md and suggest features and updates, or add new features at any time
+
+## Real-World Example: Adding Reading Time Estimates
+
+Let me show you exactly how this works by walking through a feature I just implemented: adding reading time estimates to blog posts. Here's how the ROADMAP.md tracked this feature:
+
+**Initial State:**
+
+```markdown
+### New Features
+
+- [ ] **Reading Time Estimates** - Add estimated reading time to blog posts
+```
+
+**Starting Work (marked as in-progress):**
+
+```markdown
+- [-] **Reading Time Estimates** - Add estimated reading time to blog posts 🏗️ 2025/06/27
+```
+
+**The Implementation Process:**
+
+1. Claude Code checked ROADMAP.md and saw this was a medium priority feature
+2. Created a todo list to track the implementation steps
+3. Built the reading time calculation utility (225 words per minute)
+4. Added the display to both blog cards and individual posts
+5. Tested the implementation
+6. Updated ROADMAP.md to show completion
+
+**After Completion:**
+
+```markdown
+### Recently Completed
+
+- [x] **Reading Time Estimates** - Added estimated reading time to blog posts and cards ✅ 2025/06/27
+```
+
+**The Results:**
+
+- Every blog post now shows "X min read"
+- Appears consistently on both homepage cards and individual posts
+- Calculation handles MDX content by stripping code blocks and formatting
+
+This real example demonstrates the power of the system - clear progress tracking, systematic implementation, and automatic documentation of what was done and when.
+
+## The Technical Implementation
+
+Setting this up is surprisingly straightforward. The key is creating two files that work together:
+
+**ROADMAP.md Structure:**
+
+```markdown
+# ROADMAP.md
+
+## Progress Tracking Convention
+
+- Use markdown checkboxes to indicate status:
+  - `[ ]` = Todo (no timestamp needed)
+  - `[-]` = In Progress (add 🏗️ YYYY/MM/DD when started)
+  - `[x]` = Completed (add ✅ YYYY/MM/DD when finished)
+
+## High Priority
+
+### Content Updates
+
+- [ ] **Update Now Page** - Currently dated April 2025
+- [-] **New Blog Posts** - Working on Claude Code article 🏗️ 2025/06/27
+
+## Recently Completed
+
+- [x] **Reading Time Estimates** - Added to blog posts ✅ 2025/06/27
+- [x] **CLAUDE.md Creation** - AI assistant documentation ✅ 2025/06/27
+```
+
+**CLAUDE.md Instructions:**
+
+```markdown
+## Roadmap Management
+
+**IMPORTANT**: Always check ROADMAP.md first
+
+### Progress Tracking Protocol
+
+1. **Todo**: `- [ ] **Task Name** - Description`
+2. **In Progress**: `- [-] **Task Name** - Description 🏗️ YYYY/MM/DD`
+3. **Completed**: `- [x] **Task Name** - Description ✅ YYYY/MM/DD`
+
+- Use `date "+%Y/%m/%d"` to get current system date
+- Update checkbox and timestamp when status changes
+```
+
+**The Workflow:**
+
+1. Claude Code starts each session by reading ROADMAP.md
+2. It understands current priorities and context
+3. As work progresses, it updates the roadmap
+4. Completed items get moved to 'Recently Completed'
+5. New tasks get added to appropriate priority sections
+
+**Note**: Claude Code starts by reading CLAUDE.md which contains instructions that direct it to always check ROADMAP.md first.
+
+## Benefits I've Experienced
+
+After using this system for several days, the benefits have been substantial:
+
+**For Project Management:**
+
+- **No More Lost Context**: Every session starts with full project awareness
+- **Systematic Progress**: Tasks get completed in logical order
+- **Reduced Decision Fatigue**: Priorities are already established
+- **Better Documentation**: Everything gets documented automatically
+- **Flexible Task Switching**: I can stop at any time and move to another task by asking Claude to modify the roadmap with details for later
+
+**For Personal Productivity:**
+
+- **Reduced Cognitive Load**: I don't have to remember every task
+- **Better Work-Life Balance**: Clear stopping points and priorities
+- **Increased Motivation**: Visible progress in 'Recently Completed' section
+- **Quick Re-engagement**: I don't spend half my free time reacquainting myself with code I haven't seen for a week
+
+**Unexpected Benefits:**
+
+- **Content Planning**: Article ideas get captured and prioritized
+
+## Lessons Learned and Best Practices
+
+This approach isn't perfect, and I've learned some important lessons:
+
+**What Works Well:**
+
+- **Be Specific**: Vague tasks like 'improve performance' become 'analyze Core Web Vitals and optimize largest contentful paint'
+- **Let Claude Break Down Tasks**: You can ask Claude to break down general tasks into specific actionable items - you'll be surprised how quickly you start talking to Claude like you would a junior developer
+- **Regular Reviews**: Occasional roadmap reviews keep priorities current
+- **Personal Content Protocols**: Having Claude ask before updating personal pages maintains authenticity
+- **Visual Progress**: The checkbox progression (`[ ]` → `[-]` → `[x]`) shows status at a glance
+- **Single Timestamps**: One date with emoji (🏗️ or ✅) keeps things clean and scannable
+
+**What Doesn't Work:**
+
+- **Over-Planning**: Don't try to plan every detail upfront
+- **Perfectionism**: Sometimes 'good enough' needs to be acceptable
+- **Ignoring the Roadmap**: The system only works if you use it consistently
+
+**Best Practices Developed:**
+
+1. **Start Small**: Begin with 3-5 high priority items
+2. **Review Occasionally**: Check the roadmap often if you're constantly asking Claude to add features
+3. **Archive Regularly**: Move old completed items to an archive file to prevent bloat
+4. **Stay Flexible**: Priorities can change, and that's okay
+
+**Anti-Patterns to Avoid:**
+
+- Making the roadmap too complex
+- Using it as a dumping ground for every random idea
+
+## Getting Started: Your First ROADMAP.md
+
+Ready to try this approach? Here's how to get started:
+
+**Step 1: Create Your ROADMAP.md**
+
+```markdown
+# ROADMAP.md
+
+## Progress Tracking Convention
+
+- `[ ]` = Todo | `[-]` = In Progress 🏗️ | `[x]` = Completed ✅
+
+## High Priority
+
+- [ ] **Your Most Important Task** - Description here
+- [ ] **Second Priority Task** - Another description
+
+## Recently Completed
+
+- [x] **ROADMAP.md Creation** - Set up project tracking ✅ 2025/06/27
+```
+
+**Step 2: Set Up Claude Code Integration**
+Start by using the `/init` command in Claude Code to create your initial CLAUDE.md file, then add these roadmap management instructions:
+
+```markdown
+# CLAUDE.md
+
+## Roadmap Management
+
+- Always check ROADMAP.md first
+- Use checkbox progression: [ ] → [-] → [x]
+- Add 🏗️ timestamp when starting, ✅ timestamp when completing
+- Ask before updating personal content
+```
+
+**Step 3: Start Small**
+Don't try to plan everything. Start with 3-5 items you actually want to tackle this month.
+
+**Step 4: Establish the Habit**
+
+- Begin each Claude Code session by asking it to check the roadmap
+- End sessions by updating progress
+- Review and adjust priorities occasionally
+
+## Conclusion: A New Way to Build
+
+The combination of Claude Code and a structured ROADMAP.md has fundamentally changed how I approach personal projects. It's not just about having an AI assistant, it's about creating a system that preserves context, maintains momentum, and delivers consistent progress.
+
+**The Real Value:**
+This isn't just about productivity. It's about building a sustainable relationship with your personal projects. Instead of the typical cycle of enthusiasm followed by abandonment, you get steady, systematic progress toward meaningful goals.
+
+**What's Next:**
+I'm curious about scaling this approach to larger projects and team environments. While this system works brilliantly for personal projects, I'm exploring how shared ROADMAP.md files could work with team-based development - imagine having Claude Code help coordinate feature development across multiple developers while maintaining the same systematic tracking and context preservation.
+
+**Your Turn:**
+Try creating a ROADMAP.md for your next personal project. Start simple, be consistent, and let Claude Code help you maintain momentum. You might be surprised by how much more you accomplish when someone (or something) is keeping track of the bigger picture.
+
+The future of personal project management might just be a simple Markdown file and an AI that never forgets.
+
+---
+
+**Let me know how this works for you!** If you try this approach, I'd love to hear what you would add to this system or if it helps you. Find me on X [@benenewton](https://x.com/benenewton) and let me know your thoughts.
