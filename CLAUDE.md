@@ -63,9 +63,26 @@ Blog posts require these frontmatter fields:
 - `/uses` - Uses page
 - `/tags/[tag]` - Tag-based filtering
 
+## Roadmap Management
+
+**IMPORTANT**: This site has a ROADMAP.md file that tracks all planned improvements, features, and maintenance tasks. When working on this codebase:
+
+- **Always check ROADMAP.md first** to understand current priorities and planned work
+- **Update ROADMAP.md** when completing tasks or adding new ones
+- **Move completed items** from pending to the "Recently Completed" section
+- **Ask the user for updates** before committing changes to personal pages (About, Now, Uses)
+- **Keep the roadmap current** - it's a living document that guides development
+
+### Personal Content Update Protocol
+- **Now Page**: Needs regular updates (every 2-3 months) - always ask user for current status
+- **Uses Page**: Review quarterly for new tools and equipment changes
+- **About Page**: Update when working with new clients or changing professional focus
+- **Always confirm with user** before updating personal content to ensure accuracy
+
 When working with this codebase:
 - Follow existing TypeScript patterns and component structure
 - Use the `cn()` utility for conditional styling
 - Maintain MDX frontmatter consistency for new blog posts
 - Test locally with `npm run dev` before building
 - Run `npm run lint` to check code quality before committing
+- Check and update ROADMAP.md for any changes made
