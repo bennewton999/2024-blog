@@ -7,6 +7,7 @@ import { Breadcrumb } from '@/components/breadcrumb';
 import { BlogPostJsonLd } from '@/components/json-ld';
 import { Metadata } from 'next';
 import { TwitterScriptLoader } from '@/components/twitter-script-loader';
+import { calculateReadingTime, formatReadingTime } from '@/lib/utils';
 
 interface PostPageProps {
   params: {
@@ -80,6 +81,9 @@ export default async function PostPage({ params }: PostPageProps) {
     day: '2-digit'
   });
 
+  const readingTime = calculateReadingTime(post.body.raw);
+  const readingTimeText = formatReadingTime(readingTime);
+
   return (
     <article className="container max-w-3xl py-6 lg:py-12">
       <TwitterScriptLoader />
@@ -118,6 +122,8 @@ export default async function PostPage({ params }: PostPageProps) {
         )}
         <div className="flex items-center space-x-2 text-muted-foreground">
           <time dateTime={post.date}>{formattedDate}</time>
+          <span>•</span>
+          <span className="text-sm">{readingTimeText}</span>
           <span>•</span>
           <div className="flex items-center gap-2 flex-wrap">
             {post.tags?.map(tag => (

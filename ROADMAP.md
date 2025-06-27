@@ -2,6 +2,13 @@
 
 This document tracks planned improvements, features, and maintenance tasks for Ben Newton's personal blog site.
 
+## Progress Tracking Convention
+- Use markdown checkboxes to indicate status:
+  - `[ ]` = Todo (no timestamp needed)
+  - `[-]` = In Progress (add 🚧 YYYY/MM/DD when started)
+  - `[x]` = Completed (add ✅ YYYY/MM/DD when finished)
+- Example: `- [x] **Task Name** - Description ✅ 2025/06/27`
+
 ## High Priority
 
 ### Content Updates
@@ -23,7 +30,6 @@ This document tracks planned improvements, features, and maintenance tasks for B
 - [ ] **Newsletter Signup** - Implement email list collection (currently has form component)
 - [ ] **Blog Post Pagination** - Add pagination to blog listing pages
 - [ ] **Related Posts** - Show related content at bottom of blog posts
-- [ ] **Reading Time Estimates** - Add estimated reading time to blog posts
 - [ ] **RSS Feed** - Generate RSS feed for blog subscribers
 
 ### Content Enhancements
@@ -70,12 +76,13 @@ This document tracks planned improvements, features, and maintenance tasks for B
 ## Recently Completed
 
 ### ✅ Done
-- **CLAUDE.md Creation** - Added AI development assistant documentation
-- **VitalWall Integration** - Successfully integrated VitalWall.com project
-- **Basic Blog Structure** - Complete Next.js 15 + Contentlayer setup
-- **Responsive Design** - Mobile-friendly layout implementation
-- **Dark Mode Support** - Full dark/light theme switching
-- **shadcn/ui Integration** - Modern component library setup
+- [x] **CLAUDE.md Creation** - Added AI development assistant documentation ✅ 2025/06/27
+- [x] **VitalWall Integration** - Successfully integrated VitalWall.com project
+- [x] **Basic Blog Structure** - Complete Next.js 15 + Contentlayer setup
+- [x] **Responsive Design** - Mobile-friendly layout implementation
+- [x] **Dark Mode Support** - Full dark/light theme switching
+- [x] **shadcn/ui Integration** - Modern component library setup
+- [x] **Reading Time Estimates** - Added estimated reading time to blog posts and cards ✅ 2025/06/27
 
 ## Notes
 
@@ -97,5 +104,5 @@ This document tracks planned improvements, features, and maintenance tasks for B
 
 ---
 
-**Last Updated**: June 27, 2025  
-**Next Review**: July 27, 2025
+**Last Updated**: 2025/06/27  
+**Next Review**: 2025/07/27

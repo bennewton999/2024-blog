@@ -4,15 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-
-interface Post {
-  title: string;
-  date: string;
-  description: string;
-  url: string;
-  image?: string;
-  tags?: string[];
-}
+import { calculateReadingTime, formatReadingTime } from '@/lib/utils';
+import type { Post } from 'contentlayer/generated';
 
 interface BlogCardProps {
   post: Post;
@@ -25,6 +18,9 @@ export function BlogCard({ post }: BlogCardProps) {
     month: '2-digit',
     day: '2-digit'
   });
+
+  const readingTime = calculateReadingTime(post.body.raw);
+  const readingTimeText = formatReadingTime(readingTime);
 
   return (
     <div className="group relative">
@@ -48,6 +44,8 @@ export function BlogCard({ post }: BlogCardProps) {
         <CardContent className="p-4 space-y-2">
           <div className="flex items-center space-x-2 text-sm text-muted-foreground">
             <time dateTime={post.date}>{formattedDate}</time>
+            <span>•</span>
+            <span>{readingTimeText}</span>
             <span>•</span>
             <div className="flex items-center gap-2 flex-wrap">
               {post.tags?.map(tag => (

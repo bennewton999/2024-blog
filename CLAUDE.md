@@ -73,6 +73,19 @@ Blog posts require these frontmatter fields:
 - **Ask the user for updates** before committing changes to personal pages (About, Now, Uses)
 - **Keep the roadmap current** - it's a living document that guides development
 
+### Progress Tracking Protocol
+**Use markdown checkboxes and emojis to track task progress**
+
+1. **Todo**: `- [ ] **Task Name** - Description` (no timestamp)
+2. **In Progress**: `- [-] **Task Name** - Description 🏗️ YYYY/MM/DD`
+3. **Completed**: `- [x] **Task Name** - Description ✅ YYYY/MM/DD`
+
+**Important**:
+- Use `date "+%Y/%m/%d"` to get current system date
+- Update checkbox and add/update timestamp when status changes
+- Only one timestamp per task (showing most recent status change)
+- Emojis: 🏗️ = in progress, ✅ = completed
+
 ### Personal Content Update Protocol
 - **Now Page**: Needs regular updates (every 2-3 months) - always ask user for current status
 - **Uses Page**: Review quarterly for new tools and equipment changes
