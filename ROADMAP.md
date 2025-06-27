@@ -58,6 +58,7 @@ This document tracks planned improvements, features, and maintenance tasks for B
 - [ ] **Development Tool Reviews** - More posts like the VS Code extensions article
 - [ ] **Travel Tech Setup** - Posts about remote work and travel setups
 - [ ] **Productivity Workflows** - More Obsidian and productivity content
+- [ ] **Defined Tags** - Create a defined list of tags that can be used on posts so we do not create them every time we create a post.
 
 ## Technical Maintenance
 
