@@ -1,70 +1,131 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface TwitterEmbedProps {
   url: string;
   height?: number;
 }
 
+declare global {
+  interface Window {
+    twttr?: {
+      widgets?: {
+        load?: (element?: HTMLElement) => void;
+        createTweet?: (
+          tweetId: string,
+          element: HTMLElement,
+          options?: Record<string, any>
+        ) => Promise<void>;
+      };
+    };
+  }
+}
+
 export function TwitterEmbed({ url, height = 400 }: TwitterEmbedProps) {
   const { resolvedTheme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
+    setError(false);
+
+    // Extract tweet ID from URL
+    const tweetIdMatch = url.match(/status\/(\d+)/);
+    const tweetId = tweetIdMatch ? tweetIdMatch[1] : null;
+
+    if (!tweetId || !containerRef.current) {
+      setError(true);
+      setIsLoading(false);
+      return;
+    }
+
     // Clear previous content
-    if (containerRef.current) {
-      containerRef.current.innerHTML = '';
-    }
+    containerRef.current.innerHTML = '';
 
-    // Create 𝕏 (formerly Twitter) embed
-    // Instead of creating a timeline (which might not work well),
-    // let's create a tweet embed which is more reliable
-    const blockquote = document.createElement('blockquote');
-    blockquote.className = 'twitter-tweet';
-    blockquote.setAttribute(
-      'data-theme',
-      resolvedTheme === 'dark' ? 'dark' : 'light'
-    );
+    const loadTweet = async () => {
+      try {
+        // Load Twitter widgets script
+        if (!window.twttr?.widgets) {
+          await new Promise<void>((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://platform.twitter.com/widgets.js';
+            script.async = true;
+            script.charset = 'utf-8';
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error('Failed to load Twitter script'));
+            
+            // Check if script already exists
+            const existingScript = document.querySelector(
+              'script[src="https://platform.twitter.com/widgets.js"]'
+            );
+            
+            if (existingScript) {
+              existingScript.remove();
+            }
+            
+            document.body.appendChild(script);
+          });
+        }
 
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.textContent = 'Loading tweet...';
+        // Wait for twttr to be available
+        let attempts = 0;
+        while (!window.twttr?.widgets?.createTweet && attempts < 20) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+          attempts++;
+        }
 
-    blockquote.appendChild(anchor);
-
-    // Append to container
-    if (containerRef.current) {
-      containerRef.current.innerHTML = '';
-      containerRef.current.appendChild(blockquote);
-    }
-
-    // Load 𝕏 widget script (still uses Twitter domain)
-    // Only add the script if it's not already loaded
-    if (
-      !document.querySelector(
-        'script[src="https://platform.twitter.com/widgets.js"]'
-      )
-    ) {
-      const script = document.createElement('script');
-      script.src = 'https://platform.twitter.com/widgets.js';
-      script.async = true;
-      script.charset = 'utf-8';
-      document.body.appendChild(script);
-    } else {
-      // If the script is already loaded, try to trigger widget creation
-      // @ts-expect-error - Twitter's types aren't available
-      if (window.twttr?.widgets) {
-        // @ts-expect-error - Twitter's types aren't available
-        window.twttr.widgets.load(containerRef.current);
+        if (window.twttr?.widgets?.createTweet && containerRef.current) {
+          await window.twttr.widgets.createTweet(
+            tweetId,
+            containerRef.current,
+            {
+              theme: resolvedTheme === 'dark' ? 'dark' : 'light',
+              dnt: true,
+              width: 550,
+              align: 'center'
+            }
+          );
+          setIsLoading(false);
+        } else {
+          throw new Error('Twitter widgets not available');
+        }
+      } catch (err) {
+        console.error('Error loading tweet:', err);
+        setError(true);
+        setIsLoading(false);
+        
+        // Fallback: show link to tweet
+        if (containerRef.current) {
+          containerRef.current.innerHTML = `
+            <div class="border rounded-lg p-4 text-center">
+              <p class="mb-2">Unable to load embedded tweet.</p>
+              <a href="${url}" target="_blank" rel="noopener noreferrer" 
+                 class="text-primary hover:underline">
+                View on 𝕏 →
+              </a>
+            </div>
+          `;
+        }
       }
-    }
-
-    return () => {
-      // We don't remove the script on unmount as other embeds may be using it
     };
-  }, [url, height, resolvedTheme]);
 
-  return <div ref={containerRef} className="x-embed-container" />;
+    loadTweet();
+  }, [url, resolvedTheme]);
+
+  return (
+    <div className="x-embed-container">
+      {isLoading && (
+        <div className="flex items-center justify-center p-8 text-muted-foreground">
+          <div className="text-center">
+            <div className="animate-pulse mb-2">Loading tweet...</div>
+          </div>
+        </div>
+      )}
+      <div ref={containerRef} />
+    </div>
+  );
 }
