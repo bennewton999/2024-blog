@@ -12,6 +12,7 @@ This document tracks planned improvements, features, and maintenance tasks for B
 ## High Priority
 
 ### Content Updates
+- [-] **X.com Commenting Implementation** - Create X.com posts for 12 blog articles and update their twitterThreadUrl fields 🏗️ 2025/06/27
 - [ ] **Update Now Page** - Currently dated April 2025, needs current status update
 - [ ] **New Blog Posts** - Continue writing technical content and career insights
 - [ ] **Review and Update About Page** - Ensure client list and bio remain current
@@ -48,7 +49,7 @@ This document tracks planned improvements, features, and maintenance tasks for B
 ## Low Priority
 
 ### Nice-to-Have Features
-- [ ] **Comment System** - Add blog post comments (possibly via GitHub discussions)
+- [x] **Comment System** - Blog post comments via X.com thread integration (infrastructure complete) ✅ 2025/06/27
 - [ ] **View Counter** - Track and display blog post views
 - [ ] **Bookmark Feature** - Allow users to bookmark posts
 - [ ] **Print Stylesheets** - Optimize content for printing
