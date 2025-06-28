@@ -35,7 +35,7 @@ export function TwitterComments({ twitterThreadUrl }: XCommentsProps) {
           </svg>
           Discuss on 𝕏
         </a>
-        <div className="mt-4 x-timeline-container">
+        <div className="mt-4 rounded-lg bg-muted/30 dark:bg-background overflow-hidden">
           <TwitterEmbed url={twitterThreadUrl} />
         </div>
       </div>

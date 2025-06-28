@@ -144,3 +144,26 @@
 .prose ol {
   @apply my-6 ml-6 list-decimal [&>li]:mt-2;
 }
+
+/* Twitter/X Embed Styling */
+.x-embed-container {
+  @apply overflow-hidden rounded-lg;
+}
+
+/* Dark mode fixes for Twitter embeds */
+.dark .x-embed-container {
+  @apply bg-background;
+}
+
+.dark .x-embed-container iframe {
+  @apply rounded-lg;
+}
+
+/* Hide white corners by clipping the iframe */
+.twitter-tweet {
+  @apply overflow-hidden rounded-lg;
+}
+
+.twitter-tweet iframe {
+  @apply rounded-lg;
+}

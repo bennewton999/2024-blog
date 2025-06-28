@@ -117,7 +117,7 @@ export function TwitterEmbed({ url, height = 400 }: TwitterEmbedProps) {
   }, [url, resolvedTheme]);
 
   return (
-    <div className="x-embed-container">
+    <div className="x-embed-container relative">
       {isLoading && (
         <div className="flex items-center justify-center p-8 text-muted-foreground">
           <div className="text-center">
@@ -125,7 +125,14 @@ export function TwitterEmbed({ url, height = 400 }: TwitterEmbedProps) {
           </div>
         </div>
       )}
-      <div ref={containerRef} />
+      <div 
+        ref={containerRef} 
+        className="twitter-embed-wrapper [&>div]:rounded-lg [&_iframe]:rounded-lg" 
+        style={{
+          borderRadius: '0.5rem',
+          overflow: 'hidden'
+        }}
+      />
     </div>
   );
 }
