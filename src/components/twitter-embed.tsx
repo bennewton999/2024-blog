@@ -127,10 +127,11 @@ export function TwitterEmbed({ url, height = 400 }: TwitterEmbedProps) {
       )}
       <div 
         ref={containerRef} 
-        className="twitter-embed-wrapper [&>div]:rounded-lg [&_iframe]:rounded-lg" 
+        className="twitter-embed-wrapper" 
         style={{
-          borderRadius: '0.5rem',
-          overflow: 'hidden'
+          borderRadius: '16px',
+          overflow: 'hidden',
+          isolation: 'isolate'
         }}
       />
     </div>

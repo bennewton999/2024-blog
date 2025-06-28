@@ -35,8 +35,10 @@ export function TwitterComments({ twitterThreadUrl }: XCommentsProps) {
           </svg>
           Discuss on 𝕏
         </a>
-        <div className="mt-4 rounded-lg bg-muted/30 dark:bg-background overflow-hidden">
-          <TwitterEmbed url={twitterThreadUrl} />
+        <div className="mt-4 overflow-hidden" style={{ borderRadius: '16px' }}>
+          <div className="bg-muted/10 dark:bg-zinc-900/50 p-1" style={{ borderRadius: '16px' }}>
+            <TwitterEmbed url={twitterThreadUrl} />
+          </div>
         </div>
       </div>
     </div>
