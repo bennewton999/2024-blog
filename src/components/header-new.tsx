@@ -18,18 +18,21 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo and Navigation */}
         <div className="flex items-center gap-6 md:gap-10">
-          <Link href="/" className="flex items-center space-x-2">
-            <Image
-              src="/images/avatar.png"
-              alt="Ben Newton"
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
+          <Link href="/" className="flex items-center space-x-2 group">
+            <div className="relative">
+              <Image
+                src="/images/avatar.png"
+                alt="Ben Newton"
+                width={40}
+                height={40}
+                className="rounded-full ring-2 ring-primary/10 transition-all duration-200 group-hover:ring-primary/30 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            </div>
           </Link>
 
           {/* Desktop Navigation - next to logo */}
@@ -77,7 +80,7 @@ export function Header() {
               variant="ghost"
               size="icon"
               asChild
-              className="h-9 w-9 rounded-full"
+              className="h-9 w-9 rounded-full hover:bg-primary/10 hover:scale-110 transition-all duration-200"
             >
               <Link
                 href="https://x.com/benenewton"
@@ -94,7 +97,7 @@ export function Header() {
               variant="ghost"
               size="icon"
               asChild
-              className="h-9 w-9 rounded-full"
+              className="h-9 w-9 rounded-full hover:bg-primary/10 hover:scale-110 transition-all duration-200"
             >
               <Link
                 href="https://instagram.com/bennewton999"
@@ -111,7 +114,7 @@ export function Header() {
               variant="ghost"
               size="icon"
               asChild
-              className="h-9 w-9 rounded-full"
+              className="h-9 w-9 rounded-full hover:bg-primary/10 hover:scale-110 transition-all duration-200"
             >
               <Link
                 href="https://www.linkedin.com/in/bennewton/"
@@ -128,7 +131,7 @@ export function Header() {
               variant="ghost"
               size="icon"
               asChild
-              className="h-9 w-9 rounded-full"
+              className="h-9 w-9 rounded-full hover:bg-primary/10 hover:scale-110 transition-all duration-200"
             >
               <Link
                 href="https://github.com/bennewton999"

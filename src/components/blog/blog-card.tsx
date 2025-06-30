@@ -27,25 +27,27 @@ export function BlogCard({ post }: BlogCardProps) {
       <Link href={post.url} className="absolute inset-0 z-10">
         <span className="sr-only">View Article</span>
       </Link>
-      <Card className="overflow-hidden border hover:bg-accent/50 transition-colors">
+      <Card className="overflow-hidden border border-border/50 bg-gradient-to-br from-background to-muted/10 shadow-lg shadow-black/5 transition-all duration-300 hover:shadow-xl hover:shadow-black/10 hover:scale-[1.02] hover:-translate-y-1 dark:shadow-black/20 dark:hover:shadow-black/30">
         {post.image && (
-          <div className="aspect-[16/9] w-full overflow-hidden">
+          <div className="aspect-[16/9] w-full overflow-hidden relative">
             <Image
               src={post.image}
               alt={post.title}
               width={800}
               height={450}
-              className="object-cover w-full h-full"
+              className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
               priority
               unoptimized
             />
+            {/* Gradient overlay for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
         )}
-        <CardContent className="p-4 space-y-2">
-          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <time dateTime={post.date}>{formattedDate}</time>
+        <CardContent className="p-6 space-y-3">
+          <div className="flex items-center space-x-2 text-sm text-muted-foreground/70">
+            <time dateTime={post.date} className="font-medium">{formattedDate}</time>
             <span>•</span>
-            <span>{readingTimeText}</span>
+            <span className="font-medium">{readingTimeText}</span>
             <span>•</span>
             <div className="flex items-center gap-2 flex-wrap">
               {post.tags?.map(tag => (
@@ -56,7 +58,7 @@ export function BlogCard({ post }: BlogCardProps) {
                 >
                   <Badge
                     variant="outline"
-                    className="hover:bg-secondary hover:text-secondary-foreground"
+                    className="hover:bg-primary hover:text-primary-foreground transition-colors border-primary/20 text-xs"
                   >
                     {tag}
                   </Badge>
@@ -64,10 +66,10 @@ export function BlogCard({ post }: BlogCardProps) {
               ))}
             </div>
           </div>
-          <h2 className="font-heading text-2xl font-bold">
-            <span className="line-clamp-1 relative z-0">{post.title}</span>
+          <h2 className="font-heading text-xl font-bold group-hover:text-primary transition-colors duration-200">
+            <span className="line-clamp-2 relative z-0 leading-tight">{post.title}</span>
           </h2>
-          <p className="line-clamp-2 text-muted-foreground">
+          <p className="line-clamp-3 text-muted-foreground leading-relaxed text-sm">
             {post.description}
           </p>
         </CardContent>
