@@ -37,6 +37,8 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
   const keysRef = useRef<Set<string>>(new Set());
   const [isActive, setIsActive] = useState(false);
   const [gameState, setGameState] = useState<'inactive' | 'starting' | 'playing'>('inactive');
+  const [score, setScore] = useState(0);
+  const [, setHighScore] = useState(0);
   
   // Game state refs for better performance
   const shipRef = useRef<Ship>({
@@ -50,6 +52,8 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
   const bulletsRef = useRef<Bullet[]>([]);
   const asteroidsRef = useRef<Asteroid[]>([]);
   const destroyedElementsRef = useRef<Set<HTMLElement>>(new Set());
+  const scoreRef = useRef<number>(0);
+  const highScoreRef = useRef<number>(0);
 
   // Initialize asteroids with 10 large asteroids
   const initializeAsteroids = useCallback(() => {
@@ -96,6 +100,17 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
     // Clear canvas
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, width, height);
+    
+    // Draw score and high score (always visible during game)
+    if (gameState !== 'inactive') {
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '20px Audiowide, monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText(`SCORE: ${scoreRef.current}`, 20, 30);
+      ctx.textAlign = 'right';
+      ctx.fillText(`HIGH: ${highScoreRef.current}`, width - 20, 30);
+      ctx.textAlign = 'start';
+    }
 
     // Show start screen
     if (gameState === 'starting') {
@@ -124,6 +139,16 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
       ctx.fillStyle = '#888888';
       ctx.font = '22px Audiowide, monospace';
       ctx.fillText('Game starting in 3...2...1...', width / 2, height / 2 + 170);
+      
+      // Show scoring values
+      ctx.fillStyle = '#00ff00';
+      ctx.font = '16px Audiowide, monospace';
+      ctx.fillText('SCORING:', width / 2, height / 2 + 220);
+      ctx.font = '14px Audiowide, monospace';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText('Large Asteroid: 20 pts', width / 2, height / 2 + 245);
+      ctx.fillText('Medium Asteroid: 50 pts', width / 2, height / 2 + 265);
+      ctx.fillText('Small Asteroid: 100 pts', width / 2, height / 2 + 285);
       
       ctx.textAlign = 'start';
       return;
@@ -207,6 +232,25 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
         if (distance < asteroid.size) {
           // Remove bullet
           bullets.splice(i, 1);
+          
+          // Award points based on asteroid type (original Asteroids scoring)
+          let points = 0;
+          if (asteroid.type === 'large') {
+            points = 20;
+          } else if (asteroid.type === 'medium') {
+            points = 50;
+          } else {
+            points = 100;
+          }
+          
+          scoreRef.current += points;
+          setScore(scoreRef.current);
+          
+          // Update high score if needed
+          if (scoreRef.current > highScoreRef.current) {
+            highScoreRef.current = scoreRef.current;
+            setHighScore(highScoreRef.current);
+          }
           
           // Split asteroid based on type
           if (asteroid.type === 'large') {
@@ -294,33 +338,34 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
       ctx.fillRect(bullet.x - 2, bullet.y - 2, 4, 4);
     });
 
-    // Draw asteroids with different colors for different sizes
+    // Draw asteroids with classic Asteroids jagged polygon style
     asteroids.forEach((asteroid) => {
-      // Set color based on asteroid type
+      // Set stroke width and color based on asteroid type (thinner for smaller)
+      ctx.strokeStyle = '#ffffff'; // Classic white like original Asteroids
       if (asteroid.type === 'large') {
-        ctx.strokeStyle = '#ff0000'; // Red for large
         ctx.lineWidth = 3;
       } else if (asteroid.type === 'medium') {
-        ctx.strokeStyle = '#ff6600'; // Orange for medium
         ctx.lineWidth = 2;
       } else {
-        ctx.strokeStyle = '#ffff00'; // Yellow for small
         ctx.lineWidth = 1;
       }
       
-      // Draw asteroid outline
+      // Create jagged polygon shape like classic Asteroids
       ctx.beginPath();
-      ctx.arc(asteroid.x, asteroid.y, asteroid.size, 0, Math.PI * 2);
-      ctx.stroke();
+      const points = asteroid.type === 'large' ? 12 : asteroid.type === 'medium' ? 10 : 8;
       
-      // Add jagged edges for more realistic asteroid look
-      ctx.beginPath();
-      const points = 8;
-      for (let i = 0; i < points; i++) {
+      for (let i = 0; i <= points; i++) {
         const angle = (i / points) * Math.PI * 2;
-        const radius = asteroid.size * (0.8 + Math.sin(angle * 3) * 0.2);
-        const x = asteroid.x + Math.cos(angle) * radius;
-        const y = asteroid.y + Math.sin(angle) * radius;
+        // Create more irregular, jagged shape with varying radius
+        const radiusVariation = 0.3 + Math.sin(angle * 5 + asteroid.x * 0.01) * 0.3;
+        const radius = asteroid.size * (0.7 + radiusVariation);
+        
+        // Add some angular jitter for more irregular shapes
+        const angleJitter = Math.sin(angle * 7 + asteroid.y * 0.01) * 0.2;
+        const jitteredAngle = angle + angleJitter;
+        
+        const x = asteroid.x + Math.cos(jitteredAngle) * radius;
+        const y = asteroid.y + Math.sin(jitteredAngle) * radius;
         
         if (i === 0) {
           ctx.moveTo(x, y);
@@ -364,6 +409,8 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
           bulletsRef.current = [];
           asteroidsRef.current = initializeAsteroids();
           destroyedElementsRef.current = new Set();
+          scoreRef.current = 0;
+          setScore(0);
         }, 5000); // Show start screen for 5 seconds
         
         return;
