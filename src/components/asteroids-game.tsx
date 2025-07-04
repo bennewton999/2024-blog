@@ -42,10 +42,26 @@ export function AsteroidsGame({ onReset, onGameStateChange, autoStart, onAutoSta
   const keysRef = useRef<Set<string>>(new Set());
   const [isActive, setIsActive] = useState(false);
   const [gameState, setGameState] = useState<'inactive' | 'starting' | 'playing' | 'gameOver' | 'levelComplete'>('inactive');
-  const [score, setScore] = useState(0);
-  const [, setHighScore] = useState(0);
+  const [, setScore] = useState(0);
+  const [, setSessionBest] = useState(0);
+  const [personalBest, setPersonalBest] = useState(() => {
+    // Load personal best from localStorage on component mount
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('asteroids-personal-best');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          return data.score || 0;
+        } catch {
+          return 0;
+        }
+      }
+    }
+    return 0;
+  });
   const [lives, setLives] = useState(3);
   const [level, setLevel] = useState(1);
+  const [newPersonalBest, setNewPersonalBest] = useState(false);
   
   // Game state refs for better performance
   const shipRef = useRef<Ship>({
@@ -63,10 +79,42 @@ export function AsteroidsGame({ onReset, onGameStateChange, autoStart, onAutoSta
   const asteroidsRef = useRef<Asteroid[]>([]);
   const destroyedElementsRef = useRef<Set<HTMLElement>>(new Set());
   const scoreRef = useRef<number>(0);
-  const highScoreRef = useRef<number>(0);
+  const sessionBestRef = useRef<number>(0);
+  const personalBestRef = useRef<number>(personalBest);
   const livesRef = useRef<number>(3);
   const levelRef = useRef<number>(1);
   const levelTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // LocalStorage utilities for high scores
+  const savePersonalBest = useCallback((score: number, level: number) => {
+    if (typeof window !== 'undefined') {
+      const bestData = {
+        score,
+        level,
+        date: new Date().toISOString(),
+      };
+      localStorage.setItem('asteroids-personal-best', JSON.stringify(bestData));
+      personalBestRef.current = score;
+      setPersonalBest(score);
+    }
+  }, []);
+
+  const updateHighScores = useCallback((currentScore: number) => {
+    // Update session best
+    if (currentScore > sessionBestRef.current) {
+      sessionBestRef.current = currentScore;
+      setSessionBest(currentScore);
+    }
+
+    // Check for new personal best
+    if (currentScore > personalBestRef.current) {
+      savePersonalBest(currentScore, levelRef.current);
+      setNewPersonalBest(true);
+      return true; // New personal best achieved
+    }
+    
+    return false;
+  }, [savePersonalBest]);
 
   // Initialize asteroids with progressive difficulty
   const initializeAsteroids = useCallback((currentLevel: number = 1) => {
@@ -117,15 +165,22 @@ export function AsteroidsGame({ onReset, onGameStateChange, autoStart, onAutoSta
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, width, height);
     
-    // Draw score, high score, level, and lives (always visible during game)
+    // Draw score, session best, personal best, level, and lives (always visible during game)
     if (gameState !== 'inactive') {
       ctx.fillStyle = '#ffffff';
-      ctx.font = '20px Audiowide, monospace';
+      ctx.font = '18px Audiowide, monospace';
       ctx.textAlign = 'left';
       ctx.fillText(`SCORE: ${scoreRef.current}`, 20, 30);
-      ctx.fillText(`LEVEL: ${levelRef.current}`, 20, 60);
-      ctx.textAlign = 'right';
-      ctx.fillText(`HIGH: ${highScoreRef.current}`, width - 20, 30);
+      ctx.fillText(`LEVEL: ${levelRef.current}`, 20, 55);
+      
+      // Session and personal bests
+      ctx.font = '16px Audiowide, monospace';
+      ctx.fillStyle = '#00ff00';
+      ctx.fillText(`SESSION: ${sessionBestRef.current}`, 20, 80);
+      ctx.fillStyle = '#ffff00';
+      ctx.fillText(`PERSONAL: ${personalBestRef.current}`, 20, 100);
+      
+      ctx.fillStyle = '#ffffff';
       
       // Draw lives as ship icons
       ctx.textAlign = 'center';
@@ -196,22 +251,33 @@ export function AsteroidsGame({ onReset, onGameStateChange, autoStart, onAutoSta
       ctx.fillStyle = '#ff0000';
       ctx.textAlign = 'center';
       ctx.font = 'bold 72px Audiowide, monospace';
-      ctx.fillText('GAME OVER', width / 2, height / 2 - 100);
+      ctx.fillText('GAME OVER', width / 2, height / 2 - 120);
       
       ctx.fillStyle = '#ffffff';
       ctx.font = '36px Audiowide, monospace';
-      ctx.fillText(`FINAL SCORE: ${scoreRef.current}`, width / 2, height / 2 - 40);
+      ctx.fillText(`FINAL SCORE: ${scoreRef.current}`, width / 2, height / 2 - 70);
       
-      if (scoreRef.current === highScoreRef.current && scoreRef.current > 0) {
+      // Show achievement status
+      if (newPersonalBest) {
         ctx.fillStyle = '#ffff00';
+        ctx.font = 'bold 32px Audiowide, monospace';
+        ctx.fillText('🏆 NEW PERSONAL BEST! 🏆', width / 2, height / 2 - 25);
+      } else if (scoreRef.current === sessionBestRef.current && scoreRef.current > 0) {
+        ctx.fillStyle = '#00ff00';
         ctx.font = '28px Audiowide, monospace';
-        ctx.fillText('NEW HIGH SCORE!', width / 2, height / 2 + 10);
+        ctx.fillText('NEW SESSION BEST!', width / 2, height / 2 - 25);
       }
       
+      // Show comparison stats
       ctx.fillStyle = '#888888';
-      ctx.font = '24px Audiowide, monospace';
+      ctx.font = '20px Audiowide, monospace';
+      ctx.fillText(`Session Best: ${sessionBestRef.current}`, width / 2, height / 2 + 15);
+      ctx.fillText(`Personal Best: ${personalBestRef.current}`, width / 2, height / 2 + 40);
+      
+      ctx.fillStyle = '#666666';
+      ctx.font = '18px Audiowide, monospace';
       ctx.fillText('Press SPACE to play again', width / 2, height / 2 + 80);
-      ctx.fillText('Press ESC to exit', width / 2, height / 2 + 110);
+      ctx.fillText('Press ESC to exit', width / 2, height / 2 + 105);
       
       ctx.textAlign = 'start';
       return;
@@ -262,6 +328,7 @@ export function AsteroidsGame({ onReset, onGameStateChange, autoStart, onAutoSta
         
         // Check if game over
         if (livesRef.current <= 0) {
+          updateHighScores(scoreRef.current);
           setGameState('gameOver');
           return;
         }
@@ -617,6 +684,7 @@ export function AsteroidsGame({ onReset, onGameStateChange, autoStart, onAutoSta
           setLives(3);
           levelRef.current = 1;
           setLevel(1);
+          setNewPersonalBest(false);
         }, 5000); // Show start screen for 5 seconds
         
         return;
@@ -680,6 +748,7 @@ export function AsteroidsGame({ onReset, onGameStateChange, autoStart, onAutoSta
             setLives(3);
             levelRef.current = 1;
             setLevel(1);
+            setNewPersonalBest(false);
           }, 5000);
         } else if (e.code === 'Escape') {
           setIsActive(false);
@@ -780,6 +849,7 @@ export function AsteroidsGame({ onReset, onGameStateChange, autoStart, onAutoSta
         setLives(3);
         levelRef.current = 1;
         setLevel(1);
+        setNewPersonalBest(false);
         
         // Notify parent that auto-start is complete
         onAutoStartComplete?.();
