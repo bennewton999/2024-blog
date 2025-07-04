@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## 🎮 Hidden Easter Egg
+
+This blog contains a hidden **Asteroids game**! Press **Cmd+A** (Mac) or **Ctrl+A** (Windows/Linux) on the homepage to discover it. 
+
+👉 **[Full Game Documentation & Guide](./ASTEROIDS_EASTER_EGG.md)**
+
 ## Getting Started
 
 First, run the development server:
