@@ -30,35 +30,69 @@ export default function AboutPage() {
             Frontend Architect and Engineering Leader with over 20 years of
             experience building web applications.
           </p>
+
+          {/* Hero Image */}
+          <div className="my-8">
+            <div className="relative w-full max-w-2xl mx-auto text-center">
+              <Image
+                src="/images/about/ben-universal-studios.png"
+                alt="Ben Newton at a theme park in Orlando"
+                width={800}
+                height={600}
+                className="rounded-lg shadow-lg"
+                priority
+              />
+              <p className="text-sm text-muted-foreground mt-2 italic">
+                Enjoying Orlando&apos;s theme park scene, where I&apos;ve made my home for the past 2+ years
+              </p>
+            </div>
+          </div>
+
           <div className="mt-6">
-            <h3 className="font-heading text-2xl mb-4">AI-Driven Development</h3>
+            <h3 className="font-heading text-2xl mb-4">
+              AI-Driven Development
+            </h3>
             <p>
-              I&apos;m pioneering AI-driven development workflows and building innovative solutions that leverage 
-              artificial intelligence to enhance developer productivity and create smarter applications. 
-              My latest project, <a href="https://vitalwall.com" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">VitalWall.com</a>, 
-              is a real-time website analytics and visitor tracking platform that helps businesses boost engagement 
-              and conversions through intelligent data visualization and social proof.
+              I&apos;m pioneering AI-driven development workflows and building
+              innovative solutions that leverage artificial intelligence to
+              enhance developer productivity and create smarter applications. My
+              latest project,{' '}
+              <a
+                href="https://vitalwall.com"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                VitalWall.com
+              </a>
+              , is a real-time website analytics and visitor tracking platform
+              that helps businesses boost engagement and conversions through
+              intelligent data visualization and social proof.
             </p>
             <p>
-              As a Frontend Architect and Engineering Leader with a passion for creating exceptional user experiences, 
-              I combine over two decades of software development expertise with cutting-edge AI technologies. 
-              I&apos;ve led teams and architected solutions for companies ranging from startups to Fortune 500 enterprises.
+              As a Frontend Architect and Engineering Leader with a passion for
+              creating exceptional user experiences, I combine over two decades
+              of software development expertise with cutting-edge AI
+              technologies. I&apos;ve led teams and architected solutions for
+              companies ranging from startups to Fortune 500 enterprises.
             </p>
 
             <h3 className="font-heading text-2xl mt-8 mb-4">
               Leadership & Impact
             </h3>
             <p>
-              Currently serving as Lead Applications Engineer at one of the world&apos;s
-              largest consulting firms, where I lead SAP Composable Storefront implementations
-              for a major global entertainment company, managing digital ticketing
-              and guest experience platforms across multiple international theme park
-              destinations including Japan, Hollywood, and Orlando. I architect and
-              maintain complex e-commerce systems that handle millions of family
-              visitors annually, creating seamless digital experiences from initial
-              ticket purchase through immersive in-park experiences. My work integrates
-              ticketing, merchandise, mobile experiences, guest services, and specialized
-              seasonal events that create lasting memories for guests of all ages.
+              Currently serving as Lead Applications Engineer at one of the
+              world&apos;s largest consulting firms, where I lead SAP Composable
+              Storefront implementations for a major global entertainment
+              company, managing digital ticketing and guest experience platforms
+              across multiple international theme park destinations including
+              Japan, Hollywood, and Orlando. I architect and maintain complex
+              e-commerce systems that handle millions of family visitors
+              annually, creating seamless digital experiences from initial
+              ticket purchase through immersive in-park experiences. My work
+              integrates ticketing, merchandise, mobile experiences, guest
+              services, and specialized seasonal events that create lasting
+              memories for guests of all ages.
             </p>
             <p>
               Previously, I served as Senior Experience Engineer at
