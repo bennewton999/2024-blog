@@ -58,6 +58,17 @@ export default function NowPage() {
               complete rewrite of the entire application, I&apos;m excited to
               have officially launched it!
             </p>
+            <p>
+              I&apos;m spending significant time working with Claude Code on
+              multiple personal projects. One particularly exciting venture is
+              the potential resurrection of a 20-year-old Classic ASP application
+              that I spent over a decade building. This system powered a major
+              distributor&apos;s entire operations - essentially functioning as
+              Salesforce before Salesforce existed. I&apos;m exploring what
+              happens when I apply modern AI development techniques to this
+              legacy codebase, and if successful, it could dramatically shift
+              my priorities and open new possibilities for the future.
+            </p>
 
             <h2>Location</h2>
             <p>
@@ -74,24 +85,24 @@ export default function NowPage() {
 
             <h2>Entertainment</h2>
             <p>
-              I recently finished watching{' '}
+              Just finished{' '}
               <strong>
                 <a
-                  href="https://www.imdb.com/title/tt11280740"
+                  href="https://www.imdb.com/title/tt10919420/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Severance
+                  Squid Game Season 3
                 </a>
               </strong>{' '}
-              and have just started{' '}
+              - what a waste of time that was. Now I&apos;m watching{' '}
               <strong>
                 <a
-                  href="https://www.imdb.com/title/tt6741278/"
+                  href="https://www.imdb.com/title/tt14452776/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Invincible
+                  The Bear
                 </a>
               </strong>
               .
