@@ -1,0 +1,277 @@
+---
+title: "I Asked AI to Make My Site 'Pop' — It Built Asteroids Instead"
+date: '2025-07-04'
+description: "A casual evening with Claude Code turned into shipping a fully-featured Asteroids easter egg"
+author: 'ben-newton'
+image: '/images/2025/07/asteroids-easter-egg-hero.png'
+tags:
+  [
+    'claude-code',
+    'ai-development',
+    'easter-eggs',
+    'react',
+    'typescript',
+    'retro-gaming'
+  ]
+---
+
+I was half-watching Goodfellas the other night, casually tweaking my personal site's hero section, when I typed this into Claude Code:
+
+> can you give me some ideas to make this more modern looking? looking for a Hero that pops with my name and info.
+
+A couple of hours later, I had shipped a complete Asteroids game hidden in my site. With physics. With levels. With high scores. All without writing a single line of code myself.
+
+As a developer with 20+ years of experience, I have mixed feelings about how easy this was. Part of me is genuinely unsettled by watching hundreds of lines of production-quality TypeScript materialize from casual conversation. But I also understand something important: knowing _what_ to ask for and _how_ to guide the AI is still a crucial skill. The difference between getting a basic script and a sophisticated, performant game lies in understanding the domain well enough to steer the conversation.
+
+This is the story of how Claude Code turned a throwaway design request into a production-ready retro gaming experience—and what it reveals about the evolving role of developers in an AI-assisted world.
+
+## The Accidental Journey Begins
+
+<div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+  <img
+    src="/images/2025/07/new-hero.gif"
+    alt="The modernized hero section with floating animated bubbles and enhanced typography"
+    style={{ maxWidth: '100%', height: 'auto' }}
+  />
+  <p
+    style={{
+      fontSize: '0.875rem',
+      color: '#666',
+      marginTop: '0.5rem',
+      fontStyle: 'italic'
+    }}
+  >
+    The modernized hero section after Claude Code's initial
+    enhancements—floating bubbles that would soon become asteroids
+  </p>
+</div>
+
+What started as a simple UI update quickly evolved. Claude Code enhanced my hero section with floating geometric shapes, but then I got curious:
+
+> can the bubbles in the background slowly float around?
+
+> can we have them move around the background like the asteroids in the game asteroids? when they leave the container, they reenter on the opposite side?
+
+I wasn't planning to build a game. I was just making conversation while Henry Hill was explaining how to slice garlic properly. But when Claude Code made those bubbles move like asteroids, it sparked an idea.
+
+## From Idea to Game in One Request
+
+Then came the moment that changed everything:
+
+> now, let's add an easter egg.. If I hit cmd A - an asteroids game starts in the container. use the arrow keys and space bar to shoot. use z to thrust the ship. allow it to destroy the bubbles and elements one by one in the container. esc will reset the container
+
+<div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+  <img
+    src="/images/2025/07/activate-game.gif"
+    alt="The moment of pressing Cmd+A transforms the professional hero section into an arcade game"
+    style={{ maxWidth: '100%', height: 'auto' }}
+  />
+  <p
+    style={{
+      fontSize: '0.875rem',
+      color: '#666',
+      marginTop: '0.5rem',
+      fontStyle: 'italic'
+    }}
+  >
+    Press Cmd+A and watch the professional portfolio transform into an arcade
+    cabinet
+  </p>
+</div>
+
+This single prompt resulted in Claude Code generating a working game—which was impressive on its own. But the real magic happened through iteration. Over the course of our conversation, we built:
+
+- Complete game physics with momentum and screen wrapping
+- Collision detection between ship, bullets, and asteroids
+- Authentic asteroid shapes with classic wireframe styling
+- Asteroid splitting mechanics (large → medium → small)
+- Ship explosion animations with debris
+- Lives system with invulnerability periods
+- Progressive difficulty with level increases
+- High score tracking with local storage
+- Retro splash screen with game controls and scoring info
+
+What started as a basic shooting game evolved into a faithful Asteroids recreation through natural conversation. Each request built on the last, and Claude Code never lost track of what we were building.
+
+## Iterative Refinement Through Natural Language
+
+The beauty of Claude Code isn't just the initial generation—it's the iterative refinement. As I played the game, I could make requests like:
+
+> looks like when i shoot the container, the entire container disappears.
+
+> instead of z for thrust, use the up arrow
+
+> the keyboard commands are not working. they are causing the screen to scroll when i hit space. it's like the game does not have focus
+
+Each issue was diagnosed and fixed immediately. No debugging sessions, no Stack Overflow searches, no wrestling with event propagation. Just natural language problem-solving.
+
+<div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+  <img
+    src="/images/2025/07/game-in-action.gif"
+    alt="The finished Asteroids game running in the browser, showing the classic vector-style graphics, HUD with score tracking, and authentic 80s arcade feel"
+    style={{ maxWidth: '100%', height: 'auto' }}
+  />
+  <p
+    style={{
+      fontSize: '0.875rem',
+      color: '#666',
+      marginTop: '0.5rem',
+      fontStyle: 'italic'
+    }}
+  >
+    The finished Asteroids game with authentic 1979 vector graphics and retro
+    splash screen
+  </p>
+</div>
+
+## Adding Authentic 80s Flavor
+
+To make it feel genuinely retro, I asked for:
+
+> can we make the asteroids more like the original. the smaller they get, the thinner the stroke of the line.
+
+When it came time to implement scoring, I didn't just guess at the values. I asked Claude Code to research the original 1979 Asteroids scoring system. It came back with the authentic point values: large asteroids (20 points), medium (50 points), and small (100 points)—rewarding precision over easy targets.
+
+> can we use this font for the splash screen? https://fonts.google.com/?query=CodeMan38
+
+Claude Code researched Google Fonts, selected Audiowide for its retro-futuristic feel, and implemented it properly with Next.js font optimization. The result feels authentically 1979.
+
+<div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+  <img
+    src="/images/2025/07/splash-screen.png"
+    alt="The retro splash screen showing ASTEROIDS HERO DESTROYER title, game controls, and classic arcade scoring information"
+    style={{ maxWidth: '100%', height: 'auto' }}
+  />
+  <p
+    style={{
+      fontSize: '0.875rem',
+      color: '#666',
+      marginTop: '0.5rem',
+      fontStyle: 'italic'
+    }}
+  >
+    The retro splash screen complete with Audiowide font, controls, and
+    authentic arcade scoring values
+  </p>
+</div>
+
+## The Security Conversation
+
+When I asked about persistent high scores, Claude Code and I had a genuine technical discussion:
+
+> curious if i can create a text file i push with the site that could store the high score.
+
+Instead of just implementing my request, Claude Code entered "plan mode" and researched the limitations of static file storage, serverless environments, and security implications. We explored:
+
+1. **GitHub Actions approach**: Auto-updating JSON files (rejected for security)
+2. **External APIs**: JSONBin and similar services (rejected for dependency)
+3. **Local storage**: Secure, private, zero-cost (chosen)
+
+This wasn't blind code generation—it was collaborative technical decision-making. The AI actually talked me out of my initial idea for a better solution.
+
+## The Difference: A Partner That Actually Listens
+
+After months of using Cursor and GitHub Copilot, working with Claude Code felt fundamentally different. Here's what stood out:
+
+**Claude Code didn't wander.** When I asked for an update, it updated exactly what I asked—nothing more. It didn't rewrite features that weren't part of the prompt. It didn't remove code on a whim because it thought it was doing me a favor. It did what I asked, and nothing more.
+
+This might sound basic, but it's revolutionary. Other AI coding tools often suffer from:
+
+- **Feature creep**: Adding "improvements" you didn't ask for
+- **Context drift**: Losing track of what you're actually trying to accomplish
+- **Overzealous refactoring**: Rewriting working code because it thinks it knows better
+- **Destructive helpfulness**: Removing features while "cleaning up"
+
+Claude Code, in contrast, maintains laser focus on your actual request. It's everything you want in a coding partner: attentive, precise, and respectful of your existing work. When I said "make the bubbles float like asteroids," it made the bubbles float like asteroids. When I said "add lives," it added lives—without touching the scoring system or level progression.
+
+This discipline transforms AI from an unpredictable assistant into a reliable collaborator.
+
+## Performance Optimization on Request
+
+When I realized the game was loading with the initial page, I asked for an optimization:
+
+> let's look at loading this game component on demand so it doesn't load with the initial page.
+
+Claude Code implemented:
+
+- React lazy loading with dynamic imports
+- Suspense boundaries for graceful loading
+- Event interception to trigger component loading
+- Auto-start functionality to fix the "double Cmd+A" issue
+
+The lazy loading ensures the game component isn't initialized until it's actually needed, preventing unnecessary memory usage and computation on initial page load.
+
+## Progressive Enhancement in Real-Time
+
+The feature evolution happened organically:
+
+- **Level 1**: Floating bubbles for visual interest
+- **Level 2**: Asteroid-style movement with screen wrapping
+- **Level 3**: Full game with shooting and collision
+- **Level 4**: Authentic Asteroids mechanics with splitting
+- **Level 5**: Lives system with explosion animations
+- **Level 6**: Progressive difficulty with level progression
+- **Level 7**: High score system with achievements
+- **Level 8**: Performance optimization and security review
+
+Each level built naturally on the previous one, guided by curiosity rather than a master plan.
+
+## The Technical Achievement
+
+The final easter egg includes:
+
+- **Complete physics engine**: Momentum, friction, screen wrapping
+- **Authentic 1979 scoring**: Large asteroids (20pts), Medium (50pts), Small (100pts)
+- **Progressive difficulty**: 10% speed increase per level
+- **Achievement system**: Session and personal bests with localStorage
+- **Performance optimized**: Dynamic loading, 60fps canvas rendering
+- **Accessibility considered**: Proper keyboard focus and event handling
+- **Security first**: No external dependencies or API vulnerabilities
+
+<div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+  <img src="/images/2025/07/game-over.png" alt="Game over screen showing NEW PERSONAL BEST achievement with final score of 5120" style={{ maxWidth: '100%', height: 'auto' }} />
+  <p style={{ fontSize: '0.875rem', color: '#666', marginTop: '0.5rem', fontStyle: 'italic' }}>The game over screen celebrating a new personal best with achievement notifications</p>
+</div>
+
+## What This Means for Development
+
+This experience fundamentally changed how I think about building features. The traditional workflow of:
+
+1. Plan the feature
+2. Research implementation approaches
+3. Write code
+4. Debug issues
+5. Optimize performance
+6. Write documentation
+
+Became:
+
+1. Have a conversation about what you want
+2. Iterate through natural language
+3. Ship
+
+The entire easter egg—from concept to deployment—took one evening. The code quality is production-ready. The architecture follows React best practices. The performance is optimized. The security is sound.
+
+## The Goodfellas Factor
+
+Maybe the key ingredient was not thinking too hard about it. While Ray Liotta was explaining the restaurant business, I was just chatting with an AI about making my site look cooler. No pressure, no timeline, no specifications.
+
+The best features sometimes emerge from casual curiosity rather than formal requirements.
+
+## Try It Yourself
+
+The easter egg is live on my site right now. Visit the homepage and press **Cmd+A** (Mac) or **Ctrl+A** (Windows) to discover it. See if you can beat my personal best!
+
+_Screenshot idea: Call-to-action showing the homepage with subtle hint about the easter egg_
+
+## The Future of Feature Development
+
+Claude Code didn't just generate code—it was a technical partner. It researched solutions, considered trade-offs, suggested optimizations, and even talked me out of bad ideas.
+
+This feels like a glimpse into the future of development: where the barrier between idea and implementation becomes conversation rather than coding.
+
+The game is still there, hidden in my site. Now I need to get back to the actual features people can see—like finishing that blog post about my experience with Raycast extensions. But first, maybe just one more game...
+
+---
+
+_The complete easter egg documentation and source code are available in the [project repository](https://github.com/bennewton999/2024-blog). Press Cmd+A on the homepage to play!_
