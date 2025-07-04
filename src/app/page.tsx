@@ -4,12 +4,16 @@ import { allPosts } from 'contentlayer/generated';
 import { BlogCard } from '@/components/blog/blog-card';
 import { VitalWallEmbed } from '@/components/vital-wall-embed';
 import { WebsiteJsonLd, PersonJsonLd } from '@/components/json-ld';
-import { AsteroidsGame } from '@/components/asteroids-game';
-import { useState } from 'react';
+import { useState, lazy, Suspense, useEffect } from 'react';
+
+// Dynamically import the AsteroidsGame component
+const AsteroidsGame = lazy(() => import('@/components/asteroids-game').then(module => ({ default: module.AsteroidsGame })));
 
 export default function Home() {
   const [gameKey, setGameKey] = useState(0);
   const [isGameActive, setIsGameActive] = useState(false);
+  const [gameLoaded, setGameLoaded] = useState(false);
+  const [shouldStartGame, setShouldStartGame] = useState(false);
   const posts = allPosts.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
@@ -25,11 +29,39 @@ export default function Home() {
     
     // Force re-render of the game component
     setGameKey((prev) => prev + 1);
+    
+    // Optionally unload the game component to save memory
+    // setGameLoaded(false);
   };
 
   const handleGameStateChange = (gameActive: boolean) => {
     setIsGameActive(gameActive);
   };
+
+  // Listen for Cmd+A to trigger game loading and activation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.code === 'KeyA') {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!gameLoaded) {
+          // First time: load the game and mark it to start
+          setGameLoaded(true);
+          setShouldStartGame(true);
+        }
+        // If already loaded, let the game component handle it
+      }
+    };
+
+    // Only listen if game is not loaded yet
+    if (!gameLoaded) {
+      window.addEventListener('keydown', handleKeyDown, { capture: true });
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown, { capture: true });
+    };
+  }, [gameLoaded]);
 
   return (
     <div className="container py-6 lg:py-10">
@@ -122,8 +154,18 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* Asteroids Game Easter Egg */}
-          <AsteroidsGame key={gameKey} onReset={resetGame} onGameStateChange={handleGameStateChange} />
+          {/* Asteroids Game Easter Egg - Loaded on demand */}
+          {gameLoaded && (
+            <Suspense fallback={null}>
+              <AsteroidsGame 
+                key={gameKey} 
+                onReset={resetGame} 
+                onGameStateChange={handleGameStateChange}
+                autoStart={shouldStartGame}
+                onAutoStartComplete={() => setShouldStartGame(false)}
+              />
+            </Suspense>
+          )}
         </div>
         <VitalWallEmbed />
       </section>

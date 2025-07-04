@@ -32,17 +32,20 @@ interface Asteroid {
 interface AsteroidsGameProps {
   onReset: () => void;
   onGameStateChange: (isGameActive: boolean) => void;
+  autoStart?: boolean;
+  onAutoStartComplete?: () => void;
 }
 
-export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps) {
+export function AsteroidsGame({ onReset, onGameStateChange, autoStart, onAutoStartComplete }: AsteroidsGameProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameLoopRef = useRef<number>();
   const keysRef = useRef<Set<string>>(new Set());
   const [isActive, setIsActive] = useState(false);
-  const [gameState, setGameState] = useState<'inactive' | 'starting' | 'playing' | 'gameOver'>('inactive');
+  const [gameState, setGameState] = useState<'inactive' | 'starting' | 'playing' | 'gameOver' | 'levelComplete'>('inactive');
   const [score, setScore] = useState(0);
   const [, setHighScore] = useState(0);
   const [lives, setLives] = useState(3);
+  const [level, setLevel] = useState(1);
   
   // Game state refs for better performance
   const shipRef = useRef<Ship>({
@@ -62,20 +65,25 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
   const scoreRef = useRef<number>(0);
   const highScoreRef = useRef<number>(0);
   const livesRef = useRef<number>(3);
+  const levelRef = useRef<number>(1);
+  const levelTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Initialize asteroids with 10 large asteroids
-  const initializeAsteroids = useCallback(() => {
+  // Initialize asteroids with progressive difficulty
+  const initializeAsteroids = useCallback((currentLevel: number = 1) => {
     const canvas = canvasRef.current;
     if (!canvas) return [];
     
     const asteroids: Asteroid[] = [];
     const width = canvas.width;
     const height = canvas.height;
+    
+    // Speed multiplier increases by 10% per level
+    const speedMultiplier = 1 + (currentLevel - 1) * 0.1;
 
     // Create 6 large asteroids at random positions
     for (let i = 0; i < 6; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = (0.5 + Math.random() * 1.5) * 0.9; // Slow down by 10%
+      const speed = (0.5 + Math.random() * 1.5) * 0.9 * speedMultiplier;
       
       asteroids.push({
         x: Math.random() * width,
@@ -109,12 +117,13 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, width, height);
     
-    // Draw score, high score, and lives (always visible during game)
+    // Draw score, high score, level, and lives (always visible during game)
     if (gameState !== 'inactive') {
       ctx.fillStyle = '#ffffff';
       ctx.font = '20px Audiowide, monospace';
       ctx.textAlign = 'left';
       ctx.fillText(`SCORE: ${scoreRef.current}`, 20, 30);
+      ctx.fillText(`LEVEL: ${levelRef.current}`, 20, 60);
       ctx.textAlign = 'right';
       ctx.fillText(`HIGH: ${highScoreRef.current}`, width - 20, 30);
       
@@ -203,6 +212,34 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
       ctx.font = '24px Audiowide, monospace';
       ctx.fillText('Press SPACE to play again', width / 2, height / 2 + 80);
       ctx.fillText('Press ESC to exit', width / 2, height / 2 + 110);
+      
+      ctx.textAlign = 'start';
+      return;
+    }
+    
+    // Show level complete screen
+    if (gameState === 'levelComplete') {
+      ctx.fillStyle = '#00ff00';
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 48px Audiowide, monospace';
+      ctx.fillText(`LEVEL ${levelRef.current} COMPLETE!`, width / 2, height / 2 - 80);
+      
+      ctx.fillStyle = '#ffff00';
+      ctx.font = '32px Audiowide, monospace';
+      ctx.fillText('WELL DONE!', width / 2, height / 2 - 30);
+      
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '24px Audiowide, monospace';
+      ctx.fillText(`NEXT: LEVEL ${levelRef.current + 1}`, width / 2, height / 2 + 20);
+      ctx.fillText('Asteroids move faster!', width / 2, height / 2 + 50);
+      
+      ctx.fillStyle = '#888888';
+      ctx.font = '20px Audiowide, monospace';
+      ctx.fillText('Get ready...', width / 2, height / 2 + 100);
+      
+      ctx.fillStyle = '#666666';
+      ctx.font = '16px Audiowide, monospace';
+      ctx.fillText('Press ESC to exit', width / 2, height / 2 + 130);
       
       ctx.textAlign = 'start';
       return;
@@ -338,9 +375,10 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
           // Split asteroid based on type
           if (asteroid.type === 'large') {
             // Split into 3 medium asteroids
+            const speedMultiplier = 1 + (levelRef.current - 1) * 0.1;
             for (let k = 0; k < 3; k++) {
               const angle = (k * Math.PI * 2) / 3 + Math.random() * 0.5;
-              const speed = (1 + Math.random() * 2) * 0.9; // Slow down by 10%
+              const speed = (1 + Math.random() * 2) * 0.9 * speedMultiplier;
               asteroids.push({
                 x: asteroid.x,
                 y: asteroid.y,
@@ -354,9 +392,10 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
             }
           } else if (asteroid.type === 'medium') {
             // Split into 3 small asteroids
+            const speedMultiplier = 1 + (levelRef.current - 1) * 0.1;
             for (let k = 0; k < 3; k++) {
               const angle = (k * Math.PI * 2) / 3 + Math.random() * 0.5;
-              const speed = (1.5 + Math.random() * 2.5) * 0.9; // Slow down by 10%
+              const speed = (1.5 + Math.random() * 2.5) * 0.9 * speedMultiplier;
               asteroids.push({
                 x: asteroid.x,
                 y: asteroid.y,
@@ -402,6 +441,39 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
           break;
         }
       }
+    }
+    
+    // Check if level is complete (all asteroids destroyed)
+    if (asteroids.length === 0 && !ship.exploding) {
+      setGameState('levelComplete');
+      
+      // Clear any existing timeout
+      if (levelTimeoutRef.current) {
+        clearTimeout(levelTimeoutRef.current);
+      }
+      
+      // Start next level after delay
+      levelTimeoutRef.current = setTimeout(() => {
+        levelRef.current++;
+        setLevel(levelRef.current);
+        
+        // Initialize next level
+        asteroidsRef.current = initializeAsteroids(levelRef.current);
+        
+        // Reset ship position and state
+        ship.x = width / 2;
+        ship.y = height / 2;
+        ship.velocity = { x: 0, y: 0 };
+        ship.angle = 0;
+        ship.invulnerable = 120;
+        ship.exploding = false;
+        ship.explosionFrame = 0;
+        
+        setGameState('playing');
+        levelTimeoutRef.current = null;
+      }, 3000); // Show level complete screen for 3 seconds
+      
+      return;
     }
 
     // Draw ship
@@ -537,12 +609,14 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
           }
           
           bulletsRef.current = [];
-          asteroidsRef.current = initializeAsteroids();
+          asteroidsRef.current = initializeAsteroids(1);
           destroyedElementsRef.current = new Set();
           scoreRef.current = 0;
           setScore(0);
           livesRef.current = 3;
           setLives(3);
+          levelRef.current = 1;
+          setLevel(1);
         }, 5000); // Show start screen for 5 seconds
         
         return;
@@ -557,6 +631,21 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
         }
       }
 
+      // Handle level complete inputs
+      if (gameState === 'levelComplete') {
+        if (e.code === 'Escape') {
+          // Clear the level timeout to prevent automatic progression
+          if (levelTimeoutRef.current) {
+            clearTimeout(levelTimeoutRef.current);
+            levelTimeoutRef.current = null;
+          }
+          setIsActive(false);
+          setGameState('inactive');
+          onReset();
+        }
+        return;
+      }
+      
       // Handle game over inputs
       if (gameState === 'gameOver') {
         if (e.code === 'Space') {
@@ -583,12 +672,14 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
             }
             
             bulletsRef.current = [];
-            asteroidsRef.current = initializeAsteroids();
+            asteroidsRef.current = initializeAsteroids(1);
             destroyedElementsRef.current = new Set();
             scoreRef.current = 0;
             setScore(0);
             livesRef.current = 3;
             setLives(3);
+            levelRef.current = 1;
+            setLevel(1);
           }, 5000);
         } else if (e.code === 'Escape') {
           setIsActive(false);
@@ -654,6 +745,48 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
     onGameStateChange(isActive);
   }, [isActive, onGameStateChange]);
 
+  // Handle auto-start when component is loaded for the first time
+  useEffect(() => {
+    if (autoStart && !isActive) {
+      // Simulate the Cmd+A activation
+      setIsActive(true);
+      setGameState('starting');
+      
+      // Start countdown and transition to playing
+      setTimeout(() => {
+        setGameState('playing');
+        
+        // Initialize game state
+        const canvas = canvasRef.current;
+        if (canvas) {
+          shipRef.current = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            angle: 0,
+            velocity: { x: 0, y: 0 },
+            thrust: false,
+            invulnerable: 120,
+            exploding: false,
+            explosionFrame: 0,
+          };
+        }
+        
+        bulletsRef.current = [];
+        asteroidsRef.current = initializeAsteroids(1);
+        destroyedElementsRef.current = new Set();
+        scoreRef.current = 0;
+        setScore(0);
+        livesRef.current = 3;
+        setLives(3);
+        levelRef.current = 1;
+        setLevel(1);
+        
+        // Notify parent that auto-start is complete
+        onAutoStartComplete?.();
+      }, 5000); // Show start screen for 5 seconds
+    }
+  }, [autoStart, isActive, onAutoStartComplete, initializeAsteroids]);
+
   // Start/stop game loop
   useEffect(() => {
     if (isActive) {
@@ -667,6 +800,9 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
     return () => {
       if (gameLoopRef.current) {
         cancelAnimationFrame(gameLoopRef.current);
+      }
+      if (levelTimeoutRef.current) {
+        clearTimeout(levelTimeoutRef.current);
       }
     };
   }, [isActive, gameLoop]);
