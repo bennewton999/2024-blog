@@ -8,6 +8,9 @@ interface Ship {
   angle: number;
   velocity: { x: number; y: number };
   thrust: boolean;
+  invulnerable: number; // Frames of invulnerability after respawn
+  exploding: boolean;
+  explosionFrame: number;
 }
 
 interface Bullet {
@@ -36,9 +39,10 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
   const gameLoopRef = useRef<number>();
   const keysRef = useRef<Set<string>>(new Set());
   const [isActive, setIsActive] = useState(false);
-  const [gameState, setGameState] = useState<'inactive' | 'starting' | 'playing'>('inactive');
+  const [gameState, setGameState] = useState<'inactive' | 'starting' | 'playing' | 'gameOver'>('inactive');
   const [score, setScore] = useState(0);
   const [, setHighScore] = useState(0);
+  const [lives, setLives] = useState(3);
   
   // Game state refs for better performance
   const shipRef = useRef<Ship>({
@@ -47,6 +51,9 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
     angle: 0,
     velocity: { x: 0, y: 0 },
     thrust: false,
+    invulnerable: 0,
+    exploding: false,
+    explosionFrame: 0,
   });
   
   const bulletsRef = useRef<Bullet[]>([]);
@@ -54,6 +61,7 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
   const destroyedElementsRef = useRef<Set<HTMLElement>>(new Set());
   const scoreRef = useRef<number>(0);
   const highScoreRef = useRef<number>(0);
+  const livesRef = useRef<number>(3);
 
   // Initialize asteroids with 10 large asteroids
   const initializeAsteroids = useCallback(() => {
@@ -101,7 +109,7 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, width, height);
     
-    // Draw score and high score (always visible during game)
+    // Draw score, high score, and lives (always visible during game)
     if (gameState !== 'inactive') {
       ctx.fillStyle = '#ffffff';
       ctx.font = '20px Audiowide, monospace';
@@ -109,6 +117,26 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
       ctx.fillText(`SCORE: ${scoreRef.current}`, 20, 30);
       ctx.textAlign = 'right';
       ctx.fillText(`HIGH: ${highScoreRef.current}`, width - 20, 30);
+      
+      // Draw lives as ship icons
+      ctx.textAlign = 'center';
+      ctx.fillText('LIVES:', width / 2 - 60, 30);
+      for (let i = 0; i < livesRef.current; i++) {
+        ctx.save();
+        ctx.translate(width / 2 - 20 + (i * 25), 25);
+        ctx.scale(0.6, 0.6);
+        ctx.strokeStyle = '#00ff00';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(10, 0);
+        ctx.lineTo(-6, -5);
+        ctx.lineTo(-3, 0);
+        ctx.lineTo(-6, 5);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.restore();
+      }
+      
       ctx.textAlign = 'start';
     }
 
@@ -153,6 +181,32 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
       ctx.textAlign = 'start';
       return;
     }
+    
+    // Show game over screen
+    if (gameState === 'gameOver') {
+      ctx.fillStyle = '#ff0000';
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 72px Audiowide, monospace';
+      ctx.fillText('GAME OVER', width / 2, height / 2 - 100);
+      
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '36px Audiowide, monospace';
+      ctx.fillText(`FINAL SCORE: ${scoreRef.current}`, width / 2, height / 2 - 40);
+      
+      if (scoreRef.current === highScoreRef.current && scoreRef.current > 0) {
+        ctx.fillStyle = '#ffff00';
+        ctx.font = '28px Audiowide, monospace';
+        ctx.fillText('NEW HIGH SCORE!', width / 2, height / 2 + 10);
+      }
+      
+      ctx.fillStyle = '#888888';
+      ctx.font = '24px Audiowide, monospace';
+      ctx.fillText('Press SPACE to play again', width / 2, height / 2 + 80);
+      ctx.fillText('Press ESC to exit', width / 2, height / 2 + 110);
+      
+      ctx.textAlign = 'start';
+      return;
+    }
 
     // Game playing state
     if (gameState !== 'playing') return;
@@ -162,37 +216,66 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
     const bullets = bulletsRef.current;
     const asteroids = asteroidsRef.current;
 
-    // Update ship
-    if (keys.has('ArrowLeft')) {
-      ship.angle -= 0.15;
+    // Handle ship explosion animation
+    if (ship.exploding) {
+      ship.explosionFrame++;
+      if (ship.explosionFrame > 30) { // Explosion lasts 30 frames
+        ship.exploding = false;
+        ship.explosionFrame = 0;
+        
+        // Check if game over
+        if (livesRef.current <= 0) {
+          setGameState('gameOver');
+          return;
+        }
+        
+        // Respawn ship
+        ship.x = width / 2;
+        ship.y = height / 2;
+        ship.velocity = { x: 0, y: 0 };
+        ship.angle = 0;
+        ship.invulnerable = 120; // 2 seconds of invulnerability
+      }
     }
-    if (keys.has('ArrowRight')) {
-      ship.angle += 0.15;
+
+    // Update ship only if not exploding
+    if (!ship.exploding) {
+      if (keys.has('ArrowLeft')) {
+        ship.angle -= 0.15;
+      }
+      if (keys.has('ArrowRight')) {
+        ship.angle += 0.15;
+      }
+
+      // Thrust
+      if (keys.has('ArrowUp')) {
+        const thrust = 0.3;
+        ship.velocity.x += Math.cos(ship.angle) * thrust;
+        ship.velocity.y += Math.sin(ship.angle) * thrust;
+        ship.thrust = true;
+      } else {
+        ship.thrust = false;
+      }
+
+      // Apply friction
+      ship.velocity.x *= 0.98;
+      ship.velocity.y *= 0.98;
+
+      // Update ship position
+      ship.x += ship.velocity.x;
+      ship.y += ship.velocity.y;
+
+      // Wrap ship around screen
+      if (ship.x < 0) ship.x = width;
+      if (ship.x > width) ship.x = 0;
+      if (ship.y < 0) ship.y = height;
+      if (ship.y > height) ship.y = 0;
+      
+      // Update invulnerability
+      if (ship.invulnerable > 0) {
+        ship.invulnerable--;
+      }
     }
-
-    // Thrust
-    if (keys.has('ArrowUp')) {
-      const thrust = 0.3;
-      ship.velocity.x += Math.cos(ship.angle) * thrust;
-      ship.velocity.y += Math.sin(ship.angle) * thrust;
-      ship.thrust = true;
-    } else {
-      ship.thrust = false;
-    }
-
-    // Apply friction
-    ship.velocity.x *= 0.98;
-    ship.velocity.y *= 0.98;
-
-    // Update ship position
-    ship.x += ship.velocity.x;
-    ship.y += ship.velocity.y;
-
-    // Wrap ship around screen
-    if (ship.x < 0) ship.x = width;
-    if (ship.x > width) ship.x = 0;
-    if (ship.y < 0) ship.y = height;
-    if (ship.y > height) ship.y = 0;
 
     // Update bullets
     for (let i = bullets.length - 1; i >= 0; i--) {
@@ -303,34 +386,78 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
       }
     }
 
-    // Draw ship
-    ctx.save();
-    ctx.translate(ship.x, ship.y);
-    ctx.rotate(ship.angle);
-    
-    // Ship body
-    ctx.strokeStyle = '#00ff00';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(20, 0);
-    ctx.lineTo(-12, -10);
-    ctx.lineTo(-6, 0);
-    ctx.lineTo(-12, 10);
-    ctx.closePath();
-    ctx.stroke();
-
-    // Thrust flame
-    if (ship.thrust) {
-      ctx.strokeStyle = '#ff4400';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(-6, -3);
-      ctx.lineTo(-18, 0);
-      ctx.lineTo(-6, 3);
-      ctx.stroke();
+    // Check ship-asteroid collision
+    if (!ship.exploding && ship.invulnerable === 0) {
+      for (const asteroid of asteroids) {
+        const dx = ship.x - asteroid.x;
+        const dy = ship.y - asteroid.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < asteroid.size + 10) { // Ship has radius of ~10
+          // Ship hit!
+          ship.exploding = true;
+          ship.explosionFrame = 0;
+          livesRef.current--;
+          setLives(livesRef.current);
+          break;
+        }
+      }
     }
-    
-    ctx.restore();
+
+    // Draw ship
+    if (ship.exploding) {
+      // Draw explosion
+      ctx.strokeStyle = '#ff0000';
+      ctx.lineWidth = 2;
+      const explosionSize = ship.explosionFrame * 3;
+      
+      // Draw expanding debris
+      for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 2;
+        const distance = explosionSize;
+        ctx.beginPath();
+        ctx.moveTo(
+          ship.x + Math.cos(angle) * distance,
+          ship.y + Math.sin(angle) * distance
+        );
+        ctx.lineTo(
+          ship.x + Math.cos(angle) * (distance + 10),
+          ship.y + Math.sin(angle) * (distance + 10)
+        );
+        ctx.stroke();
+      }
+    } else if (!ship.exploding) {
+      // Draw normal ship (with invulnerability flicker)
+      if (ship.invulnerable === 0 || ship.invulnerable % 8 < 4) {
+        ctx.save();
+        ctx.translate(ship.x, ship.y);
+        ctx.rotate(ship.angle);
+        
+        // Ship body
+        ctx.strokeStyle = '#00ff00';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(20, 0);
+        ctx.lineTo(-12, -10);
+        ctx.lineTo(-6, 0);
+        ctx.lineTo(-12, 10);
+        ctx.closePath();
+        ctx.stroke();
+
+        // Thrust flame
+        if (ship.thrust) {
+          ctx.strokeStyle = '#ff4400';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(-6, -3);
+          ctx.lineTo(-18, 0);
+          ctx.lineTo(-6, 3);
+          ctx.stroke();
+        }
+        
+        ctx.restore();
+      }
+    }
 
     // Draw bullets
     ctx.fillStyle = '#ffffff';
@@ -403,6 +530,9 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
               angle: 0,
               velocity: { x: 0, y: 0 },
               thrust: false,
+              invulnerable: 120,
+              exploding: false,
+              explosionFrame: 0,
             };
           }
           
@@ -411,6 +541,8 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
           destroyedElementsRef.current = new Set();
           scoreRef.current = 0;
           setScore(0);
+          livesRef.current = 3;
+          setLives(3);
         }, 5000); // Show start screen for 5 seconds
         
         return;
@@ -425,12 +557,53 @@ export function AsteroidsGame({ onReset, onGameStateChange }: AsteroidsGameProps
         }
       }
 
+      // Handle game over inputs
+      if (gameState === 'gameOver') {
+        if (e.code === 'Space') {
+          // Restart game
+          setGameState('starting');
+          
+          // Start countdown and transition to playing
+          setTimeout(() => {
+            setGameState('playing');
+            
+            // Initialize game state
+            const canvas = canvasRef.current;
+            if (canvas) {
+              shipRef.current = {
+                x: canvas.width / 2,
+                y: canvas.height / 2,
+                angle: 0,
+                velocity: { x: 0, y: 0 },
+                thrust: false,
+                invulnerable: 120,
+                exploding: false,
+                explosionFrame: 0,
+              };
+            }
+            
+            bulletsRef.current = [];
+            asteroidsRef.current = initializeAsteroids();
+            destroyedElementsRef.current = new Set();
+            scoreRef.current = 0;
+            setScore(0);
+            livesRef.current = 3;
+            setLives(3);
+          }, 5000);
+        } else if (e.code === 'Escape') {
+          setIsActive(false);
+          setGameState('inactive');
+          onReset();
+        }
+        return;
+      }
+      
       if (!isActive || gameState !== 'playing') return;
       
       keysRef.current.add(e.code);
       
       // Shooting
-      if (e.code === 'Space') {
+      if (e.code === 'Space' && !shipRef.current.exploding) {
         const ship = shipRef.current;
         const newBullet: Bullet = {
           x: ship.x + Math.cos(ship.angle) * 20,
