@@ -23,6 +23,33 @@ export const metadata: Metadata = {
     'Obsidian',
     'tech insights'
   ],
+  authors: [{ name: 'Ben Newton' }],
+  creator: 'Ben Newton',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://benenewton.com',
+    siteName: 'Ben Newton',
+    title: 'Ben Newton | Frontend Architect & Engineering Leader',
+    description:
+      'Frontend Architect and Engineering Leader sharing insights on web development, productivity, and technology.',
+    images: [
+      {
+        url: '/images/avatar.png',
+        width: 400,
+        height: 400,
+        alt: 'Ben Newton'
+      }
+    ]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ben Newton | Frontend Architect & Engineering Leader',
+    description:
+      'Frontend Architect and Engineering Leader sharing insights on web development, productivity, and technology.',
+    creator: '@benenewton', // Update this with your actual Twitter handle
+    images: ['/images/avatar.png']
+  },
   robots: {
     index: true,
     follow: true,
@@ -35,9 +62,13 @@ export const metadata: Metadata = {
     }
   },
   icons: {
-    icon: '/images/avatar.png',
-    shortcut: '/images/avatar.png',
-    apple: '/images/avatar.png'
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' }
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/favicon-32x32.png'
   },
   verification: {
     google: 'google-site-verification-code' // Add your Google verification code here
@@ -46,6 +77,9 @@ export const metadata: Metadata = {
     canonical: '/',
     languages: {
       'en-US': '/'
+    },
+    types: {
+      'application/rss+xml': '/rss.xml'
     }
   }
 };
