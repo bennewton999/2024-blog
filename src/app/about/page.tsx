@@ -50,7 +50,7 @@ export default function AboutPage() {
             </h3>
             <p>
               Currently serving as Lead Applications Engineer at one of the world&apos;s
-              largest consulting firms, where I lead SAP Spartacus implementations
+              largest consulting firms, where I lead SAP Composable Storefront implementations
               for a major global entertainment company, managing digital ticketing
               and guest experience platforms across multiple international theme park
               destinations including Japan, Hollywood, and Orlando. I architect and
@@ -112,7 +112,7 @@ export default function AboutPage() {
               <li>AI-Driven Development & Automation</li>
               <li>Frontend Architecture and Engineering Leadership</li>
               <li>React and Next.js Development</li>
-              <li>SAP Commerce & Spartacus Implementation</li>
+              <li>SAP Commerce & Composable Storefront Implementation</li>
               <li>Team Mentorship and Growth</li>
               <li>Performance Optimization</li>
               <li>Developer Experience (DX)</li>
