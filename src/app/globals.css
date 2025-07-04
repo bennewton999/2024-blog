@@ -247,6 +247,85 @@ html {
   animation: fadeIn 0.5s ease-out;
 }
 
+/* Asteroids-style floating bubble animations */
+@keyframes asteroidFloat1 {
+  0% {
+    transform: translate(-100px, -50px) rotate(0deg);
+  }
+  100% {
+    transform: translate(calc(100vw + 100px), calc(100vh + 50px)) rotate(360deg);
+  }
+}
+
+@keyframes asteroidFloat2 {
+  0% {
+    transform: translate(calc(100vw + 80px), -30px) rotate(0deg);
+  }
+  100% {
+    transform: translate(-80px, calc(100vh + 30px)) rotate(-360deg);
+  }
+}
+
+@keyframes asteroidFloat3 {
+  0% {
+    transform: translate(-60px, calc(100vh + 40px)) rotate(0deg);
+  }
+  100% {
+    transform: translate(calc(100vw + 60px), -40px) rotate(180deg);
+  }
+}
+
+@keyframes asteroidFloat4 {
+  0% {
+    transform: translate(calc(100vw + 40px), calc(100vh + 60px)) rotate(0deg);
+  }
+  100% {
+    transform: translate(-40px, -60px) rotate(-180deg);
+  }
+}
+
+@keyframes asteroidFloat5 {
+  0% {
+    transform: translate(50%, -80px) rotate(0deg);
+  }
+  100% {
+    transform: translate(50%, calc(100vh + 80px)) rotate(270deg);
+  }
+}
+
+@keyframes asteroidFloat6 {
+  0% {
+    transform: translate(-70px, 30%) rotate(0deg);
+  }
+  100% {
+    transform: translate(calc(100vw + 70px), 30%) rotate(-270deg);
+  }
+}
+
+.animate-asteroid-1 {
+  animation: asteroidFloat1 25s linear infinite;
+}
+
+.animate-asteroid-2 {
+  animation: asteroidFloat2 30s linear infinite;
+}
+
+.animate-asteroid-3 {
+  animation: asteroidFloat3 28s linear infinite;
+}
+
+.animate-asteroid-4 {
+  animation: asteroidFloat4 35s linear infinite;
+}
+
+.animate-asteroid-5 {
+  animation: asteroidFloat5 20s linear infinite;
+}
+
+.animate-asteroid-6 {
+  animation: asteroidFloat6 22s linear infinite;
+}
+
 /* Glassmorphism utilities */
 .glass {
   @apply bg-background/80 backdrop-blur-md border border-border/50;

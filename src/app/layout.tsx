@@ -6,6 +6,14 @@ import { VitalWallScript } from '@/components/vital-wall-script';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Analytics } from '@vercel/analytics/react';
 import { GoogleAnalytics } from '@/components/google-analytics';
+import { Audiowide } from 'next/font/google';
+
+const audiowide = Audiowide({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-audiowide',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://benenewton.com'),
@@ -93,7 +101,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning={true}
-        className="antialiased min-h-screen flex flex-col"
+        className={`antialiased min-h-screen flex flex-col ${audiowide.variable}`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
