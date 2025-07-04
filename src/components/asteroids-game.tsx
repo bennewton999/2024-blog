@@ -433,11 +433,8 @@ export function AsteroidsGame({ onReset, onGameStateChange, autoStart, onAutoSta
           scoreRef.current += points;
           setScore(scoreRef.current);
           
-          // Update high score if needed
-          if (scoreRef.current > highScoreRef.current) {
-            highScoreRef.current = scoreRef.current;
-            setHighScore(highScoreRef.current);
-          }
+          // Update high scores if needed
+          updateHighScores(scoreRef.current);
           
           // Split asteroid based on type
           if (asteroid.type === 'large') {
@@ -644,7 +641,7 @@ export function AsteroidsGame({ onReset, onGameStateChange, autoStart, onAutoSta
     });
 
     gameLoopRef.current = requestAnimationFrame(gameLoop);
-  }, [isActive, gameState]);
+  }, [isActive, gameState, initializeAsteroids, updateHighScores, newPersonalBest]);
 
   // Keyboard event handlers
   useEffect(() => {
