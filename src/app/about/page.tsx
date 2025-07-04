@@ -111,7 +111,7 @@ export default function AboutPage() {
             <ul className="list-disc list-inside space-y-2 ml-4">
               <li>AI-Driven Development & Automation</li>
               <li>Frontend Architecture and Engineering Leadership</li>
-              <li>React and Next.js Development</li>
+              <li>Angular, React and Next.js Development</li>
               <li>SAP Commerce & Composable Storefront Implementation</li>
               <li>Team Mentorship and Growth</li>
               <li>Performance Optimization</li>
