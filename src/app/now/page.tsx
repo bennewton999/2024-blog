@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Now | Ben Newton',
-  description: "What I'm focused on right now - April 2025"
+  description: "What I'm focused on right now - July 2025"
 };
 
 export default function NowPage() {
@@ -11,7 +11,7 @@ export default function NowPage() {
       <div className="flex flex-col gap-8">
         <section className="prose dark:prose-invert max-w-none">
           <h1 className="font-heading text-4xl lg:text-5xl">Now</h1>
-          <p className="text-muted-foreground">Last updated: April 13, 2025</p>
+          <p className="text-muted-foreground">Last updated: July 7, 2025</p>
 
           <div className="mt-6">
             <p className="text-xl">
@@ -61,13 +61,14 @@ export default function NowPage() {
             <p>
               I&apos;m spending significant time working with Claude Code on
               multiple personal projects. One particularly exciting venture is
-              the potential resurrection of a 20-year-old Classic ASP application
-              that I spent over a decade building. This system powered a major
-              distributor&apos;s entire operations - essentially functioning as
-              Salesforce before Salesforce existed. I&apos;m exploring what
-              happens when I apply modern AI development techniques to this
-              legacy codebase, and if successful, it could dramatically shift
-              my priorities and open new possibilities for the future.
+              the potential resurrection of a 20-year-old Classic ASP
+              application that I spent over a decade building. This system
+              powered a major distributor&apos;s entire operations - essentially
+              functioning as Salesforce before Salesforce existed. I&apos;m
+              exploring what happens when I apply modern AI development
+              techniques to this legacy codebase, and if successful, it could
+              dramatically shift my priorities and open new possibilities for
+              the future.
             </p>
 
             <h2>Location</h2>
@@ -110,13 +111,13 @@ export default function NowPage() {
 
             <h2>Development Focus</h2>
             <p>
-              I&apos;m currently diving deeper into cross-platform mobile
-              development, specifically learning Flutter and Dart. I&apos;m also
-              exploring and comparing different development tools and
-              technologies to expand my skill set and stay current with industry
-              trends. My goal is to identify the most efficient technologies
-              that can enhance software development workflows and improve
-              productivity for development teams.
+              I&apos;m currently digging deep into Claude Code, researching its
+              potential for larger projects and team environments. I&apos;m
+              exploring how AI-assisted development tools can scale beyond
+              individual use cases to enhance productivity across development
+              teams. This research includes understanding best practices for
+              integrating AI tools into existing workflows and evaluating their
+              impact on code quality, development velocity, and team collaboration.
             </p>
 
             <h2>Goals</h2>
