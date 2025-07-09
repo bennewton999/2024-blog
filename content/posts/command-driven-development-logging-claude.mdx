@@ -1,0 +1,453 @@
+---
+title: "Command-Driven Development Logging with Visual Progress: A Better Way to Track Development with Claude Code"
+date: "2025-07-09"
+description: "How I created and use a command-driven system in my everyday coding process with Claude Code to document progress with visual screenshots and structured session tracking - giving me complete control over when and how development gets documented."
+author: "bennewton"
+image: "/images/2025/07/claude-dev-log-command.png"
+tags: ["claude-code", "developer-tools", "productivity", "automation", "documentation"]
+---
+
+# Command-Driven Development Logging with Visual Progress: A Better Way to Track Development with Claude Code
+
+As developers, we've all experienced the frustration of returning to a project after a few days or weeks, struggling to remember exactly what we accomplished, what was deployed, and what we were planning to do next. The git log shows commits, but it doesn't capture the full story of a development session - the architectural decisions, the problems solved, and the visual progress made.
+
+Today, I want to share a comprehensive command-driven system I've built that gives developers full control over when and how their progress gets documented - complete with visual screenshots and structured session tracking.
+
+## The Problem: Context Loss in Development
+
+When managing any codebase - whether personal side projects or professional applications - it's easy to lose context after just a few days away. This challenge is amplified when using AI pair programming tools like Claude Code, where you can easily lose track of:
+
+- What was accomplished in each development session
+- When specific features were deployed and what they looked like
+- Which files were modified and why
+- What architectural decisions were made
+- What the next logical steps should be
+- Visual progress of UI/UX implementations
+
+Traditional git commits help with code changes, but they don't capture the full context of development sessions, business decisions, or the visual evolution of the application.
+
+![Git Log vs Development Log Comparison](/images/2025/07/git-log-vs-dev-log-comparison-aligned.png)
+*Left: Traditional sparse git log - minimal context. Right: Rich development log entry with structured accomplishments, visual progress, and comprehensive session context.*
+
+## The Evolution: From Automation to User Control
+
+I initially tried implementing this as an automated step in `CLAUDE.md`, expecting Claude Code to update the development log automatically at the end of each session. This quickly proved unreliable - the AI couldn't consistently determine when a session was "complete" or what constituted significant work worth logging.
+
+The breakthrough came from a simple realization: **I know when I'm done with a feature or want to document progress, not the AI.** The solution was to create a command-driven system that puts me in complete control of when and how progress gets documented.
+
+## The Solution: `/log-dev` Command with Visual Progress
+
+The current approach uses a sophisticated slash command system that captures both textual and visual progress:
+
+### Basic Usage
+
+```bash
+/log-dev
+```
+
+### Enhanced Usage with Screenshots
+
+```bash
+/log-dev --screenshots
+```
+
+This enhanced version automatically captures visual progress using Playwright MCP integration, providing a complete picture of what was accomplished.
+
+## How It Works: The Command System
+
+### 1. Command Infrastructure
+
+The system uses Claude Code's slash command functionality with documentation stored in `.claude/commands/log-dev.md`:
+
+![Claude Code Slash Command Interface](/images/2025/07/claude-command.png)
+*Claude Code's slash command interface showing available commands including `/log-dev`, `/update-landing`, `/update-roadmap`, and other project-specific commands. The interface provides descriptions and usage examples for each command.*
+
+```markdown
+# /log-dev
+
+Logs development session to `/docs/DEVELOPMENT_LOG.md` and clears completed todos.
+
+**Usage**: 
+- `/log-dev [optional notes]` - Standard logging
+- `/log-dev --screenshots` - Enhanced logging with Playwright screenshots
+```
+
+### 2. Supporting Scripts
+
+The command integrates with helper scripts in `.claude/scripts/`:
+
+```bash
+#!/bin/bash
+# log-dev-screenshots.sh
+TODAY=$(date +%Y-%m-%d)
+SCREENSHOT_DIR="/docs/screenshots/$TODAY"
+mkdir -p "$SCREENSHOT_DIR"
+
+echo "📸 Setting up screenshot capture for $TODAY"
+echo "Screenshot directory: $SCREENSHOT_DIR"
+```
+
+### 3. Visual Progress Capture
+
+The system uses Playwright MCP (Model Context Protocol) for reliable screenshot capture:
+
+```bash
+# Navigate to target page
+mcp__playwright__browser_navigate url: "https://app.silverbullet.com"
+
+# Resize viewport for complete content capture
+mcp__playwright__browser_resize width: 1280 height: [adjust-based-on-content]
+
+# Take full-page screenshot
+mcp__playwright__browser_take_screenshot filename: "feature-name.png"
+
+# Find and copy from temp location
+find /var/folders -name "*feature-name*" -type f 2>/dev/null
+cp "/var/folders/.../temp-file.png" "/docs/screenshots/2025-07-08/feature-name.png"
+```
+
+![Playwright Automation Workflow](/images/2025/07/playwright-workflow-diagram.png)
+*Complete visual workflow showing the 7-step Playwright automation process from navigation to organized file storage, highlighting the critical content-based height determination methodology.*
+
+## What the Command Actually Does
+
+When I run `/log-dev --screenshots`, the system:
+
+1. **Gets current EDT timestamp** for accurate session tracking
+2. **Reviews completed todos** from the session using TodoWrite integration
+3. **Executes screenshot workflow** if `--screenshots` flag is used:
+   - Runs `.claude/scripts/log-dev-screenshots.sh` to setup directory structure
+   - Captures screenshots of key features using Playwright MCP
+   - Copies screenshots from temp location to organized directory structure
+4. **Updates development log** with structured entry including visual progress
+5. **Clears completed todos** to prepare workspace for next session
+
+## Real Example: Product Management System
+
+Here's what the enhanced command generated after completing our multi-tenant product management system:
+
+```markdown
+## 2025-07-06 Development Session - Product Management System
+
+### Session Summary [13:39 EDT]
+
+**🎯 Major Accomplishments:**
+- ✅ Created product database schema with multi-tenant support
+- ✅ Created TypeScript types and interfaces for products
+- ✅ Created API routes for product CRUD operations
+- ✅ Created product management UI with add/edit forms
+- ✅ Created product listing page with search and filters
+
+**🏗️ Architecture Changes:**
+- Added comprehensive product management tables (products, categories, manufacturers)
+- Implemented tenant-aware product isolation with RLS policies
+- Created complete product workflow from database to UI
+- Built tenant-specific navigation layout with sidebar
+
+**📸 Visual Progress:**
+![Products Dashboard Complete](../screenshots/2025-07-06/products-dashboard.png)
+*Complete products dashboard showing metrics cards, full product table with 20 items, and pagination controls with proper bottom spacing.*
+
+![Add Product Form](../screenshots/2025-07-06/add-product-form.png)
+*Complete product creation form with all fields, validation, and action buttons visible.*
+
+**📁 Files Created/Modified:**
+- `/apps/app/database/migrations/003_create_products_tables.sql` - Product schema with RLS
+- `/apps/app/lib/types/product.ts` - TypeScript interfaces for products
+- `/apps/app/lib/db/products.ts` - Database functions for product operations
+- `/apps/app/app/api/products/` - Complete API routes with validation
+- `/apps/app/app/tenant/[tenantId]/products/` - Product UI pages
+
+**🚀 Next Steps Ready:**
+- Customer management system
+- Order processing workflow
+- Inventory management features
+- AI integration for product operations
+```
+
+## Key Benefits of This Approach
+
+### 1. **User Control with Perfect Timing**
+I decide when something is worth documenting, ensuring every entry is meaningful and captures complete features rather than partial work.
+
+### 2. **Visual Progress Documentation**
+Screenshots provide immediate visual context that's invaluable for:
+- Onboarding new team members
+- Showing clients progress
+- Remembering UI/UX decisions
+- Debugging visual regressions
+
+### 3. **Consistent Structure**
+Every log entry follows the same format with standardized sections:
+- Major accomplishments
+- Architecture changes
+- Visual progress
+- Files created/modified
+- Next steps
+
+### 4. **Todo System Integration**
+Automatic integration with Claude Code's todo system ensures:
+- Accurate accomplishment tracking
+- Clean workspace management
+- No forgotten tasks
+- Seamless session transitions
+
+### 5. **Organized Asset Management**
+Screenshots are systematically organized by date:
+```
+/docs/screenshots/
+├── 2025-07-06/
+│   ├── products-dashboard.png
+│   ├── add-product-form.png
+│   └── tenant-navigation.png
+└── 2025-07-07/
+    ├── auth-system.png
+    └── landing-page.png
+```
+
+## The Technical Implementation
+
+### MCP Integration for Reliability
+
+The system uses Playwright MCP (Model Context Protocol) instead of traditional Puppeteer for several advantages:
+
+- **Direct file saving** capability (no base64 encoding issues)
+- **More reliable browser automation** with better error handling
+- **Automatic cleanup** of temporary files
+- **Better handling** of complex page interactions
+
+### Content-Based Screenshot Methodology
+
+One of the key innovations is the content-based height determination approach:
+
+```bash
+# Instead of fixed heights, we adjust based on actual content
+mcp__playwright__browser_resize width: 1280 height: [adjust-based-on-content]
+```
+
+This ensures complete capture of:
+- Long forms with all fields and action buttons
+- Data tables with pagination controls
+- Complex dashboards with multiple sections
+- Proper bottom padding for professional appearance
+
+### Helper Script Integration
+
+The command system integrates with multiple helper scripts:
+
+```bash
+# Setup screenshot directory and show workflow
+./.claude/scripts/log-dev-screenshots.sh
+
+# Complete documentation and examples
+./.claude/commands/log-dev.md
+```
+
+## Additional Commands in the System
+
+The logging system is part of a broader command ecosystem:
+
+### `/update-roadmap`
+Updates project roadmap checkboxes when completing major features:
+
+```bash
+/update-roadmap Product management system completed
+```
+
+Updates roadmap from:
+```markdown
+- [ ] **Product CRUD operations with tenant isolation**
+```
+
+To:
+```markdown
+- [x] **Product CRUD operations with tenant isolation** ✅ Completed
+```
+
+### `/update-landing`
+Specialized command for marketing site updates and deployments.
+
+## When to Use the Command
+
+The beauty of this system is that **I control when to document progress**:
+
+**Perfect times to run `/log-dev --screenshots`:**
+- After completing a major feature (like authentication system)
+- When deploying significant changes
+- Before taking a break from the project
+- When finishing a sprint or milestone
+- After making important architectural decisions
+- When UI/UX changes are complete and ready to showcase
+
+**Perfect times to run basic `/log-dev`:**
+- After bug fixes or minor improvements
+- When completing refactoring work
+- For quick session summaries without visual elements
+
+## Future Enhancements
+
+The command-driven foundation enables exciting possibilities:
+
+### Command Enhancements
+- **Optional session notes** - `/log-dev [notes]` to add custom context
+- **Session duration tracking** - Automatic or manual time tracking
+- **Custom sections** - Add project-specific log sections
+- **Multiple log formats** - Support for different log templates
+
+### Enhanced Visual Documentation
+- **Automated UI comparisons** between versions
+- **Interactive screenshot galleries** for features
+- **Video recording** of complex workflows
+- **Mobile responsive** screenshot capture
+
+### Team Collaboration Features
+- **Multi-developer session** aggregation
+- **Slack/Discord integration** for team updates
+- **Progress sharing** across team members
+- **Collaborative todo management**
+
+### Advanced Analytics
+- **Session duration tracking** and productivity metrics
+- **Feature completion velocity** analysis
+- **Development pattern recognition**
+- **Automated progress reporting**
+
+### Integration Possibilities
+- **Git integration** for commit correlation
+- **CI/CD pipeline** progress tracking
+- **Issue tracker** synchronization
+- **Time tracking** integration
+
+## Implementation Guide
+
+Ready to implement this system in your projects? Here's the complete setup:
+
+**Note:** This system has been developed and tested exclusively on macOS. The file paths, commands, and especially the screenshot workflow with temp file locations (`/var/folders`) are Mac-specific. Windows and Linux users may need to adapt paths and commands for their platforms.
+
+### 1. Create the Command Structure
+
+```bash
+# Create command directory
+mkdir -p .claude/commands
+mkdir -p .claude/scripts
+mkdir -p docs/screenshots
+```
+
+### 2. Set Up the Primary Command
+
+Create `.claude/commands/log-dev.md`:
+
+```markdown
+# /log-dev
+
+Logs development session to `/docs/DEVELOPMENT_LOG.md` and clears completed todos.
+
+**Usage**: 
+- `/log-dev [optional notes]` - Standard logging
+- `/log-dev --screenshots` - Enhanced logging with Playwright screenshots
+
+**What it does**:
+1. Get current EDT timestamp  
+2. Review completed todos
+3. If --screenshots flag used:
+   - Run `/.claude/scripts/log-dev-screenshots.sh` to setup directory
+   - Capture screenshots of key features using Playwright MCP
+   - Copy screenshots from temp location to proper directory
+4. Update development log with visual progress
+5. Clear completed todos
+```
+
+### 3. Create the Helper Script
+
+Create `.claude/scripts/log-dev-screenshots.sh`:
+
+```bash
+#!/bin/bash
+TODAY=$(date +%Y-%m-%d)
+SCREENSHOT_DIR="./docs/screenshots/$TODAY"
+
+echo "📸 Setting up screenshot capture for $TODAY"
+echo "Screenshot directory: $SCREENSHOT_DIR"
+
+mkdir -p "$SCREENSHOT_DIR"
+
+echo "🔧 Playwright MCP Screenshot Workflow:"
+echo "1. Navigate: mcp__playwright__browser_navigate url: \"https://your-app.com\""
+echo "2. Resize: mcp__playwright__browser_resize width: 1280 height: [adjust-based-on-content]"
+echo "3. Capture: mcp__playwright__browser_take_screenshot filename: \"feature-name.png\""
+echo "4. Copy: find /var/folders -name \"*feature-name*\" -type f 2>/dev/null"
+echo "5. Save: cp \"/var/folders/.../temp-file.png\" \"$SCREENSHOT_DIR/feature-name.png\""
+```
+
+### 4. Initialize the Development Log
+
+Create `docs/DEVELOPMENT_LOG.md`:
+
+```markdown
+# Your Project - Development Log
+
+This file tracks development sessions and accomplishments with visual progress.
+
+---
+```
+
+### 5. Add Todo System Integration
+
+Ensure you're using Claude Code's todo system:
+
+```typescript
+// Example todo workflow
+TodoWrite([
+  {id: "auth-ui", content: "Create authentication interface", status: "pending", priority: "high"},
+  {id: "dashboard", content: "Build tenant dashboard", status: "in_progress", priority: "medium"}
+]);
+```
+
+### 6. Configure Your Project
+
+Update your `CLAUDE.md` with the command documentation and include instructions for using the logging system.
+
+## Best Practices
+
+### Screenshot Guidelines
+- **Resize viewport appropriately** - use content-based height determination
+- **Capture complete interfaces** - ensure all buttons and controls are visible
+- **Use consistent naming** - `feature-description.png` format
+- **Include context** - show navigation and surrounding elements
+- **Test different heights** - 1400px, 1500px, 1600px until content is complete
+
+![Before/After Screenshot Comparison](/images/2025/07/silverbullet-before-after-comparison.png)
+*Left: Incomplete 16:9 capture - cuts off important content. Right: Complete full-page capture with proper content-based height determination.*
+
+### Session Management
+- **Run logging at logical breakpoints** - end of features, not mid-development
+- **Keep todos updated** throughout the session for accurate logging
+- **Include session duration** when provided for productivity tracking
+- **Use descriptive accomplishment bullets** that explain the business value
+
+### File Organization
+- **Organize screenshots by date** for easy navigation
+- **Use consistent naming conventions** across all assets
+- **Include alt text** for screenshots explaining what's shown
+- **Keep old screenshots** for comparison and regression testing
+
+## Conclusion
+
+The evolution from attempted automation to user-controlled commands teaches an important lesson about developer tooling: **the best tools give users complete control rather than trying to be too smart about automation.**
+
+This command-driven development logging system provides:
+
+- **Complete session documentation** when it matters most
+- **Visual progress tracking** that tells the full story
+- **Clean todo management** with seamless transitions
+- **Historical context** invaluable for project continuity
+- **Zero cognitive overhead** during active development
+- **Professional progress documentation** for clients and team members
+
+The next time you finish implementing a feature and want to capture that progress completely, just type `/log-dev --screenshots` and let the system handle the structured documentation and visual capture.
+
+What makes this approach particularly powerful is that it doesn't interrupt the development flow - it enhances it by providing a clear, intentional way to document progress exactly when you want to, with both the technical details and visual proof of what was accomplished.
+
+---
+
+*How do you track development progress in your projects? Have you found similar patterns where user control beats automation? What visual documentation strategies work best for your team?*
