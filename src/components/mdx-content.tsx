@@ -2,6 +2,10 @@
 
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import { TwitterComments } from './twitter-comments';
+import { SimpleVoiceRecordingLoop } from './animations/SimpleVoiceRecordingLoop';
+import { SimpleAIProcessingLoop } from './animations/SimpleAIProcessingLoop';
+import { SimpleGitHubCreationLoop } from './animations/SimpleGitHubCreationLoop';
+import { NapkinSketchProblemSolution } from './animations/NapkinSketchProblemSolution';
 import React from 'react';
 
 interface MDXContentProps {
@@ -33,7 +37,13 @@ const components = {
     >
       <a href={url}>Loading tweet...</a>
     </blockquote>
-  )
+  ),
+  // Animation components 
+  VoiceRecordingDemo: () => <SimpleVoiceRecordingLoop />,
+  IssueTypeSelector: () => <SimpleAIProcessingLoop />,
+  GitHubIssueCreation: () => <SimpleGitHubCreationLoop />,
+  VoiceCommitWorkflow: () => <SimpleVoiceRecordingLoop />,
+  ProblemSolutionComparison: () => <NapkinSketchProblemSolution />
 };
 
 export function MDXContent({ code, twitterThreadUrl }: MDXContentProps) {
