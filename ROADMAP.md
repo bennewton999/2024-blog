@@ -14,6 +14,7 @@ This document tracks planned improvements, features, and maintenance tasks for B
 ### Content Updates
 - [-] **X.com Commenting Implementation** - Create X.com posts for 12 blog articles and update their twitterThreadUrl fields 🏗️ 2025/06/27
 - [x] **Update Now Page** - Updated with current Claude Code research focus and July 2025 date ✅ 2025/07/07
+- [x] **VoiceCommit Blog Post** - Created comprehensive blog post with interactive animations showcasing VoiceCommit development story ✅ 2025/07/27
 - [ ] **New Blog Posts** - Continue writing technical content and career insights
 - [ ] **Review and Update About Page** - Ensure client list and bio remain current
 - [ ] **Refresh Uses Page** - Update tools, hardware, and software recommendations
@@ -27,6 +28,7 @@ This document tracks planned improvements, features, and maintenance tasks for B
 ## Medium Priority
 
 ### New Features
+- [x] **Interactive Blog Animations** - Implemented Remotion-based animations and custom SVG components for enhanced storytelling ✅ 2025/07/27
 - [ ] **Hero Image Generation Utility** - Create utility using OpenAI's image generation API to automatically generate blog post hero images
 - [ ] **Blog Search Functionality** - Add search capability for blog posts
 - [ ] **Newsletter Signup** - Implement email list collection (currently has form component)
@@ -108,5 +110,5 @@ This document tracks planned improvements, features, and maintenance tasks for B
 
 ---
 
-**Last Updated**: 2025/07/07  
-**Next Review**: 2025/08/07
+**Last Updated**: 2025/07/27  
+**Next Review**: 2025/08/27
