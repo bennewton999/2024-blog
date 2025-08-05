@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { PersonJsonLd } from '@/components/json-ld';
 
 const clients = [
   { name: 'Taco Bell', logo: '/images/clients/taco_bell.svg' },
@@ -22,13 +23,24 @@ const clients = [
 export default function AboutPage() {
   return (
     <div className="container py-6 lg:py-10">
+      <PersonJsonLd
+        name="Ben Newton"
+        jobTitle="Commerce Frontend Specialist & Engineering Leader"
+        url="https://benenewton.com"
+        image="https://benenewton.com/images/avatar.png"
+        sameAs={[
+          'https://linkedin.com/in/bennewton',
+          'https://github.com/bennewton999',
+          'https://x.com/benenewton'
+        ]}
+      />
       <div className="flex flex-col gap-8">
         {/* Bio Section */}
         <section className="prose dark:prose-invert max-w-none">
           <h1 className="font-heading text-4xl lg:text-5xl">About Me</h1>
           <p className="text-xl text-muted-foreground">
-            Frontend Architect and Engineering Leader with over 20 years of
-            experience building web applications.
+            Commerce Frontend Specialist and Engineering Leader with nearly 30 years of
+            experience building enterprise e-commerce solutions for Fortune 500 brands.
           </p>
 
           {/* Hero Image */}
@@ -50,13 +62,13 @@ export default function AboutPage() {
 
           <div className="mt-6">
             <h3 className="font-heading text-2xl mb-4">
-              AI-Driven Development
+              AI-Driven Commerce Development
             </h3>
             <p>
-              I&apos;m pioneering AI-driven development workflows and building
-              innovative solutions that leverage artificial intelligence to
-              enhance developer productivity and create smarter applications. My
-              latest project,{' '}
+              I&apos;m pioneering AI-driven commerce development workflows using tools like
+              Claude Code (my primary AI assistant), GitHub Copilot, and ChatGPT to dramatically
+              increase development velocity and quality. This AI-enhanced approach has enabled me
+              to single-handedly build multiple production applications including{' '}
               <a
                 href="https://vitalwall.com"
                 className="text-primary hover:underline"
@@ -65,16 +77,33 @@ export default function AboutPage() {
               >
                 VitalWall.com
               </a>
-              , is a real-time website analytics and visitor tracking platform
-              that helps businesses boost engagement and conversions through
-              intelligent data visualization and social proof.
+              {' '}(real-time analytics and social proof),{' '}
+              <a
+                href="https://voicecommit.com"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                VoiceCommit.com
+              </a>
+              {' '}(AI-powered development workflow automation with built-in AI features), and{' '}
+              <a
+                href="https://silverbullet.com"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                SilverBullet.com
+              </a>
+              {' '}(next-generation AI-first commerce platform in development).
             </p>
             <p>
-              As a Frontend Architect and Engineering Leader with a passion for
-              creating exceptional user experiences, I combine over two decades
-              of software development expertise with cutting-edge AI
-              technologies. I&apos;ve led teams and architected solutions for
-              companies ranging from startups to Fortune 500 enterprises.
+              My vision for SilverBullet represents the future of e-commerce: a platform where 
+              AI powers every aspect from personalized product recommendations to automated 
+              inventory management, dynamic pricing, and intelligent customer service. 
+              I&apos;ve architected commerce solutions for major brands across retail, travel, 
+              hospitality, and entertainment industries, always seeking the next technological 
+              breakthrough to deliver exceptional user experiences.
             </p>
 
             <h3 className="font-heading text-2xl mt-8 mb-4">
@@ -82,37 +111,37 @@ export default function AboutPage() {
             </h3>
             <p>
               Currently serving as Lead Applications Engineer at one of the
-              world&apos;s largest consulting firms, where I lead SAP Composable
-              Storefront implementations for a major global entertainment
-              company, managing digital ticketing and guest experience platforms
-              across multiple international theme park destinations including
-              Japan, Hollywood, and Orlando. I architect and maintain complex
-              e-commerce systems that handle millions of family visitors
-              annually, creating seamless digital experiences from initial
-              ticket purchase through immersive in-park experiences. My work
-              integrates ticketing, merchandise, mobile experiences, guest
-              services, and specialized seasonal events that create lasting
-              memories for guests of all ages.
+              world&apos;s largest consulting firms, where I lead commerce frontend
+              implementations for a major global entertainment company across
+              multiple international destinations including Japan, Hollywood, and Orlando. 
+              I architect and maintain complex e-commerce systems that handle millions of 
+              visitors annually, creating seamless digital experiences from initial
+              ticket purchase through in-park commerce experiences. My work spans
+              ticketing platforms, merchandise systems, mobile commerce, guest
+              services, and seasonal campaign implementations that drive significant
+              revenue for one of the world&apos;s most recognized brands.
             </p>
             <p>
-              Previously, I served as Senior Experience Engineer at
-              SapientRazorfish, where I architected and led development of
-              multiple interactive prototypes for world-class brands including
-              MGM Resorts. I specialized in translating complex business
-              requirements into scalable technical solutions while mentoring
-              development teams.
+              Throughout my career, I&apos;ve mentored over 100 developers across onshore 
+              and offshore teams, working with distributed teams around the world. I&apos;ve 
+              been flown to client sites globally to lead critical implementations and have 
+              extensive experience with both Agile and traditional development methodologies. 
+              Previously, I served as Senior Experience Engineer at SapientRazorfish, where 
+              I architected and led development of multiple interactive prototypes for 
+              world-class brands including MGM Resorts.
             </p>
 
             <h3 className="font-heading text-2xl mt-8 mb-4">
-              Technical Expertise
+              Commerce & Technical Expertise
             </h3>
             <p>
-              My expertise spans the full spectrum of frontend development, from
-              building responsive web applications to implementing design
-              systems and optimizing performance. I&apos;ve successfully
-              delivered projects using React, Angular, Next.js, and modern
-              JavaScript frameworks, with a focus on enterprise-scale
-              applications.
+              Since 1996, I&apos;ve been building e-commerce solutions, with the past 9 years 
+              specializing in SAP Commerce implementations. However, my commerce experience 
+              spans much broader - I&apos;ve built custom e-commerce systems from the ground up, 
+              architected headless commerce solutions, and delivered enterprise-scale platforms 
+              using React, Angular, Next.js, and modern JavaScript frameworks. My expertise 
+              covers the full commerce stack: product catalogs, checkout flows, payment integration, 
+              inventory management, order processing, and customer account systems.
             </p>
 
             <h3 className="font-heading text-2xl mt-8 mb-4">
@@ -120,37 +149,55 @@ export default function AboutPage() {
             </h3>
             <ul className="list-disc list-inside space-y-2 ml-4">
               <li>
-                Led implementation of SAP Commerce and integrated third-party
-                services for multi-location entertainment platforms
+                Led multi-platform commerce implementations serving millions of customers
+                across entertainment, travel, and hospitality industries
               </li>
               <li>
-                Architected custom design systems and development processes for
-                enterprise clients
+                Architected custom e-commerce systems and design systems for
+                Fortune 500 brands including major retail and travel companies
               </li>
               <li>
-                Developed comprehensive account management and guest experience
-                platforms
+                Built comprehensive commerce platforms handling complex product catalogs,
+                multi-location inventory, and international payment processing
               </li>
               <li>
-                Built responsive applications serving millions of users across
-                travel, hospitality, and entertainment industries
+                Developed responsive commerce applications for brands like Oakley,
+                MGM Resorts, Norwegian Cruise Line, and major automotive companies
               </li>
               <li>
-                Mentored development teams and established best practices for
-                modern web development
+                Mentored development teams and established commerce-focused best practices
+                for enterprise-scale implementations
               </li>
             </ul>
 
             <h3 className="font-heading text-2xl mt-8 mb-4">Current Focus</h3>
             <ul className="list-disc list-inside space-y-2 ml-4">
-              <li>AI-Driven Development & Automation</li>
-              <li>Frontend Architecture and Engineering Leadership</li>
-              <li>Angular, React and Next.js Development</li>
-              <li>SAP Commerce & Composable Storefront Implementation</li>
+              <li>AI-Driven Commerce Development & Automation</li>
+              <li>Commerce Frontend Architecture and Engineering Leadership</li>
+              <li>Headless Commerce and Modern JavaScript Frameworks</li>
+              <li>Multi-Platform Commerce Solutions (SAP, Custom, Headless)</li>
               <li>Team Mentorship and Growth</li>
-              <li>Performance Optimization</li>
-              <li>Developer Experience (DX)</li>
+              <li>E-commerce Performance Optimization</li>
+              <li>Developer Experience for Commerce Teams</li>
             </ul>
+
+            <h3 className="font-heading text-2xl mt-8 mb-4">Open to New Opportunities</h3>
+            <p>
+              I&apos;m always interested in challenging, innovative projects that push the 
+              boundaries of commerce technology. While I&apos;m happy in my current role, 
+              I&apos;m open to discussing interesting opportunities - particularly those 
+              involving AI-driven commerce solutions, cutting-edge frontend architecture, 
+              or unique technical challenges. Contact me on{' '}
+              <a
+                href="https://x.com/benenewton"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                X
+              </a>
+              {' '}if you have something different and compelling to discuss.
+            </p>
           </div>
         </section>
 
