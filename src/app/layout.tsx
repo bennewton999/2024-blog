@@ -18,18 +18,21 @@ const audiowide = Audiowide({
 export const metadata: Metadata = {
   metadataBase: new URL('https://benenewton.com'),
   title: {
-    default: 'Ben Newton | Frontend Architect & Engineering Leader',
+    default: 'Ben Newton | Commerce Frontend Specialist & Engineering Leader',
     template: '%s | Ben Newton'
   },
   description:
-    'Frontend Architect and Engineering Leader sharing insights on web development, productivity, and technology.',
+    'Commerce Frontend Specialist with 30 years of e-commerce experience. AI-driven development expert building next-generation commerce solutions.',
   keywords: [
-    'frontend development',
+    'commerce frontend specialist',
+    'e-commerce development',
+    'AI-driven development',
+    'commerce platform expert',
+    'frontend architecture',
+    'enterprise commerce',
     'engineering leadership',
-    'web development',
-    'productivity',
-    'Obsidian',
-    'tech insights'
+    'SAP Commerce',
+    'headless commerce'
   ],
   authors: [{ name: 'Ben Newton' }],
   creator: 'Ben Newton',
@@ -38,9 +41,9 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://benenewton.com',
     siteName: 'Ben Newton',
-    title: 'Ben Newton | Frontend Architect & Engineering Leader',
+    title: 'Ben Newton | Commerce Frontend Specialist & Engineering Leader',
     description:
-      'Frontend Architect and Engineering Leader sharing insights on web development, productivity, and technology.',
+      'Commerce Frontend Specialist with 30 years of e-commerce experience. AI-driven development expert building next-generation commerce solutions.',
     images: [
       {
         url: '/images/avatar.png',
@@ -52,10 +55,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ben Newton | Frontend Architect & Engineering Leader',
+    title: 'Ben Newton | Commerce Frontend Specialist & Engineering Leader',
     description:
-      'Frontend Architect and Engineering Leader sharing insights on web development, productivity, and technology.',
-    creator: '@benenewton', // Update this with your actual Twitter handle
+      'Commerce Frontend Specialist with 30 years of e-commerce experience. AI-driven development expert building next-generation commerce solutions.',
+    creator: '@benenewton',
     images: ['/images/avatar.png']
   },
   robots: {
