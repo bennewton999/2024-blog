@@ -16,9 +16,11 @@ interface PostPageProps {
 }
 
 export async function generateStaticParams() {
-  return allPosts.map(post => ({
-    slug: post.slug
-  }));
+  return allPosts
+    .filter(post => post.published === true || post.published === undefined)
+    .map(post => ({
+      slug: post.slug
+    }));
 }
 
 export async function generateMetadata({

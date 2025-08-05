@@ -1,11 +1,12 @@
 'use client';
 
-import { allPosts } from 'contentlayer/generated';
-import { BlogCard } from '@/components/blog/blog-card';
 import { VitalWallEmbed } from '@/components/vital-wall-embed';
 import { WebsiteJsonLd, PersonJsonLd } from '@/components/json-ld';
 import { useState, lazy, Suspense, useEffect } from 'react';
 import { ContactModal } from '@/components/contact-modal';
+import { ServicesSection } from '@/components/services-section';
+import { ProjectsShowcase } from '@/components/projects-showcase';
+import { FeaturedPosts } from '@/components/featured-posts';
 
 // Dynamically import the AsteroidsGame component
 const AsteroidsGame = lazy(() =>
@@ -20,9 +21,6 @@ export default function Home() {
   const [gameLoaded, setGameLoaded] = useState(false);
   const [shouldStartGame, setShouldStartGame] = useState(false);
   const [contactModalOpen, setContactModalOpen] = useState(false);
-  const posts = allPosts.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
 
   const resetGame = () => {
     // Reset all destroyed elements
@@ -111,7 +109,7 @@ export default function Home() {
                 Ben Newton
               </h1>
               <p className="text-2xl lg:text-3xl text-muted-foreground font-medium bg-gradient-to-r from-muted-foreground to-muted-foreground/80 bg-clip-text text-transparent">
-                Frontend Architect and Engineering Leader
+                Commerce Frontend Specialist & Engineering Leader
               </p>
               <div className="flex items-center justify-center gap-2 text-muted-foreground/80">
                 <svg
@@ -138,7 +136,7 @@ export default function Home() {
                 </span>
                 <span className="text-muted-foreground/40 mx-2">•</span>
                 <span className="text-sm font-medium">
-                  20+ Years Experience
+                  30+ Years Experience
                 </span>
               </div>
             </div>
@@ -155,14 +153,12 @@ export default function Home() {
 
             <div className="max-w-4xl space-y-8 text-center">
               <p className="text-lg lg:text-xl leading-relaxed text-muted-foreground">
-                With over two decades of experience building web applications
-                and leading engineering teams, I specialize in creating elegant,
-                high-performance frontend solutions using React, TypeScript, and
-                modern web technologies.
+                Commerce Frontend Specialist with 30 years of experience building scalable e-commerce solutions
+                for Fortune 500 companies. Expert in AI-driven development workflows and engineering leadership.
               </p>
               <p className="text-base lg:text-lg leading-relaxed text-muted-foreground/80">
-                Currently focused on architectural patterns, developer
-                experience, and building accessible applications that scale.
+                Specializing in enterprise commerce platforms, team leadership, and cutting-edge development practices
+                that deliver results at scale.
               </p>
 
               {/* Call to Action Buttons */}
@@ -223,26 +219,21 @@ export default function Home() {
         </div>
         <VitalWallEmbed />
       </section>
-      {/* Section divider */}
-      <div className="my-16 flex items-center gap-4">
-        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-        <div className="text-sm font-medium text-muted-foreground px-3">
-          Latest Articles
-        </div>
-        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-      </div>
 
-      {posts.length ? (
-        <div className="grid gap-8 sm:grid-cols-2 animate-fade-in">
-          {posts.map(post => (
-            <BlogCard key={post._id} post={post} />
-          ))}
-        </div>
-      ) : (
-        <p className="text-center text-muted-foreground py-12">
-          No posts published.
-        </p>
-      )}
+      {/* Services Section */}
+      <section className="mx-auto w-full max-w-6xl py-16">
+        <ServicesSection />
+      </section>
+
+      {/* Projects Section */}
+      <section className="mx-auto w-full max-w-6xl py-16">
+        <ProjectsShowcase />
+      </section>
+
+      {/* Featured Posts Section */}
+      <section className="mx-auto w-full max-w-6xl py-16">
+        <FeaturedPosts />
+      </section>
       <ContactModal 
         open={contactModalOpen} 
         onOpenChange={setContactModalOpen}

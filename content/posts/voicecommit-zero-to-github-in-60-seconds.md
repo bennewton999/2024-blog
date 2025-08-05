@@ -4,6 +4,7 @@ date: "2025-08-02"
 description: "A real developer's journey from setup to daily workflow transformation with VoiceCommit. Discover how voice-to-GitHub actually works in practice, including pro tips, workflow patterns, and the surprising ways it changes how you think about development."
 author: "bennewton"
 tags: ["voicecommit", "productivity", "tools", "github", "ai", "developer-experience"]
+published: false
 ---
 
 # From Zero to GitHub in 60 Seconds: Your First Week with VoiceCommit

@@ -24,7 +24,9 @@ export const Post = defineDocumentType(() => ({
     author: { type: 'string', required: true },
     image: { type: 'string', required: false },
     tags: { type: 'list', of: { type: 'string' }, default: [] },
-    twitterThreadUrl: { type: 'string', required: false }
+    twitterThreadUrl: { type: 'string', required: false },
+    published: { type: 'boolean', default: true },
+    featured: { type: 'boolean', default: false }
   },
   computedFields: {
     slug: {

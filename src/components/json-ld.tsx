@@ -117,3 +117,127 @@ export function PersonJsonLd({
     />
   );
 }
+
+interface HowToJsonLdProps {
+  name: string;
+  description: string;
+  steps: Array<{
+    name: string;
+    text: string;
+    url?: string;
+  }>;
+  totalTime?: string;
+  supply?: string[];
+  tool?: string[];
+}
+
+export function HowToJsonLd({
+  name,
+  description,
+  steps,
+  totalTime,
+  supply = [],
+  tool = []
+}: HowToJsonLdProps) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name,
+    description,
+    totalTime,
+    supply: supply.map(item => ({ '@type': 'HowToSupply', name: item })),
+    tool: tool.map(item => ({ '@type': 'HowToTool', name: item })),
+    step: steps.map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: step.name,
+      text: step.text,
+      url: step.url
+    }))
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+interface FAQJsonLdProps {
+  questions: Array<{
+    question: string;
+    answer: string;
+  }>;
+}
+
+export function FAQJsonLd({ questions }: FAQJsonLdProps) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: questions.map(qa => ({
+      '@type': 'Question',
+      name: qa.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: qa.answer
+      }
+    }))
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+interface OrganizationJsonLdProps {
+  name?: string;
+  url?: string;
+  logo?: string;
+  sameAs?: string[];
+  founder?: string;
+  foundingDate?: string;
+  description?: string;
+}
+
+export function OrganizationJsonLd({
+  name = 'Ben Newton Consulting',
+  url = 'https://benenewton.com',
+  logo = 'https://benenewton.com/images/avatar.png',
+  sameAs = [
+    'https://linkedin.com/in/bennewton',
+    'https://github.com/bennewton999',
+    'https://x.com/benenewton'
+  ],
+  founder = 'Ben Newton',
+  foundingDate = '1996',
+  description = 'Commerce Frontend Specialist with 30 years of e-commerce development experience, specializing in AI-driven development workflows and enterprise commerce solutions.'
+}: OrganizationJsonLdProps) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name,
+    url,
+    logo: {
+      '@type': 'ImageObject',
+      url: logo
+    },
+    sameAs,
+    founder: {
+      '@type': 'Person',
+      name: founder
+    },
+    foundingDate,
+    description
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}

@@ -6,6 +6,7 @@ import { VitalWallScript } from '@/components/vital-wall-script';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Analytics } from '@vercel/analytics/react';
 import { GoogleAnalytics } from '@/components/google-analytics';
+import { OrganizationJsonLd } from '@/components/json-ld';
 import { Audiowide } from 'next/font/google';
 
 const audiowide = Audiowide({
@@ -106,6 +107,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className={`antialiased min-h-screen flex flex-col ${audiowide.variable}`}
       >
+        <OrganizationJsonLd />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
           <main className="flex-1">{children}</main>
