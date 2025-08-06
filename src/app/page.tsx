@@ -1,12 +1,36 @@
 'use client';
 
-import { VitalWallEmbed } from '@/components/vital-wall-embed';
+// Lazy load VitalWall embed for better performance
+const VitalWallEmbed = lazy(() => 
+  import('@/components/vital-wall-embed').then(module => ({
+    default: module.VitalWallEmbed
+  }))
+);
 import { WebsiteJsonLd, PersonJsonLd } from '@/components/json-ld';
 import { useState, lazy, Suspense, useEffect } from 'react';
 import { ContactModal } from '@/components/contact-modal';
-import { ServicesSection } from '@/components/services-section';
-import { ProjectsShowcase } from '@/components/projects-showcase';
-import { FeaturedPosts } from '@/components/featured-posts';
+import { ServicesSkeleton } from '@/components/skeletons/services-skeleton';
+import { ProjectsSkeleton } from '@/components/skeletons/projects-skeleton';
+import { FeaturedPostsSkeleton } from '@/components/skeletons/featured-posts-skeleton';
+
+// Lazy load heavy components
+const ServicesSection = lazy(() => 
+  import('@/components/services-section').then(module => ({
+    default: module.ServicesSection
+  }))
+);
+
+const ProjectsShowcase = lazy(() => 
+  import('@/components/projects-showcase').then(module => ({
+    default: module.ProjectsShowcase
+  }))
+);
+
+const FeaturedPosts = lazy(() => 
+  import('@/components/featured-posts').then(module => ({
+    default: module.FeaturedPosts
+  }))
+);
 
 // Dynamically import the AsteroidsGame component
 const AsteroidsGame = lazy(() =>
@@ -21,6 +45,13 @@ export default function Home() {
   const [gameLoaded, setGameLoaded] = useState(false);
   const [shouldStartGame, setShouldStartGame] = useState(false);
   const [contactModalOpen, setContactModalOpen] = useState(false);
+
+  // Preload critical resources
+  useEffect(() => {
+    // Preload avatar image
+    const img = new Image();
+    img.src = '/images/avatar.png';
+  }, []);
 
   const resetGame = () => {
     // Reset all destroyed elements
@@ -217,22 +248,30 @@ export default function Home() {
             </Suspense>
           )}
         </div>
-        <VitalWallEmbed />
+        <Suspense fallback={<div className="h-4" />}>
+          <VitalWallEmbed />
+        </Suspense>
       </section>
 
       {/* Services Section */}
       <section className="mx-auto w-full max-w-6xl py-16">
-        <ServicesSection />
+        <Suspense fallback={<ServicesSkeleton />}>
+          <ServicesSection />
+        </Suspense>
       </section>
 
       {/* Projects Section */}
       <section className="mx-auto w-full max-w-6xl py-16">
-        <ProjectsShowcase />
+        <Suspense fallback={<ProjectsSkeleton />}>
+          <ProjectsShowcase />
+        </Suspense>
       </section>
 
       {/* Featured Posts Section */}
       <section className="mx-auto w-full max-w-6xl py-16">
-        <FeaturedPosts />
+        <Suspense fallback={<FeaturedPostsSkeleton />}>
+          <FeaturedPosts />
+        </Suspense>
       </section>
       <ContactModal 
         open={contactModalOpen} 
