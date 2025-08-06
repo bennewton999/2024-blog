@@ -9,6 +9,8 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
   navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu';
 import { Button } from '@/components/ui/button';
@@ -56,6 +58,54 @@ export function Header() {
                       Blog
                     </NavigationMenuLink>
                   </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Topics</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
+                      <li className="row-span-3">
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href="/ai-development"
+                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-primary/10 to-primary/5 p-6 no-underline outline-none focus:shadow-md hover:bg-primary/10 transition-colors"
+                          >
+                            <div className="mb-2 mt-4 text-lg font-medium">
+                              AI-Driven Development
+                            </div>
+                            <p className="text-sm leading-tight text-muted-foreground">
+                              Transform your workflow with Claude Code and systematic AI integration
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href="/obsidian-productivity"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-muted focus:bg-muted"
+                          >
+                            <div className="text-sm font-medium leading-none">Obsidian & Productivity</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              Knowledge management and automation workflows
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href="/blog"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-muted focus:bg-muted"
+                          >
+                            <div className="text-sm font-medium leading-none">All Articles</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              Browse all blog posts and technical guides
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link href="/now" legacyBehavior passHref>
@@ -209,6 +259,23 @@ export function Header() {
               >
                 Uses
               </Link>
+              <div className="pt-2 mt-2 border-t">
+                <div className="text-xs font-medium text-muted-foreground px-4 pb-2">Topics</div>
+                <Link
+                  href="/ai-development"
+                  className="block px-4 py-2 rounded-md hover:bg-accent"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  AI Development
+                </Link>
+                <Link
+                  href="/obsidian-productivity"
+                  className="block px-4 py-2 rounded-md hover:bg-accent"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Obsidian & Productivity
+                </Link>
+              </div>
               <div className="pt-2 mt-2 border-t flex flex-wrap gap-2">
                 <Link
                   href="https://x.com/benenewton"
